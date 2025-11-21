@@ -31,7 +31,17 @@
     <div class="modal-content">
       <button class="modal-close" @click="fecharModal">&times;</button>
       <div class="modal-img-wrap">
-        <img :src="modalItemImg" alt="Imagem do acervo" class="modal-img" />
+        <img
+          :src="modalItemImg"
+          alt="Imagem do acervo"
+          class="modal-img"
+          @mousemove="mouseMoveZoom"
+          @mouseleave="mouseLeaveZoom"
+          :style="zoomAtivo ? {
+            transform: 'scale(2)',
+            transformOrigin: mousePos.x + '% ' + mousePos.y + '%'
+          } : {}"
+        />
       </div>
       <h2 class="modal-title">{{ modalItem?.nome }}</h2>
       <p class="modal-descricao">{{ modalItem?.info }}</p>
@@ -112,6 +122,8 @@ const bannerSimulado = logoBanner
 const modalAberto = ref(false)
 const modalItem = ref(null)
 const modalItemImg = computed(() => '/src/assets/imagens/logo.png')
+const mousePos = ref({ x: 50, y: 50 })
+const zoomAtivo = ref(false)
 function abrirModal(item) {
   modalItem.value = item
   modalAberto.value = true
@@ -119,6 +131,17 @@ function abrirModal(item) {
 function fecharModal() {
   modalAberto.value = false
   modalItem.value = null
+}
+function mouseMoveZoom(e) {
+  const rect = e.target.getBoundingClientRect()
+  mousePos.value = {
+    x: ((e.clientX - rect.left) / rect.width) * 100,
+    y: ((e.clientY - rect.top) / rect.height) * 100,
+  }
+  zoomAtivo.value = true
+}
+function mouseLeaveZoom() {
+  zoomAtivo.value = false
 }
 </script>
 
@@ -214,6 +237,8 @@ function fecharModal() {
   justify-content: center;
   margin-bottom: 18px;
   box-shadow: 0 2px 8px rgba(80, 50, 30, 0.08);
+  overflow: hidden;
+  position: relative;
 }
 .colecao-img {
   width: 100px;
@@ -222,6 +247,7 @@ function fecharModal() {
   border-radius: 8px;
   background: #fffbe6;
   border: 1px solid #a67c52;
+  transition: transform 0.3s cubic-bezier(.25,.8,.25,1), transform-origin 0.2s;
 }
 .card-content {
   display: flex;
