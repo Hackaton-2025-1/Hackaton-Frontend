@@ -9,6 +9,11 @@ const router = createRouter({
       name: 'test',
       component: () => import('../views/Gerenciamento.vue'),
      },
+     {
+      path: '/Menu',
+      name: 'Menu',
+      component: () => import('../views/MenuMuseuView.vue'),
+     }
 
 
   ],

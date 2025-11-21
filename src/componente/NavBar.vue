@@ -1,8 +1,9 @@
 <script setup>
 import { computed } from 'vue'
+import logo from '@/assets/imagens/logo.png'
 
 const props = defineProps({
-  logoSrc: { type: String, default: '' },
+  logoSrc: { type: String, default: logo },
   userSrc: { type: String, default: '' },
   userName: { type: String, default: '' },
   avatarSize: { type: Number, default: 40 },
