@@ -55,19 +55,11 @@ const initials = computed(() => {
 						<div class="museum-user-role small-muted">visualizar ou so editor</div>
 					</div>
 
-					<img
-						v-if="userSrc"
-						:src="userSrc"
+					<img v-if="userSrc" :src="userSrc"
 						:alt="userName || 'User avatar'"
-						class="museum-avatar"
-						:style="{ width: avatarSize + 'px', height: avatarSize + 'px' }"
-					/>
+						class="museum-avatar" :style="{ width: avatarSize + 'px', height: avatarSize + 'px' }"/>
 
-					<div
-						v-else
-						class="museum-avatar museum-avatar-initials"
-						:style="{ width: avatarSize + 'px', height: avatarSize + 'px', lineHeight: avatarSize + 'px' }"
-					>
+					<div v-else class="museum-avatar museum-avatar-initials" :style="{ width: avatarSize + 'px', height: avatarSize + 'px', lineHeight: avatarSize + 'px' }">
 						{{ initials || '?' }}
 					</div>
 				</div>
