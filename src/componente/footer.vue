@@ -64,8 +64,11 @@ defineOptions({ name: 'MuseumFooter' })
 </template>
 
 <style scoped>
+* {
+  margin: 0;
+}
 .museum-footer{
-   background: #352a2a; 
+   background: #352a2a;
    color: #efe8df;
    padding: 36px 0 18px 0;
 }
@@ -73,14 +76,16 @@ defineOptions({ name: 'MuseumFooter' })
 .museum-footer-inner {
     max-width:1200px;
     margin:0 auto;
-    padding:0 20px }
+    padding:0 20px
+}
 
-    .museum-columns { 
+.museum-columns {
     display:flex;
-    gap:32px; 
-    align-items:flex-start; 
-    justify-content:space-between; 
-    flex-wrap:wrap }
+    gap:32px;
+    align-items:flex-start;
+    justify-content:space-between;
+    flex-wrap:wrap
+}
 
 .museum-col { flex:1 1 220px; min-width:180px }
 .museum-col h4{ color:#fff3e8; margin:0 0 10px 0; font-size:16px }
@@ -94,13 +99,12 @@ defineOptions({ name: 'MuseumFooter' })
 .contact-form{ display:flex; gap:8px; margin-top:8px }
 
 .contact-form input{
-    padding:10px 12px; 
-    border-radius:6px; 
-    border:1px solid rgba(255,255,255,0.08); 
-    background: rgba(255,255,255,0.04); 
-    color:inherit 
+    padding:10px 12px;
+    border-radius:6px;
+    border:1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.04);
+    color:inherit
 }
-
 
 .contact-form input::placeholder{ color: rgba(255,244,233,0.6) }
 .btn{ background:#efe8df; color:#352a2a; border:none; padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:700 }
@@ -108,26 +112,29 @@ defineOptions({ name: 'MuseumFooter' })
 
 .socials{ margin-top:14px; display:flex; gap:10px }
 
-.social { 
-    display:inline-flex; 
-    width:36px; height:36px; 
-    align-items:center; 
-    justify-content:center; 
-    border-radius:8px; color: #efe8df; background: rgba(255,255,255,0.03) }
+.social {
+    display:inline-flex;
+    width:36px; height:36px;
+    align-items:center;
+    justify-content:center;
+    border-radius:8px;
+    color: #efe8df;
+    background: rgba(255,255,255,0.03)
+}
 
 .social:hover{ background: rgba(255,255,255,0.06); color:#f7e6c8 }
 
-.museum-copyright{ 
-    text-align:center; 
-    margin-top:22px; 
-    color:rgba(255,244,233,0.7); 
-    border-top:1px dashed rgba(255,255,255,0.04); 
-    padding-top:16px }
-
+.museum-copyright{
+    text-align:center;
+    margin-top:22px;
+    color:rgba(255,244,233,0.7);
+    padding-top:16px
+}
 
 @media (max-width: 900px){
    .museum-columns{ gap:18px }
 }
+
 @media (max-width: 640px){
    .museum-columns{ flex-direction:column }
    .museum-contact{ order: -1 }
@@ -136,6 +143,12 @@ defineOptions({ name: 'MuseumFooter' })
    .btn{ width:100% }
 }
 
-.sr-only{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden }
-
+.sr-only{
+   position:absolute;
+   left:-9999px;
+   top:auto;
+   width:1px;
+   height:1px;
+   overflow:hidden
+}
 </style>

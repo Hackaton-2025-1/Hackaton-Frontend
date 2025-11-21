@@ -340,39 +340,17 @@ const historicoExemplo = [
   gap: 2.5vw;
   margin: 2vw auto 2vw auto;
   justify-items: center;
-  box-sizing: border-box;
+
 }
+
 .acervo-card {
-  width: 100%;
-  max-width: 400px;
-  min-height: 340px;
-  background: #f5e9da;
-  border: 2px solid #a67c52;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 0;
-  box-shadow: 0 6px 24px rgba(255,209,102,0.13);
-  overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-sizing: border-box;
-}
-.acervo-card:hover {
-  transform: translateY(-6px) scale(1.03);
-  box-shadow: 0 12px 32px rgba(166,124,82,0.18);
-}
-.acervo-card:active,
-.acervo-card.selected {
-  background: #d6c1a3;
-  border-color: #7c4a1e;
-  box-shadow: 0 0 0 4px #a67c5233;
+  background-color: white;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 .acervo-img {
   width: 100%;
   height: 180px;
   object-fit: cover;
-  border-radius: 20px 20px 0 0;
   background: #eaeaea;
 }
 .acervo-info {
