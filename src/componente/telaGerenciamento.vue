@@ -12,7 +12,7 @@
   <p>Materia-prima</p>
   <p>Subtipo</p>
   <p>Localização</p>
-  <p>Conservação</p>
+  <p class="ultimo">Conservação</p>
 
 </div>
 
@@ -21,12 +21,12 @@
 <style scoped>
 
 .container {
-  margin-top: 180px;
+
   margin-left: 270px;
   display: flex;
-  gap: 140px;
+  gap: 130px;
   background-color: #FFE5D4;
-  width: 1578px;
+  width: 1568px;
   height: 62px;
   color: #C45D4C;
   justify-content: center;
@@ -34,6 +34,9 @@
   text-align: center;
 }
 
+.ultimo {
+  margin-right: 90px;
+}
 
 </style>
 
