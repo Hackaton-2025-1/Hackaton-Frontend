@@ -3,6 +3,8 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+import '@fortawesome/fontawesome-free/css/all.min.css'
+import '@/assets/main.css'; // importa main.css para toda a aplicação
 
 const app = createApp(App)
 
