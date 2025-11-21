@@ -8,17 +8,49 @@ const user = ref({
 	role: 'Pesquisador',
 	avatar: '/public/avatar-placeholder.png'
 })
+
+const isEditing = ref(false)
+const originalAvatar = ref(null)
+
+function startEdit() {
+	originalAvatar.value = user.value.avatar
+	isEditing.value = true
+}
+
+function cancelEdit() {
+	user.value.avatar = originalAvatar.value || user.value.avatar
+	isEditing.value = false
+}
+
+function saveEdit() {
+	isEditing.value = false
+}
+
+function onAvatarChange(e) {
+	const file = e.target.files && e.target.files[0]
+	if (!file) return
+	const reader = new FileReader()
+	reader.onload = () => {
+		user.value.avatar = reader.result
+	}
+	reader.readAsDataURL(file)
+}
 </script>
 
 <template>
-	<Header />
+	<Header :userSrc="user.avatar" :userName="user.name" />
 	<div class="user-control container">
 		<div class="user-card">
 			<div class="user-banner">Controle de Usuario</div>
-
 			<div class="user-top">
 				<div class="user-meta">
-					<img class="avatar" :src="user.avatar" alt="avatar" />
+					<div class="avatar-wrapper">
+						<img class="avatar" :src="user.avatar" alt="avatar" />
+						<label v-if="isEditing" class="avatar-edit" title="Alterar avatar">
+							<input type="file" accept="image/*" @change="onAvatarChange" />
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+						</label>
+					</div>
 					<div class="meta-text">
 						<div class="meta-name">{{ user.name }}</div>
 						<div class="meta-email">{{ user.email }}</div>
@@ -37,7 +69,7 @@ const user = ref({
 				<div class="form-grid">
 					<div class="col">
 						<label>Nome</label>
-						<input placeholder="Nome" />
+						<input v-model="user.name" :disabled="!isEditing" placeholder="Nome" />
 
 						<label>Gênero</label>
 						<select>
@@ -57,7 +89,7 @@ const user = ref({
 
 					<div class="col">
 						<label>CPF</label>
-						<input placeholder="Sobrenome" />
+						<input placeholder="CPF" />
 
 						<label>País</label>
 						<input placeholder="Pais" />
@@ -95,7 +127,7 @@ const user = ref({
     box-shadow: 0 10px 30px rgba(27,20,20,0.04) }
 
 .user-banner{ 
-    background:linear-gradient(90deg,#a89aa1,#efe6e4);
+    background:linear-gradient(90deg,#af873d,#efe6e4);
     text-align:center; 
     padding:22px; 
     font-size:20px; 
@@ -118,14 +150,22 @@ const user = ref({
 .meta-email{ color:var(--muted); font-size:13px }
 
 .btn-edit{
-    background:linear-gradient(180deg,var(--accent),#852406);
-    color:#7e2d2d; border:none;
-    padding:10px 16px; border-radius:10px;
-    cursor:pointer;
-    box-shadow:0 10px 30px rgba(200,75,58,0.12);
-    transition:transform .14s ease }
+    background: #ffe3db;
+    color: #d35442;
+    border: 1.5px solid #ffd9d2;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    box-shadow: 0 4px 16px rgba(255,127,89,0.08);
+    transition: transform .14s ease }
 
-.btn-edit:hover{ transform:translateY(-3px) }
+.btn-edit:hover{
+    background: #ffd9d2;
+    color: #b93c2c;
+    transform: translateY(-2px);
+}
 
 .user-body{ padding:22px }
 
@@ -152,6 +192,7 @@ input, select, textarea{
 	box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
 	color:#3b3b3b;
 	font-size:14px;
+    border: 1px solid #3b3b3b;
 }
 input::placeholder, textarea::placeholder{ color:#c8bcbc }
 
@@ -197,17 +238,23 @@ input:focus, select:focus, textarea:focus{
 .signout{ display:flex; justify-content:flex-end; margin-top:18px }
 
 .btn-logout{ 
-    background:var(--accent-soft); 
-    color:var(--accent); 
-    border:1px solid rgba(200,75,58,0.08); 
-    padding:10px 16px; 
-    border-radius:10px; 
-    cursor:pointer; 
-    transition:all .12s ease 
+    background: #d35442;
+    color: #fff;
+    border: 1px solid #d35442;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .12s ease;
+    font-weight: 600;
 }
 
 
-.btn-logout:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(200,75,58,0.06) }
+.btn-logout:hover{ 
+    background: #b93c2c;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(200,75,58,0.12);
+    transform: translateY(-2px);
+}
 
 /* Small screens: stack and adjust spacing */
 @media (max-width:900px){
