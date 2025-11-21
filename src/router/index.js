@@ -19,10 +19,21 @@ const router = createRouter({
       name: 'cadastro',
       component: () => import('../views/CadastroView.vue'),
      },
+    {
+
+      path: '/cadastroAcervo',
+      name: 'cadastroAcervo',
+      component: () => import('../views/CadastroAcervo.vue'),
+     },
      {
       path: '/login',
       name: 'login',
-      component: () => import('../views/LoginView.vue')
+      component: () => import('../views/LoginView.vue'),
+     },
+     {
+      path: '/cadastro',
+      name: 'cadastro',
+      component: () => import('../views/CadastroView.vue'),
      }
 
   ],
