@@ -1,25 +1,26 @@
 <script setup>
-import NavBar from '@/componente/NavBar.vue';
-import Footer from '@/componente/footer.vue';
-import { computed, ref } from 'vue';
+import NavBar from '@/componente/NavBar.vue'
+import Footer from '@/componente/footer.vue'
+import { computed, ref } from 'vue'
 
-const busca = ref('');
-function buscarAcervo() {
-}
+const busca = ref('')
+function buscarAcervo() {}
 
 const imagensCarrosel = [
   'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=900&q=80',
   'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80',
   'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=900&q=80',
   'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=900&q=80',
-];
-const imagemAtual = ref(0);
+]
+const imagemAtual = ref(0)
 
 const acervos = [
   {
     nome: 'Vaso Grego Antigo',
-    imagem: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
-    descricao: 'Vaso cerâmico do período helenístico, utilizado em cerimônias religiosas e encontrado em escavações na Grécia.',
+    imagem:
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
+    descricao:
+      'Vaso cerâmico do período helenístico, utilizado em cerimônias religiosas e encontrado em escavações na Grécia.',
     categoria: 'Cerâmica',
     dataEntrada: '15/09/2025',
     localizacao: 'Sala 2 - Ala de Arte Antiga',
@@ -27,7 +28,8 @@ const acervos = [
   },
   {
     nome: 'Máscara Africana',
-    imagem: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
+    imagem:
+      'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
     descricao: 'Máscara ritualística da África Ocidental, feita de madeira e pigmentos naturais.',
     categoria: 'Escultura',
     dataEntrada: '10/08/2025',
@@ -36,7 +38,8 @@ const acervos = [
   },
   {
     nome: 'Fóssil de Peixe',
-    imagem: 'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=400&q=80',
+    imagem:
+      'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=400&q=80',
     descricao: 'Fóssil de peixe pré-histórico encontrado em sambaquis brasileiros.',
     categoria: 'Fóssil',
     dataEntrada: '21/11/2025',
@@ -45,7 +48,8 @@ const acervos = [
   },
   {
     nome: 'Moeda Romana',
-    imagem: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
+    imagem:
+      'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
     descricao: 'Moeda de prata do Império Romano, datada do século II.',
     categoria: 'Numismática',
     dataEntrada: '05/07/2025',
@@ -54,7 +58,8 @@ const acervos = [
   },
   {
     nome: 'Arte Rupestre',
-    imagem: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
+    imagem:
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
     descricao: 'Fragmento de arte rupestre encontrada em cavernas do Brasil.',
     categoria: 'Pintura',
     dataEntrada: '12/10/2025',
@@ -63,56 +68,68 @@ const acervos = [
   },
   {
     nome: 'Livro Medieval',
-    imagem: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
+    imagem:
+      'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
     descricao: 'Manuscrito iluminado do século XIII, escrito em latim.',
     categoria: 'Manuscrito',
     dataEntrada: '30/09/2025',
     localizacao: 'Sala 6 - Biblioteca Histórica',
     conservacao: 'Excelente',
   },
-];
+]
 
 const acervosFiltrados = computed(() => {
-  if (!busca.value.trim()) return acervos;
-  const termo = busca.value.trim().toLowerCase();
-  return acervos.filter(item =>
-    item.nome.toLowerCase().includes(termo) ||
-    item.descricao.toLowerCase().includes(termo) ||
-    item.categoria.toLowerCase().includes(termo) ||
-    item.localizacao.toLowerCase().includes(termo)
-  );
-});
+  if (!busca.value.trim()) return acervos
+  const termo = busca.value.trim().toLowerCase()
+  return acervos.filter(
+    (item) =>
+      item.nome.toLowerCase().includes(termo) ||
+      item.descricao.toLowerCase().includes(termo) ||
+      item.categoria.toLowerCase().includes(termo) ||
+      item.localizacao.toLowerCase().includes(termo),
+  )
+})
 
-const modalAberto = ref(false);
-const acervoSelecionado = ref(null);
+const modalAberto = ref(false)
+const acervoSelecionado = ref(null)
 function abrirModal(item) {
-  acervoSelecionado.value = item;
-  modalAberto.value = true;
+  acervoSelecionado.value = item
+  modalAberto.value = true
 }
 function fecharModal() {
-  modalAberto.value = false;
-  acervoSelecionado.value = null;
+  modalAberto.value = false
+  acervoSelecionado.value = null
 }
 
-const mousePos = ref({ x: 0, y: 0 });
-const zoomAtivo = ref(false);
+const mousePos = ref({ x: 0, y: 0 })
+const zoomAtivo = ref(false)
 function mouseMoveZoom(e) {
-  const rect = e.target.getBoundingClientRect();
+  const rect = e.target.getBoundingClientRect()
   mousePos.value = {
     x: ((e.clientX - rect.left) / rect.width) * 100,
     y: ((e.clientY - rect.top) / rect.height) * 100,
-  };
-  zoomAtivo.value = true;
+  }
+  zoomAtivo.value = true
 }
 function mouseLeaveZoom() {
-  zoomAtivo.value = false;
+  zoomAtivo.value = false
 }
 
 const historicoExemplo = [
-  { local: 'Museu Nacional', dataEntrada: '10/01/2023', dataSaida: '12/03/2024', evento: 'Aquisição' },
-  { local: 'Museu de Arte Antiga', dataEntrada: '15/03/2024', dataSaida: '20/10/2025', evento: 'Exposição Temporária' },
+  {
+    local: 'Museu Nacional',
+    dataEntrada: '10/01/2023',
+    dataSaida: '12/03/2024',
+    evento: 'Aquisição',
+  },
+  {
+    local: 'Museu de Arte Antiga',
+    dataEntrada: '15/03/2024',
+    dataSaida: '20/10/2025',
+    evento: 'Exposição Temporária',
+  },
   { local: 'Museu Sambaqui', dataEntrada: '21/11/2025', dataSaida: '', evento: 'Acervo Atual' },
-];
+]
 </script>
 
 <template>
@@ -132,16 +149,39 @@ const historicoExemplo = [
         <button type="submit" aria-label="Buscar">
           <span class="search-icon">
             <!-- Novo ícone SVG -->
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 22 22"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <circle cx="10" cy="10" r="7" stroke="#fff" stroke-width="2" />
-              <line x1="16" y1="16" x2="21" y2="21" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+              <line
+                x1="16"
+                y1="16"
+                x2="21"
+                y2="21"
+                stroke="#fff"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
             </svg>
           </span>
         </button>
       </form>
       <!-- Grid de cards de acervo -->
       <div class="cards-grid">
-        <div v-for="(item, idx) in acervosFiltrados" :key="idx" class="acervo-card" :class="{selected: modalAberto && acervoSelecionado && acervoSelecionado.nome === item.nome}" @click="abrirModal(item)" style="cursor:pointer">
+        <div
+          v-for="(item, idx) in acervosFiltrados"
+          :key="idx"
+          class="acervo-card"
+          :class="{
+            selected: modalAberto && acervoSelecionado && acervoSelecionado.nome === item.nome,
+          }"
+          @click="abrirModal(item)"
+          style="cursor: pointer"
+        >
           <img :src="item.imagem" alt="Imagem do acervo" class="acervo-img" />
           <div class="acervo-info">
             <h2>{{ item.nome }}</h2>
@@ -166,25 +206,36 @@ const historicoExemplo = [
               class="modal-img"
               @mousemove="mouseMoveZoom"
               @mouseleave="mouseLeaveZoom"
-              :style="zoomAtivo ? {
-                transform: 'scale(2)',
-                transformOrigin: mousePos.x + '% ' + mousePos.y + '%'
-              } : {}"
+              :style="
+                zoomAtivo
+                  ? {
+                      transform: 'scale(2)',
+                      transformOrigin: mousePos.x + '% ' + mousePos.y + '%',
+                    }
+                  : {}
+              "
             />
           </div>
           <h2 class="modal-title">{{ acervoSelecionado.nome }}</h2>
           <p class="modal-descricao">{{ acervoSelecionado.descricao }}</p>
           <div class="modal-detalhes">
-            <span><strong>Categoria:</strong> {{ acervoSelecionado.categoria }}</span><br>
-            <span><strong>Data de Entrada:</strong> {{ acervoSelecionado.dataEntrada }}</span><br>
-            <span><strong>Localização:</strong> {{ acervoSelecionado.localizacao }}</span><br>
+            <span><strong>Categoria:</strong> {{ acervoSelecionado.categoria }}</span
+            ><br />
+            <span><strong>Data de Entrada:</strong> {{ acervoSelecionado.dataEntrada }}</span
+            ><br />
+            <span><strong>Localização:</strong> {{ acervoSelecionado.localizacao }}</span
+            ><br />
             <span><strong>Conservação:</strong> {{ acervoSelecionado.conservacao }}</span>
           </div>
           <!-- Linha do tempo/histórico -->
           <div class="historico-timeline">
             <h3 class="timeline-title">Linha do Tempo do Acervo</h3>
             <ul class="timeline-list">
-              <li v-for="(h, i) in historicoExemplo" :key="i" :class="{'atual': i === historicoExemplo.length-1}">
+              <li
+                v-for="(h, i) in historicoExemplo"
+                :key="i"
+                :class="{ atual: i === historicoExemplo.length - 1 }"
+              >
                 <div class="timeline-dot"></div>
                 <div class="timeline-info">
                   <span class="timeline-local">{{ h.local }}</span>
@@ -196,6 +247,16 @@ const historicoExemplo = [
             </ul>
           </div>
         </div>
+      </div>
+      <!-- Links de navegação -->
+      <div class="menu-museu-view">
+        <h1>Menu do Museu</h1>
+        <nav>
+          <ul>
+            <li><router-link to="/cadastro">Cadastro</router-link></li>
+            <li><router-link to="/gerenciamento">Gerenciamento</router-link></li>
+          </ul>
+        </nav>
       </div>
     </div>
     <Footer />
@@ -224,7 +285,7 @@ const historicoExemplo = [
   background: #e0e0e0;
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   margin-bottom: 2vw;
   display: flex;
   align-items: center;
@@ -252,7 +313,7 @@ const historicoExemplo = [
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.7);
   border: none;
   font-size: 2rem;
   color: #ff6f3c;
@@ -289,11 +350,13 @@ const historicoExemplo = [
   border-radius: 16px;
   margin-bottom: 2vw;
   padding: 0.7vw 1vw;
-  box-shadow: 0 2px 12px rgba(255,111,60,0.10);
-  transition: box-shadow 0.2s, border 0.2s;
+  box-shadow: 0 2px 12px rgba(255, 111, 60, 0.1);
+  transition:
+    box-shadow 0.2s,
+    border 0.2s;
 }
 .search-bar:focus-within {
-  box-shadow: 0 4px 18px rgba(255,111,60,0.18);
+  box-shadow: 0 4px 18px rgba(255, 111, 60, 0.18);
   border-color: #e85d2a;
 }
 .search-bar input {
@@ -319,7 +382,7 @@ const historicoExemplo = [
   font-size: 1.4rem;
   padding: 0.5vw 1.2vw;
   margin-left: 0.5vw;
-  box-shadow: 0 2px 8px rgba(255,111,60,0.10);
+  box-shadow: 0 2px 8px rgba(255, 111, 60, 0.1);
   transition: background 0.2s;
   display: flex;
   align-items: center;
@@ -353,14 +416,16 @@ const historicoExemplo = [
   flex-direction: column;
   align-items: center;
   margin-bottom: 0;
-  box-shadow: 0 6px 24px rgba(255,209,102,0.13);
+  box-shadow: 0 6px 24px rgba(255, 209, 102, 0.13);
   overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   box-sizing: border-box;
 }
 .acervo-card:hover {
   transform: translateY(-6px) scale(1.03);
-  box-shadow: 0 12px 32px rgba(166,124,82,0.18);
+  box-shadow: 0 12px 32px rgba(166, 124, 82, 0.18);
 }
 .acervo-card:active,
 .acervo-card.selected {
@@ -440,8 +505,11 @@ const historicoExemplo = [
 }
 .modal-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.45);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -453,7 +521,7 @@ const historicoExemplo = [
   max-width: 600px;
   width: 98vw;
   padding: 3vw 3vw 2vw 3vw;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
   position: relative;
   text-align: center;
 }
@@ -485,12 +553,15 @@ const historicoExemplo = [
   height: 100%;
   object-fit: cover;
   border-radius: 12px;
-  transition: transform 0.3s cubic-bezier(.25,.8,.25,1), box-shadow 0.2s, transform-origin 0.2s;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+  transition:
+    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.2s,
+    transform-origin 0.2s;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
   cursor: zoom-in;
 }
 .modal-img-wrap:hover .modal-img {
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
 }
 .modal-title {
   font-size: 1.5rem;
@@ -518,7 +589,7 @@ const historicoExemplo = [
   padding: 1vw 0;
   background: #fff8d6;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(255,209,102,0.10);
+  box-shadow: 0 2px 8px rgba(255, 209, 102, 0.1);
   overflow-x: auto;
 }
 .timeline-title {
@@ -562,7 +633,7 @@ const historicoExemplo = [
   background: #fffbe6;
   border-radius: 8px;
   padding: 0.7vw 1vw;
-  box-shadow: 0 1px 4px rgba(255,209,102,0.08);
+  box-shadow: 0 1px 4px rgba(255, 209, 102, 0.08);
   display: flex;
   flex-direction: column;
   gap: 0.2vw;
@@ -632,5 +703,26 @@ const historicoExemplo = [
     min-width: 120px;
     padding: 1vw 2vw;
   }
+}
+.menu-museu-view {
+  padding: 20px;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav li {
+  margin-bottom: 10px;
+}
+
+router-link {
+  text-decoration: none;
+  color: #007bff;
+}
+
+router-link:hover {
+  text-decoration: underline;
 }
 </style>
