@@ -1,4 +1,5 @@
 <script setup>
+defineOptions({ name: 'MuseumFooter' })
 </script>
 
 <template>

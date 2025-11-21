@@ -1,6 +1,6 @@
 <script setup>
 import NavBar from '@/componente/NavBar.vue';
-import SideBar from '@/componente/SideBar.vue';
+import Footer from '@/componente/footer.vue';
 import { computed, ref } from 'vue';
 
 const busca = ref('');
@@ -141,7 +141,7 @@ const historicoExemplo = [
       </form>
       <!-- Grid de cards de acervo -->
       <div class="cards-grid">
-        <div v-for="(item, idx) in acervosFiltrados" :key="idx" class="acervo-card" @click="abrirModal(item)" style="cursor:pointer">
+        <div v-for="(item, idx) in acervosFiltrados" :key="idx" class="acervo-card" :class="{selected: modalAberto && acervoSelecionado && acervoSelecionado.nome === item.nome}" @click="abrirModal(item)" style="cursor:pointer">
           <img :src="item.imagem" alt="Imagem do acervo" class="acervo-img" />
           <div class="acervo-info">
             <h2>{{ item.nome }}</h2>
@@ -198,7 +198,7 @@ const historicoExemplo = [
         </div>
       </div>
     </div>
-    <SideBar />
+    <Footer />
   </div>
 </template>
 
@@ -346,8 +346,8 @@ const historicoExemplo = [
   width: 100%;
   max-width: 400px;
   min-height: 340px;
-  background: #fffbe6;
-  border: 2px solid #ffd166;
+  background: #f5e9da;
+  border: 2px solid #a67c52;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -360,7 +360,13 @@ const historicoExemplo = [
 }
 .acervo-card:hover {
   transform: translateY(-6px) scale(1.03);
-  box-shadow: 0 12px 32px rgba(255,209,102,0.18);
+  box-shadow: 0 12px 32px rgba(166,124,82,0.18);
+}
+.acervo-card:active,
+.acervo-card.selected {
+  background: #d6c1a3;
+  border-color: #7c4a1e;
+  box-shadow: 0 0 0 4px #a67c5233;
 }
 .acervo-img {
   width: 100%;
@@ -380,7 +386,7 @@ const historicoExemplo = [
 }
 .acervo-info h2 {
   font-size: 1.35rem;
-  color: #ff6f3c;
+  color: #7c4a1e;
   margin-bottom: 0.3vw;
   text-align: center;
 }
@@ -488,7 +494,7 @@ const historicoExemplo = [
 }
 .modal-title {
   font-size: 1.5rem;
-  color: #ff6f3c;
+  color: #7c4a1e;
   margin-bottom: 0.7vw;
   text-align: center;
 }
@@ -517,7 +523,7 @@ const historicoExemplo = [
 }
 .timeline-title {
   font-size: 1.15rem;
-  color: #ff6f3c;
+  color: #7c4a1e;
   text-align: center;
   margin-bottom: 1vw;
   font-weight: 700;
