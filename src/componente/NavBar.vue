@@ -113,10 +113,7 @@ const initials = computed(() => {
   cursor: pointer;
 }
 .museum-logo-wrap {
-  background: white;
   padding: 6px;
-  border-radius: 6px;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
 }
 .museum-logo {
   height: 56px;
