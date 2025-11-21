@@ -13,6 +13,21 @@ const router = createRouter({
       path: '/Menu',
       name: 'Menu',
       component: () => import('../views/MenuMuseuView.vue'),
+     },
+     {
+      path: '/cadastroAcervo',
+      name: 'cadastroAcervo',
+      component: () => import('../views/CadastroAcervo.vue'),
+     },
+     {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
+     },
+     {
+      path: '/cadastro',
+      name: 'cadastro',
+      component: () => import('../views/CadastroView.vue'),
      }
 
 

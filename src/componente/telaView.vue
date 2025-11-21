@@ -10,6 +10,7 @@
     <p>Subtipo</p>
     <p>Localização</p>
     <p>Conservação</p>
+    <button class="btnEditar">Editar</button>
   </div>
 </template>
 
@@ -17,8 +18,8 @@
 .container {
   margin-left: 270px;
   display: flex;
-  gap: 140px;
-  width: 1578px;
+  gap: 120px;
+  width: 1568px;
   height: 62px;
   border: 0.5px solid rgb(216, 214, 214);
   justify-content: center;
