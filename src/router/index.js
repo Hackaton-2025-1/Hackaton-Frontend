@@ -10,7 +10,7 @@ const router = createRouter({
       component: () => import('../views/GerenciamentoView.vue'),
      },
      {
-      path: '/menu',
+      path: '/',
       name: 'menu',
       component: () => import('../views/MenuMuseuView.vue'),
      },
