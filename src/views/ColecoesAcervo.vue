@@ -2,29 +2,7 @@
   <NavBar />
   <div class="espaco-header"></div>
   <div class="colecoes-layout">
-    <aside class="colecoes-aside" v-if="!menuMobile">
-      <div class="filtro-menu-vertical">
-        <button v-for="tipo in tipos" :key="tipo.value" :class="['filtro-btn', { ativo: tipo.value === filtroSelecionado }]" @click="filtroSelecionado = tipo.value">
-          <i :class="['icon', tipo.icon]"></i> {{ tipo.label }}
-        </button>
-      </div>
-    </aside>
-    <aside class="colecoes-aside-mobile" v-else>
-      <button class="hamburger-btn" @click="menuAberto = !menuAberto">
-        <span class="hamburger-icon">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </span>
-      </button>
-      <transition name="slide">
-        <div v-if="menuAberto" class="menu-mobile-list">
-          <button v-for="tipo in tipos" :key="tipo.value" :class="['filtro-btn', { ativo: tipo.value === filtroSelecionado }]" @click="selecionaTipo(tipo.value)">
-            <i :class="['icon', tipo.icon]"></i> {{ tipo.label }}
-          </button>
-        </div>
-      </transition>
-    </aside>
+    <SideBar :colecaoSelecionada="filtroSelecionado" @selecionarColecao="selecionaTipo" />
     <main class="colecoes-main">
       <div v-if="bannerAtual" class="banner-acervo">
         <img :src="bannerSimulado" alt="Banner Simulado" />
@@ -56,6 +34,7 @@
 <script setup>
 import NavBar from '@/componente/NavBar.vue'
 import Footer from '@/componente/footer.vue'
+import SideBar from '@/componente/SideBar.vue'
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import logoBanner from '@/assets/imagens/logo.png'
 
@@ -73,10 +52,6 @@ function handleResize() {
   menuMobile.value = window.innerWidth <= 480
   if (!menuMobile.value) menuAberto.value = false
 }
-function selecionaTipo(tipo) {
-  filtroSelecionado.value = tipo
-  menuAberto.value = false
-}
 onMounted(() => {
   handleResize()
   window.addEventListener('resize', handleResize)
@@ -84,6 +59,10 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
 })
+
+function selecionaTipo(tipo) {
+  filtroSelecionado.value = tipo
+}
 
 const colecoes = [
   { tipo: 'animal', nome: 'Fóssil de peixe', info: 'Período: Jurássico' },
@@ -119,113 +98,13 @@ const bannerSimulado = logoBanner
   height: 80px;
 }
 .espaco-footer {
-  height: 40px;
+  height: 10px;
 }
 .colecoes-layout {
   display: flex;
   gap: 0;
   max-width: 100vw;
   min-height: 70vh;
-}
-.colecoes-aside {
-  width: 180px;
-  background: #e7e0d9;
-  border-radius: 24px 0 0 24px;
-  box-shadow: 0 2px 12px rgba(80, 50, 30, 0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 32px 0;
-}
-.colecoes-aside-mobile {
-  width: 100%;
-  background: #e7e0d9;
-  border-radius: 24px 24px 0 0;
-  box-shadow: 0 2px 12px rgba(80, 50, 30, 0.08);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 12px 0;
-  justify-content: flex-start;
-}
-.hamburger-btn {
-  background: none;
-  border: none;
-  padding: 0 18px;
-  cursor: pointer;
-  outline: none;
-  display: flex;
-  align-items: center;
-}
-.hamburger-icon {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-.bar {
-  width: 28px;
-  height: 4px;
-  background: #fff;
-  border-radius: 2px;
-  margin: 3px 0;
-  display: block;
-}
-.menu-mobile-list {
-  position: static;
-  top: auto;
-  left: auto;
-  width: 100vw;
-  background: #e7e0d9;
-  box-shadow: 0 2px 12px rgba(80, 50, 30, 0.08);
-  border-radius: 0 0 18px 18px;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 18px 0 12px 0;
-  margin-top: 40px;
-}
-.slide-enter-active, .slide-leave-active {
-  transition: all 0.3s;
-}
-.slide-enter-from, .slide-leave-to {
-  opacity: 0;
-  transform: translateY(-20px);
-}
-.filtro-menu-vertical {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-  align-items: center;
-}
-.filtro-btn {
-  width: 140px;
-  padding: 12px 0;
-  font-size: 1rem;
-  border-radius: 12px;
-  background: #f3e7d2;
-  color: #3d2c1e;
-  border: none;
-  font-weight: 700;
-  transition: background 0.18s, color 0.18s, transform 0.18s;
-  box-shadow: 0 2px 8px rgba(80, 50, 30, 0.08);
-  margin-bottom: 2px;
-  text-align: left;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  justify-content: flex-start;
-}
-.filtro-btn.ativo {
-  background: #a67c52;
-  color: #fffbe6;
-  transform: scale(1.05);
 }
 .colecoes-main {
   flex: 1;
@@ -236,6 +115,7 @@ const bannerSimulado = logoBanner
 }
 .banner-acervo {
   max-width: 900px;
+  width: 100%;
   margin: 0 auto 18px auto;
   border-radius: 18px;
   box-shadow: 0 2px 8px rgba(80, 50, 30, 0.08);
@@ -249,6 +129,7 @@ const bannerSimulado = logoBanner
   height: 340px;
   object-fit: cover;
   border-radius: 18px;
+  max-width: 100%;
 }
 .acervo-section {
   padding: 10px 4px;
@@ -360,28 +241,17 @@ const bannerSimulado = logoBanner
   .colecoes-layout {
     flex-direction: column;
   }
-  .colecoes-aside {
-    width: 100%;
-    border-radius: 24px 24px 0 0;
-    flex-direction: row;
-    justify-content: center;
-    padding: 12px 0;
-  }
-  .filtro-menu-vertical {
-    flex-direction: row;
-    gap: 8px;
-    width: 100%;
-    justify-content: center;
-  }
-  .filtro-btn {
-    width: auto;
-    padding: 10px 18px;
-    font-size: 0.95rem;
-    border-radius: 8px;
-  }
   .colecoes-main {
     border-radius: 0 0 24px 24px;
     padding: 12px 6px 18px 6px;
+  }
+  .banner-acervo img {
+    height: 180px;
+  }
+}
+@media (max-width: 600px) {
+  .banner-acervo img {
+    height: 90px;
   }
 }
 @media (max-width: 500px) {
@@ -429,15 +299,14 @@ const bannerSimulado = logoBanner
   .colecoes-layout {
     flex-direction: column;
   }
-  .colecoes-aside {
-    display: none;
-  }
-  .colecoes-aside-mobile {
-    display: flex;
-  }
   .colecoes-main {
     border-radius: 0 0 24px 24px;
     padding: 12px 6px 18px 6px;
+  }
+}
+@media (max-width: 400px) {
+  .banner-acervo img {
+    height: 48px;
   }
 }
 </style>
