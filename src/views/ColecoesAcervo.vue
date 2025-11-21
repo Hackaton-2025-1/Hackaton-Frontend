@@ -17,7 +17,7 @@
             <div class="card-content">
               <strong class="card-title">{{ item.nome }}</strong>
               <p class="card-info">{{ item.info }}</p>
-              <button class="card-btn">Ver detalhes</button>
+              <button class="card-btn" @click="abrirModal(item)">Ver detalhes</button>
             </div>
           </div>
         </div>
@@ -26,6 +26,23 @@
         <p class="sem-colecao">Nenhuma coleção encontrada para este tipo de acervo.</p>
       </section>
     </main>
+  </div>
+  <div v-if="modalAberto" class="modal-overlay" @click.self="fecharModal">
+    <div class="modal-content">
+      <button class="modal-close" @click="fecharModal">&times;</button>
+      <div class="modal-img-wrap">
+        <img :src="modalItemImg" alt="Imagem do acervo" class="modal-img" />
+      </div>
+      <h2 class="modal-title">{{ modalItem?.nome }}</h2>
+      <p class="modal-descricao">{{ modalItem?.info }}</p>
+      <div class="modal-detalhes">
+        <p><strong>Categoria:</strong> {{ tipoAtual.label }}</p>
+        <p><strong>Data de entrada:</strong> 21/11/2025</p>
+        <p><strong>Localização:</strong> Sala principal do Museu Sambaqui</p>
+        <p><strong>Conservação:</strong> Excelente</p>
+        <p><strong>Descrição adicional:</strong> Item pertencente ao acervo do Museu Sambaqui, utilizado para fins de pesquisa, exposição e preservação histórica.</p>
+      </div>
+    </div>
   </div>
   <div class="espaco-footer"></div>
   <Footer />
@@ -91,6 +108,18 @@ const colecoesFiltradas = computed(() => colecoes.filter(c => c.tipo === filtroS
 const tipoAtual = computed(() => tipos.find(t => t.value === filtroSelecionado.value))
 const bannerAtual = computed(() => tipoAtual.value?.banner)
 const bannerSimulado = logoBanner
+
+const modalAberto = ref(false)
+const modalItem = ref(null)
+const modalItemImg = computed(() => '/src/assets/imagens/logo.png')
+function abrirModal(item) {
+  modalItem.value = item
+  modalAberto.value = true
+}
+function fecharModal() {
+  modalAberto.value = false
+  modalItem.value = null
+}
 </script>
 
 <style scoped>
@@ -176,21 +205,21 @@ const bannerSimulado = logoBanner
   color: #fffbe6;
 }
 .card-img-wrap {
-  width: 24px;
-  height: 24px;
+  width: 120px;
+  height: 120px;
   background: #fffbe6;
-  border-radius: 4px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 4px;
-  border: 1px solid #a67c52;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 8px rgba(80, 50, 30, 0.08);
 }
 .colecao-img {
-  width: 16px;
-  height: 16px;
+  width: 100px;
+  height: 100px;
   object-fit: contain;
-  border-radius: 2px;
+  border-radius: 8px;
   background: #fffbe6;
   border: 1px solid #a67c52;
 }
@@ -237,6 +266,79 @@ const bannerSimulado = logoBanner
   margin: 8px 0;
   color: #a67c52;
 }
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.modal-content {
+  background: #fffbe6;
+  border-radius: 18px;
+  max-width: 400px;
+  width: 98vw;
+  padding: 24px 18px 18px 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  position: relative;
+  text-align: center;
+}
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #a67c52;
+  cursor: pointer;
+}
+.modal-img-wrap {
+  width: 100%;
+  max-width: 180px;
+  height: 120px;
+  margin: 0 auto 1vw auto;
+  overflow: hidden;
+  border-radius: 12px;
+  position: relative;
+  background: #eaeaea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+}
+.modal-title {
+  font-size: 1.2rem;
+  color: #a67c52;
+  margin-bottom: 0.7vw;
+  text-align: center;
+}
+.modal-descricao {
+  font-size: 1.08rem;
+  color: #444;
+  margin-bottom: 1vw;
+}
+.modal-detalhes {
+  background: #fff8e6;
+  border-radius: 8px;
+  padding: 12px 10px;
+  margin-top: 10px;
+  font-size: 0.98rem;
+  color: #6d5c3a;
+  text-align: left;
+  box-shadow: 0 1px 6px rgba(80, 50, 30, 0.06);
+}
+.modal-detalhes p {
+  margin: 4px 0;
+}
 @media (max-width: 900px) {
   .colecoes-layout {
     flex-direction: column;
@@ -248,10 +350,29 @@ const bannerSimulado = logoBanner
   .banner-acervo img {
     height: 180px;
   }
+  .card-img-wrap {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+  }
+  .colecao-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+  }
 }
 @media (max-width: 600px) {
   .banner-acervo img {
     height: 90px;
+  }
+  .card-img-wrap {
+    width: 40px;
+    height: 40px;
+  }
+  .colecao-img {
+    width: 32px;
+    height: 32px;
   }
 }
 @media (max-width: 500px) {
@@ -273,15 +394,12 @@ const bannerSimulado = logoBanner
     border-radius: 2px;
   }
   .card-img-wrap {
-    width: 12px;
-    height: 12px;
-    margin-bottom: 1px;
-    border-radius: 1px;
+    width: 24px;
+    height: 24px;
   }
   .colecao-img {
-    width: 8px;
-    height: 8px;
-    border-radius: 1px;
+    width: 18px;
+    height: 18px;
   }
   .card-title {
     font-size: 0.7rem;
