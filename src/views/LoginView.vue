@@ -44,7 +44,8 @@ const login = async () => {
         <input class="input" type="password" placeholder="Senha" aria-label="Senha" v-model="senha" />
       </div>
     </div>
-<button class="btn-login" @click="login">ENTRAR</button>
+    <router-link to="/">
+<button class="btn-login" @click="login">ENTRAR</button></router-link>
     <p class="footer-text">
       Ainda não possui cadastro?
       <router-link to="/cadastro" class="link">Clique Aqui</router-link>
@@ -88,7 +89,7 @@ const login = async () => {
   align-items: center;
   justify-content: center;
   width: 500px;
-  height: 400px;
+  height: 500px;
   padding: 35px 25px;
   background: rgba(255, 255, 255, 0.09);
   backdrop-filter: blur(12px);
@@ -117,18 +118,19 @@ const login = async () => {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 100%;
+  width: 350px;
   margin-bottom: 30px;
   margin-right: 30px;
+  
 }
 
 .input-group {
   position: relative;
   width: 100%;
-  max-width: 350px;
+  max-width: 400px;
   align-items: center;
   justify-content: center;
-  margin-right: 80px;
+  margin-left: 70px;
   margin: auto;
 }
 

@@ -1,36 +1,41 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { fetchArtefatos } from '@/services/api.js'
-import NavBar from '@/componente/NavBar.vue'
-import SideBar from '@/componente/SideBar.vue'
-import telaGerenciamento from '@/componente/telaGerenciamento.vue'
-import telaView from '@/componente/telaView.vue'
+import NavBar from '@/componente/NavBar.vue';
+import SideBar from '@/componente/SideBar.vue';
+import telaGerenciamento from '@/componente/telaGerenciamento.vue';
+import telaView from '@/componente/telaView.vue';
+import { ref, onMounted } from 'vue';
+import { fetchArtefatos } from '../services/api.js';
+import { useUserStore } from '@/stores/user.js'
 
 const artefatos = ref([])
-async function loadArtefatos() {
-  try {
-    artefatos.value = await fetchArtefatos()
-  } catch (err) {
-    artefatos.value = []
-  }
+const userStore = useUserStore()
+
+const loadArtefatos = async () => {
+  artefatos.value = await fetchArtefatos()
 }
 
 onMounted(loadArtefatos)
+
 </script>
 
 <template>
+
   <main>
     <div class="topo">
+
       <h1>Gerenciamento de Acervo</h1>
+
     </div>
 
-    <NavBar></NavBar>
 
+    <NavBar :userSrc="userStore.avatar" :userName="userStore.name || 'Visitante'" />
     <SideBar></SideBar>
 
     <telaGerenciamento></telaGerenciamento>
-    <telaView v-for="artefato in artefatos" :key="artefato.id" :artefato="artefato" />
+    <telaView></telaView>
+
   </main>
+
 </template>
 
 <style scoped>
@@ -42,6 +47,7 @@ onMounted(loadArtefatos)
   justify-content: space-between;
   align-items: center;
   width: 1568px;
-  color: #c45d4c;
+  color: #C45D4C;
+
 }
 </style>

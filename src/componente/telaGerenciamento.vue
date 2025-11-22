@@ -7,7 +7,7 @@
 
   <p>Imagem</p>
   <p>Matricula</p>
-  <p>Acervo</p>
+  <p>Coleção</p>
   <p>Categoria</p>
   <p>Materia-prima</p>
   <p>Subtipo</p>

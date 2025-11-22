@@ -44,6 +44,16 @@ const router = createRouter({
         name: 'cadastroCategoria',
         component: () => import('../componente/CadastroCategoria.vue'),
       },
+      {
+      path: '/collection',
+      name: 'collections',
+      component: () => import('../views/CollectionsView.vue')
+     },
+    {
+      path: '/collection/:id',
+      name: 'collection-detail',
+      component: () => import('../views/CollectionDetailView.vue')
+    }
 
   ],
 })

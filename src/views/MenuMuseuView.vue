@@ -1,13 +1,9 @@
+// ...existing code...
 <script setup>
 import NavBar from '@/componente/NavBar.vue';
 import Footer from '@/componente/footer.vue';
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
-import { useUserStore } from '@/stores/user.js'
 
-
-
-
-/* ACERVOS (cada item pode ter histórico) */
 import sambaqui1 from '@/assets/imagens/imagensSambaqui/sambaqui1.jpg';
 import sambaqui2 from '@/assets/imagens/imagensSambaqui/sambaqui2.jpg';
 import sambaqui3 from '@/assets/imagens/imagensSambaqui/sambaqui3.jpg';
@@ -15,15 +11,14 @@ import sambaqui4 from '@/assets/imagens/imagensSambaqui/sambaqui4.jpg';
 import sambaqui5 from '@/assets/imagens/imagensSambaqui/sambaqui5.jpg';
 import sambaqui6 from '@/assets/imagens/imagensSambaqui/sambaqui6.jpg';
 
-const userStore = useUserStore()
 const busca = ref('');
 
 /* CARROSSEL */
 const imagensCarrosel = [
-  'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1622702146317-3b95dedf33dd?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  'https://images.unsplash.com/photo-1614482298332-cfc98eabdb90?q=80&w=1462&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  'https://images.unsplash.com/photo-1727560799075-9055b064a05b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fE1VU0VVJTIwQVJRVUVPTE9HSUNPfGVufDB8fDB8fHww',
+  'https://images.unsplash.com/photo-1637096979782-8425e35517ab?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjAwfHxmJUMzJTkzU1NFSVN8ZW58MHx8MHx8fDA%3D',
 ];
 
 const imagemAtual = ref(0);
@@ -48,7 +43,6 @@ onBeforeUnmount(() => {
   clearInterval(carouselInterval);
 });
 
-/* ACERVOS */
 const acervos = [
   {
     nome: 'Morro Sambaqui',
@@ -151,7 +145,6 @@ function fecharModal() {
   acervoSelecionado.value = null;
 }
 
-
 /* histórico atual mostrado no modal (retorna array vazio se não houver) */
 const historicoAtual = computed(() => {
   return acervoSelecionado.value?.historico ?? [];
@@ -167,7 +160,7 @@ function buscarAcervo(e) {
 
 <template>
   <div class="menu-museu-container">
-    <NavBar  />
+    <NavBar />
     <div class="main-content">
       <!-- Carrossel -->
       <div class="carousel" aria-roledescription="carousel">
@@ -217,45 +210,8 @@ function buscarAcervo(e) {
       </div>
 
       <!-- Modal -->
-      <div v-if="modalAberto" class="modal-overlay" @click.self="fecharModal" role="dialog" aria-modal="true">
-        <div class="modal-content">
-          <button class="modal-close" @click="fecharModal" aria-label="Fechar">&times;</button>
-          <div class="modal-img-wrap">
-            <img :src="acervoSelecionado.imagem" :alt="`Imagem de ${acervoSelecionado.nome}`" class="modal-img" />
-          </div>
-          <h2 class="modal-title">{{ acervoSelecionado.nome }}</h2>
-          <p class="modal-descricao">{{ acervoSelecionado.descricao }}</p>
-          <div class="modal-detalhes">
-            <span><strong>Categoria:</strong> {{ acervoSelecionado.categoria }}</span><br/>
-            <span><strong>Data de Entrada:</strong> {{ acervoSelecionado.dataEntrada }}</span><br/>
-            <span><strong>Localização:</strong> {{ acervoSelecionado.localizacao }}</span><br/>
-            <span><strong>Conservação:</strong> {{ acervoSelecionado.conservacao }}</span>
-          </div>
-
-          <!-- Linha do tempo / histórico do acervo -->
-          <div class="historico-timeline" v-if="historicoAtual.length">
-            <h3 class="timeline-title">Linha do Tempo</h3>
-<ul class="timeline-list">
-  <li
-    v-for="(h, index) in historicoAtual"
-    :key="index"
-    :class="{ atual: index === historicoAtual.length - 1 }"
-  >
-    <div class="timeline-point"></div>
-    <div class="timeline-box">
-      <h4>{{ h.periodo }}</h4>
-      <p><strong>{{ h.local }}</strong> — {{ h.evento }}</p>
-    </div>
-  </li>
-</ul>
-
-          </div>
-          <div v-else class="historico-timeline">
-            <h3 class="timeline-title">Linha do Tempo</h3>
-            <p class="timeline-empty">Nenhum histórico disponível para este item.</p>
-          </div>
-        </div>
-      </div>
+     
+    
     </div>
     <Footer />
   </div>

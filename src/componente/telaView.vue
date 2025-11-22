@@ -16,10 +16,10 @@ function toggleEdit() {
     <!-- Container de imagem -->
     <div class="image-box"></div>
 
-    <p>Matricula</p>
-    <p>Acervo</p>
-    <p>Categoria</p>
-    <p>Materia-prima</p>
+    <p>26739</p>
+    <p>Maria Barbosa</p>
+    <p>Osseo humano</p>
+    <p>Animal</p>
     <p>Subtipo</p>
     <p>Localização</p>
     <p>Conservação</p>
