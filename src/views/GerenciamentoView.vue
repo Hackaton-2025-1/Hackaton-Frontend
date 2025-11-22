@@ -3,6 +3,21 @@ import NavBar from '@/componente/NavBar.vue';
 import SideBar from '@/componente/SideBar.vue';
 import telaGerenciamento from '@/componente/telaGerenciamento.vue';
 import telaView from '@/componente/telaView.vue';
+import { ref, onMounted } from 'vue';
+import { fetchArtefatos, deleteArtefato as apiDeleteArtefato } from '../services/api.js';
+
+const artefatos = ref([])
+
+const loadArtefatos = async () => {
+  artefatos.value = await fetchArtefatos()
+}
+
+const deleteArtefato = async (id) => {
+  await apiDeleteArtefato(id)
+  artefatos.value = artefatos.value.filter((artefato) => artefato.id !== id)
+}
+
+onMounted(loadArtefatos)
 
 </script>
 

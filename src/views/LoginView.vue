@@ -1,6 +1,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { login as loginApi } from '../services/api.js'
 import { useRouter } from 'vue-router'
 import { lerDoBanco } from '@/services/localdb.js'
 
@@ -11,6 +12,14 @@ const router = useRouter()
 
 const login = async () => {
   try {
+    const response = await loginApi(email.value, senha.value)
+    localStorage.setItem('token', response.access)
+    mensagem.value = 'Login realizado com sucesso!'
+    setTimeout(() => router.push('/'), 1000)
+  } catch (error) {
+    mensagem.value = 'Email ou senha inválidos.'
+  }
+}
     const usuarios = lerDoBanco('usuarios') || [];
     const usuario = usuarios.find(u => u.email === email.value && u.senha === senha.value);
     if (usuario) {
@@ -51,6 +60,8 @@ const login = async () => {
       Ainda não possui cadastro?
       <router-link to="/cadastro" class="link">Clique Aqui</router-link>
     </p>
+    <p v-if="mensagem" style="color: white; margin-top: 10px">{{ mensagem }}</p>
+
   </div>
 </template>
 
@@ -196,6 +207,13 @@ const login = async () => {
     width: 90%;
     padding: 25px;
   }
+
 }
 
+@media (max-width: 500px) {
+  .container {
+    width: 90%;
+    padding: 25px;
+  }
+}
 </style>

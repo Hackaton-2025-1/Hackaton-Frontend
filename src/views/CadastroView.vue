@@ -1,7 +1,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { salvarNoBanco, lerDoBanco } from '../services/localdb.js'
+import { createUsuario } from '../services/api.js'
 
 const nome = ref('')
 const email = ref('')
@@ -10,6 +10,8 @@ const mensagem = ref('')
 
 const cadastrar = async () => {
   try {
+    await createUsuario({ name: nome.value, email: email.value, password: senha.value })
+
     // Busca usuários existentes
     const usuarios = lerDoBanco('usuarios') || [];
     // Adiciona novo usuário
@@ -21,6 +23,10 @@ const cadastrar = async () => {
     email.value = ''
     senha.value = ''
   } catch (error) {
+    mensagem.value = 'Erro ao cadastrar: ' + error.message
+  }
+  }
+  {
     console.log('Erro detalhado:', error)
     mensagem.value = 'Erro ao cadastrar.'
   }
@@ -35,13 +41,13 @@ const cadastrar = async () => {
     </div>
 
     <div class="campos">
-            <div class="input-group">
+      <div class="input-group">
         <i class="fas fa-user icon"></i>
         <input class="input" type="email" placeholder="Nome" aria-label="Name" />
       </div>
       <div class="input-group">
         <i class="fas fa-envelope icon"></i>
-        <input class="input" type="email" placeholder="Email" aria-label="Email" />
+        <input class="input" type="email" placeholder="Email" v-model="email" aria-label="Email" />
       </div>
 
       <div class="input-group">
@@ -201,5 +207,4 @@ const cadastrar = async () => {
     padding: 25px;
   }
 }
-
 </style>
