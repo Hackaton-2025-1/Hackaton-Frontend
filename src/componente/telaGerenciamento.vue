@@ -24,9 +24,9 @@
 
   margin-left: 270px;
   display: flex;
-  gap: 130px;
+  gap: 120px;
   background-color: #FFE5D4;
-  width: 1568px;
+  width: 1400px;
   height: 62px;
   color: #C45D4C;
   justify-content: center;

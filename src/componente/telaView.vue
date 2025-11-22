@@ -10,8 +10,9 @@
     <p>Subtipo</p>
     <p>Localização</p>
     <p>Conservação</p>
-    <button class="btnEditar">Editar</button>
+
   </div>
+  <button class="btnEditar">Editar</button>
 </template>
 
 <style scoped>
@@ -19,7 +20,7 @@
   margin-left: 270px;
   display: flex;
   gap: 120px;
-  width: 1568px;
+  width: 1400px;
   height: 62px;
   border: 0.5px solid rgb(216, 214, 214);
   justify-content: center;
@@ -38,5 +39,14 @@ p {
   height: 40px;
   border: 1px solid rgb(173, 173, 173);
   border-radius: 4px;
+}
+
+.btnEditar {
+  background-color: #C45D4C;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 </style>

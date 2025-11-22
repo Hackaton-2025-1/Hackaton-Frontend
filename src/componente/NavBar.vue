@@ -25,7 +25,7 @@ const initials = computed(() => {
 <template>
   <header class="museum-header">
     <div class="museum-inner">
-      <div class="museum-left" @click="emit('logo-click')">
+      <router-link to="/" class="link">      <div class="museum-left" @click="emit('logo-click')">
         <slot name="logo">
           <div class="museum-logo-wrap">
             <img v-if="logoSrc" :src="logoSrc" alt="Logo" class="museum-logo" />
@@ -37,7 +37,8 @@ const initials = computed(() => {
           <div class="museum-title">Museu Sambaqui</div>
           <div class="museum-sub">Coleção Digital</div>
         </div>
-      </div>
+      </div></router-link>
+
 
 
       <nav class="museum-nav" aria-label="main navigation">
@@ -54,10 +55,10 @@ const initials = computed(() => {
       <div class="museum-right">
         <div class="museum-user">
           <div class="museum-user-info">
-           <router-link to="/login"> 
+           <router-link to="/login" class="link">
               <div class="museum-user-name">{{ userName || 'Visitante' }}</div>
           </router-link>
-            <router-link to="/gerenciamento"> <div class="museum-user-role small-muted">visualizar ou so editor</div>
+            <router-link to="/gerenciamento" class="link"> <div class="museum-user-role small-muted">visualizar ou so editor</div>
               </router-link>
           </div>
 
@@ -256,5 +257,10 @@ const initials = computed(() => {
   .museum-user-info {
     display: none;
   }
+}
+
+.link {
+  text-decoration: none;
+  list-style: none;
 }
 </style>

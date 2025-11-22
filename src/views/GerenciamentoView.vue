@@ -10,8 +10,9 @@ import telaView from '@/componente/telaView.vue';
 
   <main>
     <div class="topo">
+
       <h1>Gerenciamento de Acervo</h1>
-      <button class="btnAdicionar"><router-link to="/cadastroAcervo" style="text-decoration: none;">Adicionar Acervo</router-link></button>
+
     </div>
 
 
@@ -32,10 +33,13 @@ import telaView from '@/componente/telaView.vue';
 <style scoped>
 .topo {
   margin-left: 270px;
-  margin-top: 100px;
+  margin-top: 150px;
+  margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 1568px;
+  color: #C45D4C;
+
 }
 </style>

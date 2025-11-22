@@ -108,36 +108,81 @@
 
 <script setup></script>
 
+
 <style scoped>
 .required {
   color: red;
   margin-right: 5px;
 }
 
+/* Container elegante */
+.cadastro-form {
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  animation: fadeIn 0.4s ease;
+  font-family: Arial, sans-serif;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Grupos alinhados e espaços melhores */
 .form-group {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 15px;
+  gap: 18px;
+  margin-bottom: 18px;
 }
 
+/* Labels bonitos */
 .form-label {
-  flex: 0 0 200px;
+  flex: 0 0 220px;
   font-weight: bold;
-  color: #555555;
+  color: #444444;
+  font-size: 15px;
 }
 
+/* Inputs com estilo moderno */
 .form-input {
   flex: 1;
-  padding: 8px;
+  padding: 10px 12px;
   box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, 0.17);
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fafafa;
+  transition: 0.2s;
 }
 
+/* Textareas estilizados */
 textarea {
   width: 100%;
-  padding: 8px;
+  padding: 10px 12px;
   box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, 0.17);
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fafafa;
+  transition: 0.2s;
+}
+
+/* Efeito no foco */
+.form-input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #555555;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
 }
 </style>
