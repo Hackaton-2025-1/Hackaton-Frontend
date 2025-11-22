@@ -1,4 +1,3 @@
-// ...existing code...
 <script setup>
 import NavBar from '@/componente/NavBar.vue';
 import Footer from '@/componente/footer.vue';
@@ -157,7 +156,7 @@ function buscarAcervo(e) {
 
 <template>
   <div class="menu-museu-container">
-    <NavBar :userSrc="userStore.avatar" :userName="userStore.name" />
+    <NavBar  />
     <div class="main-content">
       <!-- Carrossel -->
       <div class="carousel" aria-roledescription="carousel">

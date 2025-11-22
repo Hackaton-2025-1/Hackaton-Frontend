@@ -34,7 +34,7 @@ const cadastrar = async () => {
     <div class="container">
       <h1 class="title">CADASTRO</h1>
 
-    <div class="campos">
+      <div class="campos">
       <div class="input-group">
         <i class="fas fa-user icon"></i>
         <input class="input" type="text" placeholder="Nome" aria-label="Name" v-model="nome" />
@@ -50,12 +50,14 @@ const cadastrar = async () => {
 
       </div>
 
-    <button class="btn-login" @click="cadastrar">CADASTRAR</button>
-    <p class="footer-text">
-      Ja possui cadastro?
-      <router-link to="/login" class="link">Clique Aqui</router-link>
-    </p>
+      <button class="btn-login" @click="cadastrar">CADASTRAR</button>
+      <p class="footer-text">
+        Ja possui cadastro?
+        <router-link to="/login" class="link">Clique Aqui</router-link>
+      </p>
 
+    </div>
+  </div>
   </div>
 </template>
 
