@@ -1,5 +1,5 @@
 <script setup>
-import Header from '@/componente/header.vue'
+import Header from '@/componente/NavBar.vue'
 import Acervo from '@/componente/acervo.vue'
 import SideBar from '@/componente/SideBar.vue'
 </script>
@@ -26,14 +26,14 @@ export default {
 </template>
 
 <style scoped>
-.header-sidebar-row {
+.NavBar-sidebar-row {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   width: 100%;
   gap: 0;
 }
-.header-sidebar-row > .SideBar {
+.NavBar-sidebar-row > .SideBar {
   position: sticky;
   top: 0;
   height: 100vh;
@@ -50,7 +50,7 @@ export default {
 .layout-flex > :deep(.sidebar) {
   position: fixed;
   left: 0;
-  top: 80px; /* altura do header */
+  top: 80px; /* altura do NavBar */
   height: calc(100vh - 80px);
   z-index: 100;
   border-right: 2px solid #a67c52;
@@ -64,11 +64,11 @@ export default {
   overflow-y: auto;
 }
 @media (max-width: 900px) {
-  .header-sidebar-row {
+  .NavBar-sidebar-row {
     flex-direction: column;
     gap: 0;
   }
-  .header-sidebar-row > .SideBar {
+  .NavBar-sidebar-row > .SideBar {
     position: static;
     height: auto;
   }
