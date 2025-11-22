@@ -2,7 +2,61 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [],
+  routes: [
+
+     {
+      path: '/gerenciamento',
+      name: 'gerenciamento',
+      component: () => import('../views/GerenciamentoView.vue'),
+     },
+     {
+      path: '/',
+      name: 'menu',
+      component: () => import('../views/MenuMuseuView.vue'),
+     },
+     {
+      path: '/teste',
+      name: 'teste',
+      component: () => import('../views/teste.vue'),
+     },
+     {
+      path: '/controle',
+      name: 'control',
+      component: () => import('../views/controleDeUsuario.vue'),
+     },
+     {
+      path: '/cadastroAcervo',
+      name: 'cadastroAcervo',
+      component: () => import('../views/CadastroAcervo.vue'),
+     },
+     {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
+     },
+     {
+      path: '/cadastro',
+      name: 'cadastro',
+      component: () => import('../views/CadastroView.vue'),
+     },
+      
+      {
+      path: '/collection',
+      name: 'collections',
+      component: () => import('../views/CollectionsView.vue')
+     },
+    {
+      path: '/collection/:id',
+      name: 'collection-detail',
+      component: () => import('../views/CollectionDetailView.vue')
+    },
+    {
+      path: '/reserva',
+      name: 'reserva',
+      component: () => import('../componente/ReservaItem.vue')
+    }
+
+  ],
 })
 
 export default router
