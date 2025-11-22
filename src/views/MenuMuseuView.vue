@@ -1,7 +1,14 @@
 <script setup>
 import NavBar from '@/componente/NavBar.vue';
-import Footer from '@/componente/footer.vue';
+// import Footer from '@/componente/footer.vue';
 import { computed, ref } from 'vue';
+
+import sambaqui1 from '@/assets/imagens/imagensSambaqui/sambaqui1.jpg';
+import sambaqui2 from '@/assets/imagens/imagensSambaqui/sambaqui2.jpg';
+import sambaqui3 from '@/assets/imagens/imagensSambaqui/sambaqui3.jpg';
+import sambaqui4 from '@/assets/imagens/imagensSambaqui/sambaqui4.jpg';
+import sambaqui5 from '@/assets/imagens/imagensSambaqui/sambaqui5.jpg';
+import sambaqui6 from '@/assets/imagens/imagensSambaqui/sambaqui6.jpg';
 
 const busca = ref('');
 function buscarAcervo() {
@@ -18,7 +25,7 @@ const imagemAtual = ref(0);
 const acervos = [
   {
     nome: 'Vaso Grego Antigo',
-    imagem: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
+    imagem: sambaqui1,
     descricao: 'Vaso cerâmico do período helenístico, utilizado em cerimônias religiosas e encontrado em escavações na Grécia.',
     categoria: 'Cerâmica',
     dataEntrada: '15/09/2025',
@@ -27,7 +34,7 @@ const acervos = [
   },
   {
     nome: 'Máscara Africana',
-    imagem: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
+    imagem: sambaqui2,
     descricao: 'Máscara ritualística da África Ocidental, feita de madeira e pigmentos naturais.',
     categoria: 'Escultura',
     dataEntrada: '10/08/2025',
@@ -36,7 +43,7 @@ const acervos = [
   },
   {
     nome: 'Fóssil de Peixe',
-    imagem: 'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=400&q=80',
+  imagem: sambaqui3,
     descricao: 'Fóssil de peixe pré-histórico encontrado em sambaquis brasileiros.',
     categoria: 'Fóssil',
     dataEntrada: '21/11/2025',
@@ -45,7 +52,7 @@ const acervos = [
   },
   {
     nome: 'Moeda Romana',
-    imagem: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
+    imagem: sambaqui4,
     descricao: 'Moeda de prata do Império Romano, datada do século II.',
     categoria: 'Numismática',
     dataEntrada: '05/07/2025',
@@ -54,7 +61,7 @@ const acervos = [
   },
   {
     nome: 'Arte Rupestre',
-    imagem: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
+    imagem: sambaqui5,
     descricao: 'Fragmento de arte rupestre encontrada em cavernas do Brasil.',
     categoria: 'Pintura',
     dataEntrada: '12/10/2025',
@@ -63,7 +70,7 @@ const acervos = [
   },
   {
     nome: 'Livro Medieval',
-    imagem: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
+    imagem: sambaqui6,
     descricao: 'Manuscrito iluminado do século XIII, escrito em latim.',
     categoria: 'Manuscrito',
     dataEntrada: '30/09/2025',
@@ -96,6 +103,7 @@ function fecharModal() {
 
 const mousePos = ref({ x: 0, y: 0 });
 const zoomAtivo = ref(false);
+
 function mouseMoveZoom(e) {
   const rect = e.target.getBoundingClientRect();
   mousePos.value = {
