@@ -20,8 +20,9 @@ const login = async () => {
     mensagem.value = 'Email ou senha inválidos.'
   }
 }
-    const usuarios = lerDoBanco('usuarios') || [];
-    const usuario = usuarios.find(u => u.email === email.value && u.senha === senha.value);
+const usuarios = lerDoBanco('usuarios') || [];
+const usuario = usuarios.find(u => u.email === email.value && u.senha === senha.value);
+  try {
     if (usuario) {
       localStorage.setItem('token', usuario.email);
       mensagem.value = 'Login realizado com sucesso!';
@@ -29,11 +30,12 @@ const login = async () => {
     } else {
       mensagem.value = 'Email ou senha inválidos.';
     }
-  } catch (error) {
+    }  catch (error) {
     console.error(error);
     mensagem.value = 'Erro ao realizar login.';
-  }
-}
+    }
+  
+
 </script>
 
 
