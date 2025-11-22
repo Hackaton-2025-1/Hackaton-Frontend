@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { createUsuario } from '../services/api.js'
+import { lerDoBanco, salvarNoBanco } from '@/services/localdb.js'
 
 const nome = ref('')
 const email = ref('')
@@ -11,6 +12,7 @@ const cadastrar = async () => {
   try {
     await createUsuario({ name: nome.value, email: email.value, password: senha.value })
     alert('Cadastro realizado com sucesso! Você será redirecionado para o login.')
+
     mensagem.value = 'Cadastro realizado com sucesso!'
     nome.value = ''
     email.value = ''
@@ -25,15 +27,12 @@ const cadastrar = async () => {
   }
 }
 
-
 </script>
 
-
 <template>
-  <div class="container">
-    <div class="textos">
+  <div class="background-wrapper">
+    <div class="container">
       <h1 class="title">CADASTRO</h1>
-    </div>
 
     <div class="campos">
       <div class="input-group">
@@ -48,94 +47,88 @@ const cadastrar = async () => {
       <div class="input-group">
         <i class="fas fa-lock icon"></i>
         <input class="input" type="password" placeholder="Senha" aria-label="Senha" v-model="senha" />
+
       </div>
-    </div>
 
     <button class="btn-login" @click="cadastrar">CADASTRAR</button>
     <p class="footer-text">
       Ja possui cadastro?
       <router-link to="/login" class="link">Clique Aqui</router-link>
     </p>
+
   </div>
 </template>
 
 <style scoped>
-:global(body) {
+
+.background-wrapper {
   background-image: url('../assets/imagens/fabrizio-conti-jq4uwBTvBv4-unsplash.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
+  width: 100vw;
   height: 100vh;
-  margin: 0;
-  padding: 0;
+
   font-family: 'Poppins', sans-serif;
 }
 
+/* ANIMAÇÃO */
 @keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
+/* CARD */
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+
   width: 500px;
-  height: 400px;
+  height: 430px;
+
   padding: 35px 25px;
   background: rgba(255, 255, 255, 0.09);
   backdrop-filter: blur(12px);
+
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.22);
+
   text-align: center;
   animation: fadeInUp 0.6s ease forwards;
 }
 
+/* TÍTULO */
 .title {
   font-size: 2.3rem;
-  margin: 0;
   font-weight: 600;
-  letter-spacing: 1px;
   color: #fff;
+  letter-spacing: 1px;
   margin-bottom: 40px;
 }
 
-.text {
-  margin-top: 10px;
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.9);
-}
-
+/* CAMPOS */
 .campos {
   display: flex;
   flex-direction: column;
   gap: 12px;
   width: 100%;
   margin-bottom: 30px;
-  margin-right: 30px;
 }
 
+/* INPUT GROUP */
 .input-group {
   position: relative;
   width: 100%;
   max-width: 350px;
-  align-items: center;
-  justify-content: center;
-  margin-right: 80px;
   margin: auto;
 }
 
-/* ÍCONES */
 .icon {
   position: absolute;
   left: 18px;
@@ -154,9 +147,9 @@ const cadastrar = async () => {
   border: 1px solid transparent;
 
   padding-left: 50px;
-  font-size: 1rem;
   color: #fff;
-  transition: 0.3s;
+
+  font-size: 1rem;
 }
 
 .input::placeholder {
@@ -168,6 +161,7 @@ const cadastrar = async () => {
   outline: none;
 }
 
+/* BOTÃO */
 .btn-login {
   width: 400px;
   background-color: black;
@@ -175,7 +169,6 @@ const cadastrar = async () => {
   color: white;
   padding: 15px;
   border-radius: 10px;
-  margin-left: 20px;
 }
 
 .btn-login:hover {
@@ -184,18 +177,20 @@ const cadastrar = async () => {
   transition: 0.3s;
 }
 
+/* FOOTER */
 .footer-text {
-  font-size: 0.9rem;
   margin-top: 15px;
+  font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.85);
 }
 
 .link {
   color: #b0effa;
-  font-weight: 600;
   text-decoration: none;
+  font-weight: 600;
 }
 
+/* MOBILE */
 @media (max-width: 500px) {
   .container {
     width: 90%;
