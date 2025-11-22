@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import Header from '@/componente/NavBar.vue'
 import Acervo from '@/componente/acervo.vue'
 import SideBar from '@/componente/SideBar.vue'
@@ -90,4 +90,4 @@ export default {
   }
 }
 </style>
-
+ -->

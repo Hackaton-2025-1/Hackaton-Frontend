@@ -1,3 +1,4 @@
+
 <script setup>
 import { ref } from 'vue'
 import { createUsuario } from '../services/api.js'
@@ -24,8 +25,8 @@ const cadastrar = async () => {
   } catch (error) {
     mensagem.value = 'Erro ao cadastrar: ' + error.message
   }
-}
-{
+  }
+  {
     console.log('Erro detalhado:', error)
     mensagem.value = 'Erro ao cadastrar.'
   }
