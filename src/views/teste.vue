@@ -1,44 +1,27 @@
-<!-- <script setup>
+<script setup>
 import Header from '@/componente/NavBar.vue'
-import Acervo from '@/componente/acervo.vue'
 import SideBar from '@/componente/SideBar.vue'
-</script>
+import { useUserStore } from '@/stores/user.js'
 
-<script>
-export default {
-  name: 'TesteView'
-}
+const userStore = useUserStore()
 </script>
 
 <template>
-  <Header />
+  <Header :userSrc="userStore.avatar" :userName="userStore.name || 'Visitante'" />
   <div class="layout-flex">
     <SideBar />
     <div class="acervo-list">
-      <Acervo />
-      <Acervo />
-      <Acervo />
-      <Acervo />
-      <Acervo />
-      <Acervo />
+      <div class="acervo-item">Acervo 1</div>
+      <div class="acervo-item">Acervo 2</div>
+      <div class="acervo-item">Acervo 3</div>
+      <div class="acervo-item">Acervo 4</div>
+      <div class="acervo-item">Acervo 5</div>
+      <div class="acervo-item">Acervo 6</div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.NavBar-sidebar-row {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  width: 100%;
-  gap: 0;
-}
-.NavBar-sidebar-row > .SideBar {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  z-index: 10;
-}
 .layout-flex {
   display: flex;
   align-items: flex-start;
@@ -47,47 +30,20 @@ export default {
   gap: 32px;
   padding: 32px 0;
 }
-.layout-flex > :deep(.sidebar) {
-  position: fixed;
-  left: 0;
-  top: 80px; /* altura do NavBar */
-  height: calc(100vh - 80px);
-  z-index: 100;
-  border-right: 2px solid #a67c52;
-}
 .acervo-list {
-  margin-left: 240px; /* largura do sidebar */
+  margin-left: 240px;
   display: flex;
   flex-direction: column;
   gap: 24px;
   flex: 1;
   overflow-y: auto;
 }
-@media (max-width: 900px) {
-  .NavBar-sidebar-row {
-    flex-direction: column;
-    gap: 0;
-  }
-  .NavBar-sidebar-row > .SideBar {
-    position: static;
-    height: auto;
-  }
-  .layout-flex {
-    flex-direction: column;
-    gap: 18px;
-    padding: 16px 0;
-  }
-  .layout-flex > :deep(.sidebar) {
-    position: static;
-    left: auto;
-    top: auto;
-    height: auto;
-    border-right: none;
-  }
-  .acervo-list {
-    margin-left: 0;
-    gap: 12px;
-  }
+.acervo-item {
+  background: #f7f3ec;
+  border: 1px solid #a67c52;
+  border-radius: 8px;
+  padding: 18px;
+  font-size: 1.2rem;
+  color: #6b4e32;
 }
 </style>
- -->

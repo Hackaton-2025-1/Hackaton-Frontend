@@ -14,6 +14,7 @@ async function loadArtefatos() {
     artefatos.value = []
   }
 }
+
 onMounted(loadArtefatos)
 </script>
 
@@ -24,6 +25,7 @@ onMounted(loadArtefatos)
     </div>
 
     <NavBar></NavBar>
+
     <SideBar></SideBar>
 
     <telaGerenciamento></telaGerenciamento>

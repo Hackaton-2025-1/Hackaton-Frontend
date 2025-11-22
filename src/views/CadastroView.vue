@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { createUsuario } from '../services/api.js'
-import { lerDoBanco, salvarNoBanco } from '@/services/localdb.js'
 
 const nome = ref('')
 const email = ref('')
@@ -10,30 +9,23 @@ const mensagem = ref('')
 
 const cadastrar = async () => {
   try {
-    await createUsuario({
-      name: nome.value,
-      email: email.value,
-      password: senha.value
-    })
-
-    const usuarios = lerDoBanco('usuarios') || []
-
-    usuarios.push({
-      nome: nome.value,
-      email: email.value,
-      senha: senha.value
-    })
-
-    salvarNoBanco('usuarios', usuarios)
+    await createUsuario({ name: nome.value, email: email.value, password: senha.value })
+    alert('Cadastro realizado com sucesso! Você será redirecionado para o login.')
 
     mensagem.value = 'Cadastro realizado com sucesso!'
     nome.value = ''
     email.value = ''
     senha.value = ''
+    window.location.href = '/login'
   } catch (error) {
-    mensagem.value = 'Erro ao cadastrar: ' + error.message
+    if (error.message.includes('Email já cadastrado')) {
+      alert('Já existe um usuário com este email! Por favor, utilize outro email.')
+    } else {
+      mensagem.value = 'Erro ao cadastrar: ' + error.message
+    }
   }
 }
+
 </script>
 
 <template>
@@ -42,51 +34,29 @@ const cadastrar = async () => {
       <h1 class="title">CADASTRO</h1>
 
       <div class="campos">
+      <div class="input-group">
+        <i class="fas fa-user icon"></i>
+        <input class="input" type="text" placeholder="Nome" aria-label="Name" v-model="nome" />
+      </div>
+      <div class="input-group">
+        <i class="fas fa-envelope icon"></i>
+        <input class="input" type="email" placeholder="Email" v-model="email" aria-label="Email" />
+      </div>
 
-        <div class="input-group">
-          <i class="fas fa-user icon"></i>
-          <input
-            class="input"
-            type="text"
-            v-model="nome"
-            placeholder="Nome"
-            aria-label="Nome"
-          />
-        </div>
-
-        <div class="input-group">
-          <i class="fas fa-envelope icon"></i>
-          <input
-            class="input"
-            type="email"
-            v-model="email"
-            placeholder="Email"
-            aria-label="Email"
-          />
-        </div>
-
-        <div class="input-group">
-          <i class="fas fa-lock icon"></i>
-          <input
-            class="input"
-            type="password"
-            v-model="senha"
-            placeholder="Senha"
-            aria-label="Senha"
-          />
-        </div>
+      <div class="input-group">
+        <i class="fas fa-lock icon"></i>
+        <input class="input" type="password" placeholder="Senha" aria-label="Senha" v-model="senha" />
 
       </div>
 
       <button class="btn-login" @click="cadastrar">CADASTRAR</button>
-
       <p class="footer-text">
-        Já possui cadastro?
+        Ja possui cadastro?
         <router-link to="/login" class="link">Clique Aqui</router-link>
       </p>
 
-      <p v-if="mensagem" style="color: white; margin-top: 10px">{{ mensagem }}</p>
     </div>
+  </div>
   </div>
 </template>
 

@@ -32,6 +32,13 @@
       >
         Imagens
       </button>
+      <button
+        class="tab-button"
+        :class="{ active: activeTab === 'Localização' }"
+        @click="activeTab = 'Localização'"
+      >
+        Localização
+      </button>
     </div>
 
     <CadastroGeral
@@ -71,6 +78,7 @@
 </template>
 
 <script setup>
+
 const imagens = ref({ imagens: [] })
 const dados = ref({
   dimensoes: '',
@@ -108,6 +116,7 @@ const geral = ref({
   integridade: '',
   detalheConservacao: '',
 })
+
 </script>
 
 <style scoped>
