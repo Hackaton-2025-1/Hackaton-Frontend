@@ -1,13 +1,15 @@
 <template>
-  <header>
-    <Header
-      logoSrc="/public/favicon.ico"
-      userName="Matheus Gaspar"
-      userSrc="/public/imagens/logo.png"
-    />
-  </header>
-  <h1 class="cadastro-title">Cadastro de Itens no Acervo</h1>
-  <span class="linha"></span>
+  <NavBar />
+
+  <router-link to="gerenciamento" class="btn-voltar">
+  <i class="fas fa-arrow-left"></i>
+</router-link>
+
+
+
+
+  <h1 class="cadastro-title">CADASTRO DE ITENS DO ACERVO</h1>
+
   <main class="cadastro-container">
     <div class="cadastro-tabs">
       <button
@@ -17,6 +19,7 @@
       >
         Geral
       </button>
+
       <button
         class="tab-button"
         :class="{ active: activeTab === 'Dados' }"
@@ -24,6 +27,7 @@
       >
         Dados
       </button>
+
       <button
         class="tab-button"
         :class="{ active: activeTab === 'Imagens' }"
@@ -38,35 +42,35 @@
 </template>
 
 <script setup>
-import Header from '../componente/header.vue'
-import CadastroGeral from '../componente/CadastroGeral.vue'
-import CadastroDados from '../componente/CadastroDados.vue'
-import CadastroImagens from '../componente/CadastroImagens.vue'
+import NavBar from '@/componente/NavBar.vue';
+import CadastroGeral from '../componente/CadastroGeral.vue';
+import CadastroDados from '../componente/CadastroDados.vue';
+import CadastroImagens from '../componente/CadastroImagens.vue';
 
-import { ref, computed } from 'vue'
 
-const activeTab = ref('Geral')
+import { ref, computed } from 'vue';
+
+const activeTab = ref('Geral');
 
 const getActiveComponent = computed(() => {
   switch (activeTab.value) {
     case 'Geral':
-      return CadastroGeral
+      return CadastroGeral;
     case 'Dados':
-      return CadastroDados
+      return CadastroDados;
     case 'Imagens':
-      return CadastroImagens
+      return CadastroImagens;
     default:
-      return CadastroGeral
+      return CadastroGeral;
   }
-})
+});
 </script>
 
 <style scoped>
 .cadastro-container {
   padding: 40px;
   max-width: 93%;
-  margin: 30px auto;
-  margin-top: 0;
+  margin: 30px auto 0;
   background-color: #ffffff;
   border-radius: 5px;
   border: rgba(0, 0, 0, 0.17) 1px solid;
@@ -85,8 +89,8 @@ const getActiveComponent = computed(() => {
   font-family: 'Playfair Display', serif;
   font-size: 22px;
   color: #c45d4c;
-  margin-left: 70px;
-  margin-top: 30px;
+  margin-left: 110px;
+  margin-top: 16vh;
 }
 
 .cadastro-tabs {
@@ -103,9 +107,7 @@ const getActiveComponent = computed(() => {
   color: rgba(0, 0, 0, 0.5);
   font-weight: bold;
   cursor: pointer;
-  transition:
-    color 0.3s,
-    border-color 0.3s;
+  transition: color 0.3s, border-color 0.3s;
 }
 
 .tab-button.active {
@@ -114,12 +116,7 @@ const getActiveComponent = computed(() => {
   border-left: 1px solid rgba(0, 0, 0, 0.17);
   border-right: 1px solid rgba(0, 0, 0, 0.17);
   border-bottom: none;
-  background-color: #f9f9f9; 
-}
-
-.tab-button:not(.active) {
-  color: rgba(0, 0, 0, 0.5);
-  background-color: transparent;
+  background-color: #f9f9f9;
 }
 
 .tab-button:hover:not(.active) {
@@ -127,41 +124,33 @@ const getActiveComponent = computed(() => {
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-.cadastro-form {
-  display: grid;
-  gap: 25px;
-}
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-label {
+.btn-voltar {
+  position: absolute;
+  top: 150px;
+  left: 30px;
+  background-color: #c45d4c;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 100px;
+  cursor: pointer;
   font-weight: bold;
-  margin-bottom: 10px;
-  color: #555555;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: 0.3s;
+  width: 17px;
 }
 
-input,
-select,
-textarea {
-  padding: 15px;
-  border: 1px solid #dddddd;
-  border-radius: 6px;
-  font-size: 18px;
+
+.btn-voltar i {
+  font-size: 16px;
 }
 
-textarea {
-  resize: none;
-  height: 120px;
+.btn-voltar:hover {
+  background-color: #a94b3c;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: #d4a373;
-  outline: none;
-}
 </style>

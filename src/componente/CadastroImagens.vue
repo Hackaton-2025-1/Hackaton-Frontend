@@ -56,48 +56,61 @@ const handleImageUpload = (event) => {
 </script>
 
 <style scoped>
+/* CONTAINER DE IMAGENS */
 .cadastro-imagens {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  animation: fadeIn 0.4s ease;
+  font-family: Arial, sans-serif;
 }
 
+/* Galeria */
 .image-gallery {
   display: flex;
   gap: 20px;
 }
 
+/* Caixa da galeria */
 .image-list {
   flex: 1;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
+  gap: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.17);
+  border-radius: 8px;
+  padding: 12px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
+/* Espaço vazio */
 .image-placeholder {
   width: 150px;
   height: 150px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.17);
+  border-radius: 6px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #fafafa;
 }
 
+/* Ícone de câmera */
 .camera-icon {
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
+  opacity: 0.5;
 }
 
+/* Imagens enviadas */
 .image-item {
   width: 150px;
   height: 150px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.17);
+  border-radius: 6px;
   overflow: hidden;
+  background: #fafafa;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -109,50 +122,79 @@ const handleImageUpload = (event) => {
   object-fit: cover;
 }
 
-.add-image-button {
-  background-color: #d4a373;
-  color: white;
-  font-size: 24px;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
+/* FORMULÁRIO */
+.cadastro-form {
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-.add-image-button:hover {
-  background-color: #b5835a;
+/* GRUPOS DO FORM */
+.form-group {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 18px;
 }
 
+/* LABELS */
+.form-label {
+  flex: 0 0 220px;
+  font-weight: bold;
+  color: #444444;
+  font-size: 15px;
+}
+
+/* CAMPOS */
+.form-input {
+  flex: 1;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.17);
+  border-radius: 6px;
+  background: #fafafa;
+  transition: 0.2s;
+  font-size: 14px;
+}
+
+/* TEXTAREAS */
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.17);
+  border-radius: 6px;
+  background: #fafafa;
+  transition: 0.2s;
+  font-size: 14px;
+}
+
+/* FOCO NOS CAMPOS */
+.form-input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #555555;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
+}
+
+/* TEXTO OBRIGATÓRIO */
 .required {
   color: red;
   margin-right: 5px;
 }
 
-.form-group {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 15px;
-}
-
-.form-label {
-  flex: 0 0 200px;
-  font-weight: bold;
-  color: #555555;
-}
-
-.form-input {
-  flex: 1;
-  padding: 8px;
-  box-sizing: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.17);
-}
-
-textarea {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.17);
+/* ANIMAÇÃO DE ENTRADA */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
