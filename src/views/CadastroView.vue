@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { createUsuario } from '../services/api.js'
-import { lerDoBanco, salvarNoBanco } from '@/services/localdb.js'
 
 const nome = ref('')
 const email = ref('')

@@ -50,6 +50,7 @@ function signOut() {
 </script>
 
 <template>
+  <Header :userSrc="userStore.avatar" :userName="userStore.name || 'Visitante'" />
   <NavBar />
 	<div class="user-control container">
 		<div class="user-card">

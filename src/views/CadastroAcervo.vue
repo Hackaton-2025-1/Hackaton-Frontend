@@ -2,15 +2,12 @@
   <NavBar />
 
   <router-link to="gerenciamento" class="btn-voltar">
-  <i class="fas fa-arrow-left"></i>
-</router-link>
-
-
-
+    <i class="fas fa-arrow-left"></i>
+  </router-link>
 
   <h1 class="cadastro-title">CADASTRO DE ITENS DO ACERVO</h1>
 
-  <main class="cadastro-container">
+  <div class="cadastro-container">
     <div class="cadastro-tabs">
       <button
         class="tab-button"
@@ -44,36 +41,82 @@
       </button>
     </div>
 
-    <component :is="getActiveComponent" />
-  </main>
+    <CadastroGeral
+      v-if="activeTab === 'Geral'"
+      :geral="geral.value"
+      @update-geral="(val) => (geral.value = val)"
+    />
+    <CadastroDados
+      v-if="activeTab === 'Dados'"
+      :dados="dados.value"
+      @update-dados="(val) => (dados.value = val)"
+    />
+    <CadastroImagens
+      v-if="activeTab === 'Imagens'"
+      :imagens="imagens"
+      @update-imagens="
+        (val) => {
+          console.log('Atualizando imagens:', val)
+          imagens.value = { imagens: Array.isArray(val.imagens) ? [...val.imagens] : [] }
+        }
+      "
+    />
+
+    <button
+      class="btn-adicionar"
+      :disabled="carregando"
+      @click="adicionarNovoItem"
+      style="margin-top: 32px"
+    >
+      <span v-if="carregando">Salvando...</span>
+      <span v-else>Adicionar ao Acervo</span>
+    </button>
+    <div v-if="mensagem" style="margin: 16px 0; color: #c45d4c; font-weight: bold">
+      {{ mensagem }}
+    </div>
+  </div>
 </template>
 
 <script setup>
-import NavBar from '@/componente/NavBar.vue';
-import CadastroGeral from '../componente/CadastroGeral.vue';
-import CadastroDados from '../componente/CadastroDados.vue';
-import CadastroImagens from '../componente/CadastroImagens.vue';
 
+const imagens = ref({ imagens: [] })
+const dados = ref({
+  dimensoes: '',
+  peso: '',
+  descricao: '',
+  material: '',
+  sitio: '',
+  estado: '',
+  cidade: '',
+  grupo: '',
+  room: '',
+  shelf: '',
+  rack: '',
+  generalObservations: '',
+  responsible: '',
+})
+import NavBar from '@/componente/NavBar.vue'
+import CadastroGeral from '../componente/CadastroGeral.vue'
+import CadastroDados from '../componente/CadastroDados.vue'
+import CadastroImagens from '../componente/CadastroImagens.vue'
+import { ref } from 'vue'
+import { createArtefato } from '@/services/api.js'
 
-import { ref, computed } from 'vue';
-import CadastroLocalizacao from '@/componente/CadastroLocalizacao.vue';
+const carregando = ref(false)
+const mensagem = ref('')
+const activeTab = ref('Geral')
 
-const activeTab = ref('Geral');
+// Estado centralizado dos formulários
+const geral = ref({
+  nome: '',
+  categoria: '',
+  colecao: '',
+  subtipo: '',
+  nivelConservacao: '',
+  integridade: '',
+  detalheConservacao: '',
+})
 
-const getActiveComponent = computed(() => {
-  switch (activeTab.value) {
-    case 'Geral':
-      return CadastroGeral;
-    case 'Dados':
-      return CadastroDados;
-    case 'Imagens':
-      return CadastroImagens;
-    case 'Localização':
-      return CadastroLocalizacao
-    default:
-      return CadastroGeral;
-  }
-});
 </script>
 
 <style scoped>
@@ -117,7 +160,9 @@ const getActiveComponent = computed(() => {
   color: rgba(0, 0, 0, 0.5);
   font-weight: bold;
   cursor: pointer;
-  transition: color 0.3s, border-color 0.3s;
+  transition:
+    color 0.3s,
+    border-color 0.3s;
 }
 
 .tab-button.active {
@@ -133,7 +178,6 @@ const getActiveComponent = computed(() => {
   color: rgba(0, 0, 0, 0.7);
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
-
 
 .btn-voltar {
   position: absolute;
@@ -154,7 +198,6 @@ const getActiveComponent = computed(() => {
   width: 17px;
 }
 
-
 .btn-voltar i {
   font-size: 16px;
 }
@@ -162,5 +205,4 @@ const getActiveComponent = computed(() => {
 .btn-voltar:hover {
   background-color: #a94b3c;
 }
-
 </style>

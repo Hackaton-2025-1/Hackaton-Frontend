@@ -2,9 +2,20 @@
 import NavBar from '@/componente/NavBar.vue';
 import Footer from '@/componente/footer.vue';
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
+import { useUserStore } from '@/stores/user.js'
 
 
-/* SEARCH */
+
+
+/* ACERVOS (cada item pode ter histórico) */
+import sambaqui1 from '@/assets/imagens/imagensSambaqui/sambaqui1.jpg';
+import sambaqui2 from '@/assets/imagens/imagensSambaqui/sambaqui2.jpg';
+import sambaqui3 from '@/assets/imagens/imagensSambaqui/sambaqui3.jpg';
+import sambaqui4 from '@/assets/imagens/imagensSambaqui/sambaqui4.jpg';
+import sambaqui5 from '@/assets/imagens/imagensSambaqui/sambaqui5.jpg';
+import sambaqui6 from '@/assets/imagens/imagensSambaqui/sambaqui6.jpg';
+
+const userStore = useUserStore()
 const busca = ref('');
 
 /* CARROSSEL */
@@ -14,6 +25,7 @@ const imagensCarrosel = [
   'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=900&q=80',
   'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=900&q=80',
 ];
+
 const imagemAtual = ref(0);
 let carouselInterval = null;
 const tempoTroca = 4000;
@@ -22,11 +34,13 @@ function proximaImagem() {
   imagemAtual.value = (imagemAtual.value + 1) % imagensCarrosel.length;
 }
 function anteriorImagem() {
-  imagemAtual.value = (imagemAtual.value - 1 + imagensCarrosel.length) % imagensCarrosel.length;
+  imagemAtual.value =
+    (imagemAtual.value - 1 + imagensCarrosel.length) % imagensCarrosel.length;
 }
 function irParaImagem(i) {
   imagemAtual.value = i;
 }
+
 onMounted(() => {
   carouselInterval = setInterval(proximaImagem, tempoTroca);
 });
@@ -34,12 +48,13 @@ onBeforeUnmount(() => {
   clearInterval(carouselInterval);
 });
 
-/* ACERVOS (cada item pode ter histórico) */
+/* ACERVOS */
 const acervos = [
   {
     nome: 'Vaso Grego Antigo',
-    imagem: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
-    descricao: 'Vaso cerâmico do período helenístico, utilizado em cerimônias religiosas e encontrado em escavações na Grécia.',
+    imagem: sambaqui1,
+    descricao:
+      'Vaso cerâmico do período helenístico, utilizado em cerimônias religiosas e encontrado em escavações na Grécia.',
     categoria: 'Cerâmica',
     dataEntrada: '15/09/2025',
     localizacao: 'Sala 2 - Ala de Arte Antiga',
@@ -51,8 +66,9 @@ const acervos = [
   },
   {
     nome: 'Máscara Africana',
-    imagem: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
-    descricao: 'Máscara ritualística da África Ocidental, feita de madeira e pigmentos naturais.',
+    imagem: sambaqui2,
+    descricao:
+      'Máscara ritualística da África Ocidental, feita de madeira e pigmentos naturais.',
     categoria: 'Escultura',
     dataEntrada: '10/08/2025',
     localizacao: 'Sala 1 - Culturas do Mundo',
@@ -64,7 +80,7 @@ const acervos = [
   },
   {
     nome: 'Fóssil de Peixe',
-    imagem: 'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=400&q=80',
+    imagem: sambaqui3,
     descricao: 'Fóssil de peixe pré-histórico encontrado em sambaquis brasileiros.',
     categoria: 'Fóssil',
     dataEntrada: '21/11/2025',
@@ -77,7 +93,7 @@ const acervos = [
   },
   {
     nome: 'Moeda Romana',
-    imagem: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
+    imagem: sambaqui4,
     descricao: 'Moeda de prata do Império Romano, datada do século II.',
     categoria: 'Numismática',
     dataEntrada: '05/07/2025',
@@ -90,8 +106,9 @@ const acervos = [
   },
   {
     nome: 'Arte Rupestre',
-    imagem: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
-    descricao: 'Fragmento de arte rupestre encontrada em cavernas do Brasil.',
+    imagem: sambaqui5,
+    descricao:
+      'Fragmento de arte rupestre encontrada em cavernas do Brasil.',
     categoria: 'Pintura',
     dataEntrada: '12/10/2025',
     localizacao: 'Sala 5 - Pré-História',
@@ -103,8 +120,9 @@ const acervos = [
   },
   {
     nome: 'Livro Medieval',
-    imagem: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
-    descricao: 'Manuscrito iluminado do século XIII, escrito em latim.',
+    imagem: sambaqui6,
+    descricao:
+      'Manuscrito iluminado do século XIII, escrito em latim.',
     categoria: 'Manuscrito',
     dataEntrada: '30/09/2025',
     localizacao: 'Sala 6 - Biblioteca Histórica',
@@ -140,6 +158,7 @@ function fecharModal() {
   modalAberto.value = false;
   acervoSelecionado.value = null;
 }
+
 
 /* histórico atual mostrado no modal (retorna array vazio se não houver) */
 const historicoAtual = computed(() => {

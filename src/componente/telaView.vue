@@ -55,6 +55,7 @@ function toggleEdit() {
   </div>
 
 </template>
+
 <style scoped>
 .container {
   margin-left: 270px;
@@ -65,7 +66,7 @@ function toggleEdit() {
   margin-top: 4px;
   width: 1550px;
   height: 62px;
-  color: #C45D4C;
+  color: #c45d4c;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -83,12 +84,12 @@ function toggleEdit() {
 /* Botão Editar */
 .edit-btn {
   padding: 6px 16px;
-  background-color: #C45D4C;
+  background-color: #c45d4c;
   border: none;
   border-radius: 6px;
   color: #ffffff;
   cursor: pointer;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .edit-btn:hover {
@@ -177,4 +178,5 @@ function toggleEdit() {
 .save-btn:hover {
   background-color: #a44336;
 }
+
 </style>
