@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <script setup>
 import { ref } from 'vue'
 import { salvarNoBanco, lerDoBanco } from '../services/localdb.js'
@@ -26,9 +26,7 @@ const cadastrar = async () => {
   }
 }
 </script>
-=======
-<script setup></script>
->>>>>>> dev
+
 
 <template>
   <div class="container">

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -26,9 +26,7 @@ const login = async () => {
   }
 }
 </script>
-=======
-<script setup></script>
->>>>>>> dev
+
 
 <template>
   <div class="container">

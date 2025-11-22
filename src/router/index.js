@@ -15,14 +15,12 @@ const router = createRouter({
       component: () => import('../views/MenuMuseuView.vue'),
      },
      {
-<<<<<<< HEAD
       path: '/teste',
       name: 'teste',
       component: () => import('../views/teste.vue'),
      },
      {
-=======
->>>>>>> dev
+
       path: '/controle',
       name: 'control',
       component: () => import('../views/controleDeUsuario.vue'),
