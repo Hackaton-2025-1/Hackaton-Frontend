@@ -1,5 +1,8 @@
 <template>
   <div class="card-container">
+  <router-link to="gerenciamento" class="btn-voltar">
+    <i class="fas fa-arrow-left"></i>
+  </router-link>
     <div class="card">
       <h1 class="title">Reserva de Item</h1>
 
@@ -119,6 +122,34 @@ function formatDate(d) {
 </script>
 
 <style scoped>
+
+.btn-voltar {
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  background-color: #c45d4c;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 100px;
+  cursor: pointer;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: 0.3s;
+  width: 35px;
+}
+
+
+.btn-voltar i {
+  font-size: 16px;
+}
+
+.btn-voltar:hover {
+  background-color: #a94b3c;
+}
 /* Container */
 .card-container {
   min-height: 100vh;
@@ -163,8 +194,8 @@ input:focus { outline: none; box-shadow: 0 0 0 4px rgba(59,130,246,0.12); border
 .errors ul { margin: 0; padding-left: 18px; }
 
 .actions { display: flex; gap: 10px; margin-top: 6px; }
-.btn-primary { flex: 1; background: #2563eb; color: white; border: none; padding: 10px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
-.btn-primary:hover { background: #1d4ed8; }
+.btn-primary { flex: 1; background: #c45d4c; color: white; border: none; padding: 10px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+.btn-primary:hover { background: #c45d4c; }
 .btn-ghost { background: white; border: 1px solid #cbd5e1; padding: 10px 12px; border-radius: 8px; cursor: pointer; }
 .btn-ghost:hover { background: #f8fafc; }
 

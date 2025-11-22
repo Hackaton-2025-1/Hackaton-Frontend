@@ -49,6 +49,11 @@ const router = createRouter({
       path: '/collection/:id',
       name: 'collection-detail',
       component: () => import('../views/CollectionDetailView.vue')
+    },
+    {
+      path: '/reserva',
+      name: 'reserva',
+      component: () => import('../componente/ReservaItem.vue')
     }
 
   ],
