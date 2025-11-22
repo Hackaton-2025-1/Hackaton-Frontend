@@ -1,4 +1,6 @@
+// ...existing code...
 <script setup>
+
 defineProps({ artefato: Object })
 
 const API_BASE = 'http://127.0.0.1:19003' // ajuste para seu IP se necessário
@@ -6,10 +8,12 @@ function getImagemUrl(imagem) {
   if (!imagem) return ''
   if (imagem.startsWith('http')) return imagem
   return `${API_BASE}/media/${imagem}`
+
 }
 </script>
 
 <template>
+
   <div class="container">
     <!-- Imagem -->
     <div class="image-box" v-if="artefato.imagem">
@@ -33,9 +37,37 @@ function getImagemUrl(imagem) {
     <p>{{ artefato.cidade }}</p>
     <!-- Conservação (Nível) -->
     <p>{{ artefato.nivel_conservacao }}</p>
+
     <!-- Botão Editar -->
-    <button class="edit-btn">Editar</button>
+    <button class="edit-btn" @click="toggleEdit">Editar</button>
+
   </div>
+
+  <!-- Modal overlay centralizado -->
+  <div v-if="showEdit" class="overlay" @click.self="toggleEdit">
+    <div class="edit-panel">
+      <div class="edit-header">
+        <strong>Editar registro</strong>
+        <button class="close-btn" @click="toggleEdit">Fechar</button>
+      </div>
+
+      <div class="edit-body">
+        <!-- campos de exemplo; substitua pelos inputs reais -->
+        <label>Matricula: <input type="text" /></label>
+        <label>Acervo: <input type="text" /></label>
+        <label>Categoria: <input type="text" /></label>
+        <label>Materia-prima: <input type="text" /></label>
+        <label>Subtitulo: <input type="text" /></label>
+        <label>Localização: <input type="text" /></label>
+        <label>Conservação: <input type="text" /></label>
+        <!-- adicione mais campos conforme necessário -->
+        <div class="actions">
+          <button class="save-btn">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <style scoped>
@@ -77,4 +109,88 @@ function getImagemUrl(imagem) {
 .edit-btn:hover {
   background-color: #a44336;
 }
+
+/* Overlay que escurece a tela e centraliza o modal */
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  padding: 20px;
+}
+
+/* Painel modal centralizado */
+.edit-panel {
+  width: 700px;
+  max-width: 100%;
+  background: #fff;
+  border: 1px solid #d4d4d4;
+  border-radius: 8px;
+  padding: 16px;
+  color: #333;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Cabeçalho e botões do modal */
+.edit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.close-btn {
+  background: transparent;
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.edit-body label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+/* Estilizando os inputs */
+.edit-body input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-top: 6px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+/* Estilo de foco nos inputs */
+.edit-body input[type="text"]:focus {
+  border-color: #C45D4C;
+  outline: none;
+}
+
+/* Ações e botão salvar */
+.actions {
+  margin-top: 20px;
+}
+
+.save-btn {
+  padding: 8px 16px;
+  background-color: #C45D4C;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.save-btn:hover {
+  background-color: #a44336;
+}
+
 </style>

@@ -51,10 +51,9 @@ onBeforeUnmount(() => {
 /* ACERVOS */
 const acervos = [
   {
-    nome: 'Vaso Grego Antigo',
+    nome: 'Morro Sambaqui',
     imagem: sambaqui1,
-    descricao:
-      'Vaso cerâmico do período helenístico, utilizado em cerimônias religiosas e encontrado em escavações na Grécia.',
+    descricao: 'Vaso cerâmico do período helenístico, utilizado em cerimônias religiosas e encontrado em escavações na Grécia.',
     categoria: 'Cerâmica',
     dataEntrada: '15/09/2025',
     localizacao: 'Sala 2 - Ala de Arte Antiga',
@@ -65,22 +64,17 @@ const acervos = [
     ],
   },
   {
-    nome: 'Máscara Africana',
+    nome: 'Principal sala do Museu do sambaqui',
     imagem: sambaqui2,
-    descricao:
-      'Máscara ritualística da África Ocidental, feita de madeira e pigmentos naturais.',
+    descricao: 'Máscara ritualística da África Ocidental, feita de madeira e pigmentos naturais.',
     categoria: 'Escultura',
     dataEntrada: '10/08/2025',
     localizacao: 'Sala 1 - Culturas do Mundo',
     conservacao: 'Boa',
-    historico: [
-      { periodo: '2018 - 2024', local: 'Museu de Arte Antiga', evento: 'Empréstimo' },
-      { periodo: '10/08/2025 - Atual', local: 'Museu Sambaqui', evento: 'Registro' },
-    ],
   },
   {
     nome: 'Fóssil de Peixe',
-    imagem: sambaqui3,
+  imagem: sambaqui3,
     descricao: 'Fóssil de peixe pré-histórico encontrado em sambaquis brasileiros.',
     categoria: 'Fóssil',
     dataEntrada: '21/11/2025',
@@ -94,21 +88,20 @@ const acervos = [
   {
     nome: 'Moeda Romana',
     imagem: sambaqui4,
-    descricao: 'Moeda de prata do Império Romano, datada do século II.',
-    categoria: 'Numismática',
-    dataEntrada: '05/07/2025',
+    descricao: 'Esse fóssil pertence a uma espécie extinta de peixe que viveu durante o período Cretáceo, aproximadamente 100 milhões de anos atrás.',
+    categoria: 'Fóssil',
+    dataEntrada: '05/07/2023',
     localizacao: 'Sala 4 - História Antiga',
     conservacao: 'Regular',
     historico: [
       { periodo: 'Século II', local: 'Império Romano', evento: 'Produção' },
-      { periodo: '05/07/2025 - Atual', local: 'Museu Sambaqui', evento: 'Aquisição' },
+      { periodo: '05/07/2023 - Atual', local: 'Museu Sambaqui', evento: 'Aquisição' },
     ],
   },
   {
-    nome: 'Arte Rupestre',
+    nome: 'Parte de um Sambaqui',
     imagem: sambaqui5,
-    descricao:
-      'Fragmento de arte rupestre encontrada em cavernas do Brasil.',
+    descricao: 'Fragmento de arte rupestre encontrada em cavernas do Brasil.',
     categoria: 'Pintura',
     dataEntrada: '12/10/2025',
     localizacao: 'Sala 5 - Pré-História',
@@ -119,10 +112,9 @@ const acervos = [
     ],
   },
   {
-    nome: 'Livro Medieval',
+    nome: 'Sala localizada no Museu do Sambaqui',
     imagem: sambaqui6,
-    descricao:
-      'Manuscrito iluminado do século XIII, escrito em latim.',
+    descricao: 'Manuscrito iluminado do século XIII, escrito em latim.',
     categoria: 'Manuscrito',
     dataEntrada: '30/09/2025',
     localizacao: 'Sala 6 - Biblioteca Histórica',
