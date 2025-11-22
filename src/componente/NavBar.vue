@@ -54,11 +54,8 @@ const initials = computed(() => {
       <div class="museum-right">
         <div class="museum-user">
           <div class="museum-user-info">
-           <router-link to="/login"> 
-              <div class="museum-user-name">{{ userName || 'Visitante' }}</div>
-          </router-link>
-            <router-link to="/gerenciamento"> <div class="museum-user-role small-muted">visualizar ou so editor</div>
-              </router-link>
+            <div class="museum-user-name">{{ userName || 'Visitante' }}</div>
+            <div class="museum-user-role small-muted">visualizar ou so editor</div>
           </div>
 
           <img
