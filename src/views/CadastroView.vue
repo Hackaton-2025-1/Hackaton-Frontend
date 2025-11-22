@@ -1,4 +1,25 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+import { createUsuario } from '../services/api.js'
+
+const nome = ref('')
+const email = ref('')
+const senha = ref('')
+const mensagem = ref('')
+
+const cadastrar = async () => {
+  try {
+    await createUsuario({ name: nome.value, email: email.value, password: senha.value })
+    mensagem.value = 'Cadastro realizado com sucesso!'
+    nome.value = ''
+    email.value = ''
+    senha.value = ''
+  } catch (error) {
+    console.log('Erro detalhado:', error?.response?.data)
+    mensagem.value = 'Erro ao cadastrar: ' + JSON.stringify(error?.response?.data)
+  }
+}
+</script>
 
 <template>
   <div class="container">
@@ -9,24 +30,32 @@
     <div class="campos">
             <div class="input-group">
         <i class="fas fa-user icon"></i>
-        <input class="input" type="email" placeholder="Nome" aria-label="Name" />
+        <input class="input" type="text" placeholder="Nome" v-model="nome" aria-label="Name" />
       </div>
       <div class="input-group">
         <i class="fas fa-envelope icon"></i>
-        <input class="input" type="email" placeholder="Email" aria-label="Email" />
-      </div>
+        <input class="input" type="email" placeholder="Email" v-model="email" aria-label="Email" />
 
+      </div>
       <div class="input-group">
         <i class="fas fa-lock icon"></i>
-        <input class="input" type="password" placeholder="Senha" aria-label="Senha" />
+        <input
+          class="input"
+          type="password"
+          placeholder="Senha"
+          v-model="senha"
+          aria-label="Senha"
+        />
       </div>
     </div>
 
-    <button class="btn-login">CADASTRAR</button>
+    <button class="btn-login" @click="cadastrar">CADASTRAR</button>
+
     <p class="footer-text">
       Ja possui cadastro?
       <router-link to="/login" class="link">Clique Aqui</router-link>
     </p>
+    <p v-if="mensagem" style="color: white; margin-top: 10px">{{ mensagem }}</p>
   </div>
 </template>
 

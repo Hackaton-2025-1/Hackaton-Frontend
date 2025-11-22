@@ -28,6 +28,7 @@
     </div>
 
     <component :is="getActiveComponent" />
+
   </main>
 </template>
 
@@ -36,10 +37,12 @@ import NavBar from '@/componente/NavBar.vue';
 import CadastroGeral from '../componente/CadastroGeral.vue'
 import CadastroDados from '../componente/CadastroDados.vue'
 import CadastroImagens from '../componente/CadastroImagens.vue'
-
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { fetchArtefatos, createArtefato as apiCreateArtefato } from '../services/api.js'
 
 const activeTab = ref('Geral')
+const artefatos = ref([])
+const novoArtefato = ref({ nome: '', descricao: '' })
 
 const getActiveComponent = computed(() => {
   switch (activeTab.value) {
@@ -53,6 +56,26 @@ const getActiveComponent = computed(() => {
       return CadastroGeral
   }
 })
+
+const loadArtefatos = async () => {
+  try {
+    artefatos.value = await fetchArtefatos()
+  } catch (error) {
+    console.error('Erro ao carregar artefatos:', error)
+  }
+}
+
+const createArtefato = async () => {
+  try {
+    const artefato = await apiCreateArtefato(novoArtefato.value)
+    artefatos.value.push(artefato)
+    novoArtefato.value = { nome: '', descricao: '' }
+  } catch (error) {
+    console.error('Erro ao criar artefato:', error)
+  }
+}
+
+onMounted(loadArtefatos)
 </script>
 
 <style scoped>
@@ -97,23 +120,20 @@ const getActiveComponent = computed(() => {
   color: rgba(0, 0, 0, 0.5);
   font-weight: bold;
   cursor: pointer;
-  transition:
-    color 0.3s,
-    border-color 0.3s;
+  transition: color 0.3s;
 }
 
 .tab-button.active {
   color: rgba(0, 0, 0, 1);
-  border-top: 1px solid rgba(0, 0, 0, 0.17);
-  border-left: 1px solid rgba(0, 0, 0, 0.17);
-  border-right: 1px solid rgba(0, 0, 0, 0.17);
+  border-top: 2px solid #333333;
+  border-left: 2px solid #333333;
+  border-right: 2px solid #333333;
   border-bottom: none;
-  background-color: #f9f9f9; 
 }
 
 .tab-button:not(.active) {
   color: rgba(0, 0, 0, 0.5);
-  background-color: transparent;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.17);
 }
 
 .tab-button:hover:not(.active) {

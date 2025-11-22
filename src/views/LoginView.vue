@@ -1,4 +1,24 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+import { login as loginApi } from '../services/api.js'
+import { useRouter } from 'vue-router'
+
+const email = ref('')
+const senha = ref('')
+const mensagem = ref('')
+const router = useRouter()
+
+const login = async () => {
+  try {
+    const response = await loginApi(email.value, senha.value)
+    localStorage.setItem('token', response.access)
+    mensagem.value = 'Login realizado com sucesso!'
+    setTimeout(() => router.push('/'), 1000)
+  } catch (error) {
+    mensagem.value = 'Email ou senha inválidos.'
+  }
+}
+</script>
 
 <template>
   <div class="container">
@@ -9,21 +29,29 @@
     <div class="campos">
       <div class="input-group">
         <i class="fas fa-envelope icon"></i>
-        <input class="input" type="email" placeholder="Email" aria-label="Email" />
+        <input class="input" type="email" placeholder="Email" v-model="email" aria-label="Email" />
       </div>
 
       <div class="input-group">
         <i class="fas fa-lock icon"></i>
-        <input class="input" type="password" placeholder="Senha" aria-label="Senha" />
+        <input
+          class="input"
+          type="password"
+          placeholder="Senha"
+          v-model="senha"
+          aria-label="Senha"
+        />
       </div>
     </div>
-    <router-link to="/gerenciamento">
-    <button class="btn-login">ENTRAR</button>
-    </router-link>
+
+    <button class="btn-login" @click="login">ENTRAR</button>
+
     <p class="footer-text">
       Ainda não possui cadastro?
       <router-link to="/cadastro" class="link">Clique Aqui</router-link>
     </p>
+    <p v-if="mensagem" style="color: white; margin-top: 10px">{{ mensagem }}</p>
+
   </div>
 </template>
 
@@ -162,6 +190,14 @@
   color: #8ee8f8;
   font-weight: 600;
   text-decoration: none;
+}
+
+@media (max-width: 500px) {
+  .container {
+    width: 90%;
+    padding: 25px;
+  }
+
 }
 
 @media (max-width: 500px) {
