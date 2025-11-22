@@ -1,5 +1,6 @@
 <script setup>
 import Header from '@/componente/header.vue'
+import NavBar from '@/componente/NavBar.vue'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 import { storeToRefs } from 'pinia'
@@ -49,7 +50,7 @@ function signOut() {
 </script>
 
 <template>
-	<Header :userSrc="avatar" :userName="name" />
+  <NavBar />
 	<div class="user-control container">
 		<div class="user-card">
 			<div class="user-top">
@@ -180,8 +181,8 @@ function signOut() {
   display: block;
   fill: #fff;
 }
-.user-control container{
-  margin-top: 50px;
+.user-control ontainer{
+  margin-top: 100px;
 }
 
 .meta-name{ font-weight:700; color:#362f2f; font-size:16px }
@@ -334,7 +335,7 @@ input:focus, select:focus, textarea:focus{
    LAYOUT MAIS ENXUTO E ESTREITO (AUMENTADO NOVAMENTE)
 =========================== */
 .user-control{
-    padding:24px;
+    padding:150px;
     max-width:700px;
     margin:48px auto 0 auto;
 }
