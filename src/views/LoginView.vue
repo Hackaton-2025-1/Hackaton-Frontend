@@ -17,9 +17,8 @@
         <input class="input" type="password" placeholder="Senha" aria-label="Senha" />
       </div>
     </div>
-    <router-link to="/gerenciamento">
+
     <button class="btn-login">ENTRAR</button>
-    </router-link>
     <p class="footer-text">
       Ainda não possui cadastro?
       <router-link to="/cadastro" class="link">Clique Aqui</router-link>
