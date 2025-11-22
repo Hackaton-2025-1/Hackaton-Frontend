@@ -25,7 +25,8 @@ const initials = computed(() => {
 <template>
   <header class="museum-header">
     <div class="museum-inner">
-      <router-link to="/" class="link">      <div class="museum-left" @click="emit('logo-click')">
+      <router-link to="/" class="link">      
+        <div class="museum-left" @click="emit('logo-click')">
         <slot name="logo">
           <div class="museum-logo-wrap">
             <img v-if="logoSrc" :src="logoSrc" alt="Logo" class="museum-logo" />
@@ -60,6 +61,7 @@ const initials = computed(() => {
           </router-link>
             <router-link to="/gerenciamento" class="link"> <div class="museum-user-role small-muted">visualizar ou so editor</div>
               </router-link>
+
           </div>
 
           <img

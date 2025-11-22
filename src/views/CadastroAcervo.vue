@@ -10,7 +10,6 @@
 
   <h1 class="cadastro-title">CADASTRO DE ITENS DO ACERVO</h1>
 
-
   <main class="cadastro-container">
     <div class="cadastro-tabs">
       <button
@@ -47,6 +46,7 @@ import NavBar from '@/componente/NavBar.vue';
 import CadastroGeral from '../componente/CadastroGeral.vue';
 import CadastroDados from '../componente/CadastroDados.vue';
 import CadastroImagens from '../componente/CadastroImagens.vue';
+
 
 import { ref, computed } from 'vue';
 

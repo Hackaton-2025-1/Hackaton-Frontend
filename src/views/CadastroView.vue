@@ -1,4 +1,38 @@
-<script setup></script>
+
+<script setup>
+import { ref } from 'vue'
+import { createUsuario } from '../services/api.js'
+
+const nome = ref('')
+const email = ref('')
+const senha = ref('')
+const mensagem = ref('')
+
+const cadastrar = async () => {
+  try {
+    await createUsuario({ name: nome.value, email: email.value, password: senha.value })
+
+    // Busca usuários existentes
+    const usuarios = lerDoBanco('usuarios') || [];
+    // Adiciona novo usuário
+    usuarios.push({ nome: nome.value, email: email.value, senha: senha.value })
+    // Salva no banco local
+    salvarNoBanco('usuarios', usuarios)
+    mensagem.value = 'Cadastro realizado com sucesso!'
+    nome.value = ''
+    email.value = ''
+    senha.value = ''
+  } catch (error) {
+    mensagem.value = 'Erro ao cadastrar: ' + error.message
+  }
+  }
+  {
+    console.log('Erro detalhado:', error)
+    mensagem.value = 'Erro ao cadastrar.'
+  }
+}
+</script>
+
 
 <template>
   <div class="container">
@@ -7,13 +41,13 @@
     </div>
 
     <div class="campos">
-            <div class="input-group">
+      <div class="input-group">
         <i class="fas fa-user icon"></i>
         <input class="input" type="email" placeholder="Nome" aria-label="Name" />
       </div>
       <div class="input-group">
         <i class="fas fa-envelope icon"></i>
-        <input class="input" type="email" placeholder="Email" aria-label="Email" />
+        <input class="input" type="email" placeholder="Email" v-model="email" aria-label="Email" />
       </div>
 
       <div class="input-group">
@@ -173,5 +207,4 @@
     padding: 25px;
   }
 }
-
 </style>
