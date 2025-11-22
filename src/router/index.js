@@ -10,11 +10,21 @@ const router = createRouter({
       component: () => import('../views/GerenciamentoView.vue'),
      },
      {
-      path: '/Menu',
-      name: 'Menu',
+      path: '/',
+      name: 'menu',
       component: () => import('../views/MenuMuseuView.vue'),
      },
      {
+      path: '/controle',
+      name: 'control',
+      component: () => import('../views/controleDeUsuario.vue'),
+     },
+     {
+      path: '/cadastro',
+      name: 'cadastro',
+      component: () => import('../views/CadastroView.vue'),
+     },
+    {
       path: '/cadastroAcervo',
       name: 'cadastroAcervo',
       component: () => import('../views/CadastroAcervo.vue'),
@@ -29,7 +39,6 @@ const router = createRouter({
       name: 'cadastro',
       component: () => import('../views/CadastroView.vue'),
      }
-
 
   ],
 })

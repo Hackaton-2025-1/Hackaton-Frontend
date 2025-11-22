@@ -45,11 +45,13 @@ const login = async () => {
     </div>
 
     <button class="btn-login" @click="login">ENTRAR</button>
+
     <p class="footer-text">
       Ainda não possui cadastro?
       <router-link to="/cadastro" class="link">Clique Aqui</router-link>
     </p>
     <p v-if="mensagem" style="color: white; margin-top: 10px">{{ mensagem }}</p>
+
   </div>
 </template>
 
@@ -195,5 +197,14 @@ const login = async () => {
     width: 90%;
     padding: 25px;
   }
+
 }
+
+@media (max-width: 500px) {
+  .container {
+    width: 90%;
+    padding: 25px;
+  }
+}
+
 </style>

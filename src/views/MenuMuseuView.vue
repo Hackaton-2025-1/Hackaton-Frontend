@@ -403,8 +403,9 @@ const historicoExemplo = [
   gap: 2.5vw;
   margin: 2vw auto 2vw auto;
   justify-items: center;
-  box-sizing: border-box;
+
 }
+
 .acervo-card {
   width: 100%;
   max-width: 400px;
@@ -432,12 +433,12 @@ const historicoExemplo = [
   background: #d6c1a3;
   border-color: #7c4a1e;
   box-shadow: 0 0 0 4px #a67c5233;
+
 }
 .acervo-img {
   width: 100%;
   height: 180px;
   object-fit: cover;
-  border-radius: 20px 20px 0 0;
   background: #eaeaea;
 }
 .acervo-info {

@@ -28,13 +28,14 @@ const cadastrar = async () => {
     </div>
 
     <div class="campos">
-      <div class="input-group">
+            <div class="input-group">
         <i class="fas fa-user icon"></i>
         <input class="input" type="text" placeholder="Nome" v-model="nome" aria-label="Name" />
       </div>
       <div class="input-group">
         <i class="fas fa-envelope icon"></i>
         <input class="input" type="email" placeholder="Email" v-model="email" aria-label="Email" />
+
       </div>
       <div class="input-group">
         <i class="fas fa-lock icon"></i>
@@ -49,6 +50,7 @@ const cadastrar = async () => {
     </div>
 
     <button class="btn-login" @click="cadastrar">CADASTRAR</button>
+
     <p class="footer-text">
       Ja possui cadastro?
       <router-link to="/login" class="link">Clique Aqui</router-link>
@@ -200,4 +202,5 @@ const cadastrar = async () => {
     padding: 25px;
   }
 }
+
 </style>

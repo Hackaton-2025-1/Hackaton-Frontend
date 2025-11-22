@@ -1,11 +1,5 @@
 <template>
-  <header>
-    <Header
-      logoSrc="/public/favicon.ico"
-      userName="Matheus Gaspar"
-      userSrc="/public/imagens/logo.png"
-    />
-  </header>
+  <NavBar />
   <h1 class="cadastro-title">Cadastro de Itens no Acervo</h1>
   <span class="linha"></span>
   <main class="cadastro-container">
@@ -39,7 +33,7 @@
 </template>
 
 <script setup>
-import Header from '../componente/header.vue'
+import NavBar from '@/componente/NavBar.vue';
 import CadastroGeral from '../componente/CadastroGeral.vue'
 import CadastroDados from '../componente/CadastroDados.vue'
 import CadastroImagens from '../componente/CadastroImagens.vue'
