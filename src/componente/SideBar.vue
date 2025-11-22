@@ -35,7 +35,8 @@ const colecoes = [
 
 .sidebar {
   position: static;
-  width: 180px;
+  width: 270px;
+  min-width: 270px;
   height: auto;
   min-height: 100vh;
   background: linear-gradient(180deg, #695431, #4e3d22);
