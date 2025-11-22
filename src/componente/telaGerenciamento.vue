@@ -5,7 +5,6 @@
 
 <div class="container">
 
-  <p>Imagem</p>
   <p>Matricula</p>
   <p>Coleção</p>
   <p>Categoria</p>

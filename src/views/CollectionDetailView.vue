@@ -53,6 +53,16 @@ const handleSearch = () => {
   currentPage.value = 1
 }
 
+// Função para definir classe CSS baseada no tipo de movimentação
+const getTipoClass = (tipo) => {
+  const tipoLower = tipo.toLowerCase()
+  if (tipoLower.includes('catalogação')) return 'tipo-catalogacao'
+  if (tipoLower.includes('reserva')) return 'tipo-reserva'
+  if (tipoLower.includes('transferência') || tipoLower.includes('exposição')) return 'tipo-transferencia'
+  if (tipoLower.includes('atual')) return 'tipo-atual'
+  return 'tipo-outro'
+}
+
 /* MODAL DE DETALHES */
 const modalAberto = ref(false)
 const acervoSelecionado = ref(null)
@@ -276,89 +286,46 @@ const historicoMovimentacoes = computed(() => {
 
         <div class="linha-decorativa-modal"></div>
 
-        <!-- Formulário de Localização -->
-        <form class="cadastro-form" @submit.prevent="salvarLocalizacao">
-          <h3 class="form-section-title">Informações de Localização</h3>
-
-          <div class="form-group">
-            <label class="form-label">Sítio</label>
-            <input v-model="localizacaoForm.sitio" class="form-input" type="text" placeholder="Número ou sigla do sítio" />
+        <!-- Linha do Tempo de Movimentações -->
+        <div class="historico-timeline">
+          <h3 class="timeline-title">Histórico de Movimentações</h3>
+          <div class="timeline-container">
+            <div 
+              v-for="(mov, index) in historicoMovimentacoes" 
+              :key="index" 
+              class="timeline-item"
+              :class="{ 'timeline-atual': index === historicoMovimentacoes.length - 1 }"
+            >
+              <div class="timeline-marker">
+                <div class="timeline-dot"></div>
+                <div v-if="index < historicoMovimentacoes.length - 1" class="timeline-line"></div>
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-header">
+                  <span class="timeline-tipo" :class="getTipoClass(mov.tipo)">{{ mov.tipo }}</span>
+                  <span class="timeline-data">{{ mov.data }}</span>
+                </div>
+                <div class="timeline-info">
+                  <div class="timeline-localizacao">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <strong>Local:</strong> {{ mov.localizacao }}
+                  </div>
+                  <div class="timeline-responsavel">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <strong>Responsável:</strong> {{ mov.responsavel }}
+                  </div>
+                  <p class="timeline-detalhes">{{ mov.detalhes }}</p>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <div class="form-group">
-            <label class="form-label"><span class="required">*</span> Cidade</label>
-            <input v-model="localizacaoForm.cidade" class="form-input" type="text" placeholder="Cidade do artefato" required />
-          </div>
-
-          <div class="form-group">
-            <label class="form-label"><span class="required">*</span> Estado</label>
-            <select v-model="localizacaoForm.estado" class="form-input" required>
-              <option value="">Selecione o estado</option>
-              <option value="AC">Acre</option>
-              <option value="AL">Alagoas</option>
-              <option value="AP">Amapá</option>
-              <option value="AM">Amazonas</option>
-              <option value="BA">Bahia</option>
-              <option value="CE">Ceará</option>
-              <option value="DF">Distrito Federal</option>
-              <option value="ES">Espírito Santo</option>
-              <option value="GO">Goiás</option>
-              <option value="MA">Maranhão</option>
-              <option value="MT">Mato Grosso</option>
-              <option value="MS">Mato Grosso do Sul</option>
-              <option value="MG">Minas Gerais</option>
-              <option value="PA">Pará</option>
-              <option value="PB">Paraíba</option>
-              <option value="PR">Paraná</option>
-              <option value="PE">Pernambuco</option>
-              <option value="PI">Piauí</option>
-              <option value="RJ">Rio de Janeiro</option>
-              <option value="RN">Rio Grande do Norte</option>
-              <option value="RS">Rio Grande do Sul</option>
-              <option value="RO">Rondônia</option>
-              <option value="RR">Roraima</option>
-              <option value="SC">Santa Catarina</option>
-              <option value="SP">São Paulo</option>
-              <option value="SE">Sergipe</option>
-              <option value="TO">Tocantins</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Bloco</label>
-            <input v-model="localizacaoForm.bloco" class="form-input" type="text" placeholder="Bloco do local" />
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Prédio</label>
-            <input v-model="localizacaoForm.predio" class="form-input" type="text" placeholder="Prédio do local" />
-          </div>
-
-          <div class="form-group">
-            <label class="form-label"><span class="required">*</span> Sala</label>
-            <input v-model="localizacaoForm.sala" class="form-input" type="text" placeholder="Sala onde está o artefato" required />
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Prateleira</label>
-            <input v-model="localizacaoForm.prateleira" class="form-input" type="text" placeholder="Prateleira do artefato" />
-          </div>
-
-          <div class="form-group">
-            <label class="form-label"><span class="required">*</span> Data de Entrada</label>
-            <input v-model="localizacaoForm.dataEntrada" class="form-input" type="date" required />
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Data de Saída</label>
-            <input v-model="localizacaoForm.dataSaida" class="form-input" type="date" />
-          </div>
-
-          <div class="form-actions">
-            <button type="button" class="btn-cancel" @click="fecharModal">Cancelar</button>
-            <button type="submit" class="btn-save">Salvar Informações</button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
 
@@ -425,7 +392,6 @@ const historicoMovimentacoes = computed(() => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 0px;
   padding-bottom: 40px;
 }
 
@@ -1023,6 +989,225 @@ const historicoMovimentacoes = computed(() => {
 }
 
 /* ===========================
+   LINHA DO TEMPO DE MOVIMENTAÇÕES
+=========================== */
+.historico-timeline {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.timeline-title {
+  font-size: 1.7rem;
+  color: #5a442e;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-family: "Cinzel", serif;
+}
+
+.timeline-container {
+  position: relative;
+  padding-left: 50px;
+}
+
+/* Cada item da timeline */
+.timeline-item {
+  position: relative;
+  display: flex;
+  gap: 24px;
+  margin-bottom: 2.5rem;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Marcador (bolinha e linha) */
+.timeline-marker {
+  position: absolute;
+  left: -50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 24px;
+}
+
+.timeline-dot {
+  width: 24px;
+  height: 24px;
+  background: #9c7a42;
+  border-radius: 50%;
+  border: 4px solid #fffaf0;
+  box-shadow: 0 0 0 2px #9c7a42, 0 4px 12px rgba(156, 122, 66, 0.3);
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.timeline-item:hover .timeline-dot {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 2px #9c7a42, 0 6px 16px rgba(156, 122, 66, 0.4);
+}
+
+/* Linha vertical conectando os dots */
+.timeline-line {
+  width: 3px;
+  flex: 1;
+  background: linear-gradient(180deg, #caa76c, #e6d2a9);
+  margin-top: 4px;
+  min-height: 60px;
+}
+
+/* Item atual (último da lista) */
+.timeline-atual .timeline-dot {
+  background: #60451e;
+  border-color: #fff7e2;
+  box-shadow: 0 0 0 2px #60451e, 0 0 20px rgba(96, 69, 30, 0.5);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 2px #60451e, 0 0 20px rgba(96, 69, 30, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 2px #60451e, 0 0 30px rgba(96, 69, 30, 0.7);
+  }
+}
+
+/* Conteúdo da timeline */
+.timeline-content {
+  flex: 1;
+  background: #fffaf0;
+  border: 1.5px solid #e5dbc9;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.timeline-item:hover .timeline-content {
+  border-color: #d7ccb7;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transform: translateX(4px);
+}
+
+.timeline-atual .timeline-content {
+  background: linear-gradient(135deg, #fffdf6, #fff7e2);
+  border-color: #caa76c;
+  box-shadow: 0 6px 18px rgba(156, 122, 66, 0.15);
+}
+
+/* Header do item */
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.timeline-tipo {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: "Cinzel", serif;
+}
+
+/* Cores diferentes para cada tipo */
+.tipo-catalogacao {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #81c784;
+}
+
+.tipo-reserva {
+  background: #e3f2fd;
+  color: #1565c0;
+  border: 1px solid #64b5f6;
+}
+
+.tipo-transferencia {
+  background: #fff3e0;
+  color: #e65100;
+  border: 1px solid #ffb74d;
+}
+
+.tipo-atual {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #5a442e;
+  border: 1px solid #caa76c;
+  font-weight: 800;
+}
+
+.tipo-outro {
+  background: #f5f5f5;
+  color: #616161;
+  border: 1px solid #bdbdbd;
+}
+
+.timeline-data {
+  font-size: 0.9rem;
+  color: #6b6355;
+  font-weight: 600;
+  font-family: "Georgia", serif;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.timeline-data::before {
+  content: "📅";
+  font-size: 1rem;
+}
+
+/* Informações do item */
+.timeline-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.timeline-localizacao,
+.timeline-responsavel {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #4b4030;
+  font-family: "Georgia", serif;
+  line-height: 1.5;
+}
+
+.timeline-localizacao svg,
+.timeline-responsavel svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #9c7a42;
+}
+
+.timeline-localizacao strong,
+.timeline-responsavel strong {
+  margin-right: 4px;
+  color: #5b422b;
+}
+
+.timeline-detalhes {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #e5dbc9;
+  font-size: 0.9rem;
+  color: #6b6355;
+  font-family: "Georgia", serif;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* ===========================
    NOT FOUND
 =========================== */
 .not-found {
@@ -1131,27 +1316,25 @@ const historicoMovimentacoes = computed(() => {
     justify-content: center;
   }
 
-  .form-group {
+  .timeline-container {
+    padding-left: 0;
+  }
+
+  .timeline-marker {
+    display: none;
+  }
+
+  .timeline-item {
+    padding-left: 0;
+  }
+
+  .timeline-content {
+    margin-left: 0;
+  }
+
+  .timeline-header {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .form-label {
-    flex: 0 0 auto;
-    width: 100%;
-  }
-
-  .form-input {
-    width: 100%;
-  }
-
-  .form-actions {
-    flex-direction: column;
-  }
-
-  .btn-cancel,
-  .btn-save {
-    width: 100%;
   }
 }
 

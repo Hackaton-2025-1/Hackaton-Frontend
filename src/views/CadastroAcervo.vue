@@ -35,6 +35,13 @@
       >
         Imagens
       </button>
+      <button
+        class="tab-button"
+        :class="{ active: activeTab === 'Localizacao' }"
+        @click="activeTab = 'Localizacao'"
+      >
+        Localização
+      </button>
     </div>
 
     <component :is="getActiveComponent" />

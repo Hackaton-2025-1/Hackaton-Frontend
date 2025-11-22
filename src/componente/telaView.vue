@@ -13,16 +13,14 @@ function toggleEdit() {
 
   <div class="container">
 
-    <!-- Container de imagem -->
-    <div class="image-box"></div>
 
     <p>26739</p>
     <p>Maria Barbosa</p>
     <p>Osseo humano</p>
     <p>Animal</p>
-    <p>Subtipo</p>
-    <p>Localização</p>
-    <p>Conservação</p>
+    <p>mamifero</p>
+    <p>88390-000</p>
+    <p>Bom Estado</p>
 
     <!-- Botão Editar -->
     <button class="edit-btn" @click="toggleEdit">Editar</button>
