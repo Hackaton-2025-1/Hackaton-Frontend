@@ -16,11 +16,9 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
-<<<<<<< HEAD
     "@supabase/supabase-js": "^2.84.0",
     "axios": "^1.13.2",
-=======
->>>>>>> dev
+
     "pinia": "^3.0.3",
     "vue": "^3.5.22",
     "vue-router": "^4.6.3"
