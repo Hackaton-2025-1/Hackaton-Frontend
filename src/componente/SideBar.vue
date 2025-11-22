@@ -16,7 +16,7 @@
 
     <ul class="menu">
       <li><i class="fas fa-archive"></i><router-link to="/cadastroAcervo" class="link">Cadastro Acervo</router-link></li>
-      <li><i class="fas fa-folder-plus"></i> Cadastrar Categoria</li>
+      <li><i class="fas fa-folder-plus"></i> <router-link to="/cadastroCategoria" class="link"> Categoria</router-link></li>
     </ul>
   </div>
 </template>
