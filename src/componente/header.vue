@@ -9,8 +9,6 @@ const props = defineProps({
 	avatarSize: { type: Number, default: 40 }
 })
 
-const emit = defineEmits(["logo-click"])
-
 const initials = computed(() => {
 	if (!props.userName) return ''
 	return props.userName

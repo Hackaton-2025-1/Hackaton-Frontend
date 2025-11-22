@@ -2,7 +2,8 @@
 import NavBar from '@/componente/NavBar.vue';
 import Footer from '@/componente/footer.vue';
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
-
+import { useUserStore } from '@/stores/user.js'
+const userStore = useUserStore()
 
 /* SEARCH */
 const busca = ref('');
@@ -156,7 +157,7 @@ function buscarAcervo(e) {
 
 <template>
   <div class="menu-museu-container">
-    <NavBar  />
+    <NavBar :userSrc="userStore.avatar" :userName="userStore.name || 'Visitante'" />
     <div class="main-content">
       <!-- Carrossel -->
       <div class="carousel" aria-roledescription="carousel">
