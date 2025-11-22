@@ -4,6 +4,10 @@ import Footer from '@/componente/footer.vue';
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useUserStore } from '@/stores/user.js'
 
+
+
+
+/* ACERVOS (cada item pode ter histórico) */
 import sambaqui1 from '@/assets/imagens/imagensSambaqui/sambaqui1.jpg';
 import sambaqui2 from '@/assets/imagens/imagensSambaqui/sambaqui2.jpg';
 import sambaqui3 from '@/assets/imagens/imagensSambaqui/sambaqui3.jpg';
@@ -21,6 +25,7 @@ const imagensCarrosel = [
   'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=900&q=80',
   'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=900&q=80',
 ];
+
 const imagemAtual = ref(0);
 let carouselInterval = null;
 const tempoTroca = 4000;
@@ -29,11 +34,13 @@ function proximaImagem() {
   imagemAtual.value = (imagemAtual.value + 1) % imagensCarrosel.length;
 }
 function anteriorImagem() {
-  imagemAtual.value = (imagemAtual.value - 1 + imagensCarrosel.length) % imagensCarrosel.length;
+  imagemAtual.value =
+    (imagemAtual.value - 1 + imagensCarrosel.length) % imagensCarrosel.length;
 }
 function irParaImagem(i) {
   imagemAtual.value = i;
 }
+
 onMounted(() => {
   carouselInterval = setInterval(proximaImagem, tempoTroca);
 });
@@ -41,12 +48,13 @@ onBeforeUnmount(() => {
   clearInterval(carouselInterval);
 });
 
-/* ACERVOS (cada item pode ter histórico) */
+/* ACERVOS */
 const acervos = [
   {
     nome: 'Vaso Grego Antigo',
     imagem: sambaqui1,
-    descricao: 'Vaso cerâmico do período helenístico, utilizado em cerimônias religiosas e encontrado em escavações na Grécia.',
+    descricao:
+      'Vaso cerâmico do período helenístico, utilizado em cerimônias religiosas e encontrado em escavações na Grécia.',
     categoria: 'Cerâmica',
     dataEntrada: '15/09/2025',
     localizacao: 'Sala 2 - Ala de Arte Antiga',
@@ -59,7 +67,8 @@ const acervos = [
   {
     nome: 'Máscara Africana',
     imagem: sambaqui2,
-    descricao: 'Máscara ritualística da África Ocidental, feita de madeira e pigmentos naturais.',
+    descricao:
+      'Máscara ritualística da África Ocidental, feita de madeira e pigmentos naturais.',
     categoria: 'Escultura',
     dataEntrada: '10/08/2025',
     localizacao: 'Sala 1 - Culturas do Mundo',
@@ -71,7 +80,7 @@ const acervos = [
   },
   {
     nome: 'Fóssil de Peixe',
-  imagem: sambaqui3,
+    imagem: sambaqui3,
     descricao: 'Fóssil de peixe pré-histórico encontrado em sambaquis brasileiros.',
     categoria: 'Fóssil',
     dataEntrada: '21/11/2025',
@@ -98,7 +107,8 @@ const acervos = [
   {
     nome: 'Arte Rupestre',
     imagem: sambaqui5,
-    descricao: 'Fragmento de arte rupestre encontrada em cavernas do Brasil.',
+    descricao:
+      'Fragmento de arte rupestre encontrada em cavernas do Brasil.',
     categoria: 'Pintura',
     dataEntrada: '12/10/2025',
     localizacao: 'Sala 5 - Pré-História',
@@ -111,7 +121,8 @@ const acervos = [
   {
     nome: 'Livro Medieval',
     imagem: sambaqui6,
-    descricao: 'Manuscrito iluminado do século XIII, escrito em latim.',
+    descricao:
+      'Manuscrito iluminado do século XIII, escrito em latim.',
     categoria: 'Manuscrito',
     dataEntrada: '30/09/2025',
     localizacao: 'Sala 6 - Biblioteca Histórica',
@@ -149,11 +160,22 @@ function fecharModal() {
 }
 
 
+/* histórico atual mostrado no modal (retorna array vazio se não houver) */
+const historicoAtual = computed(() => {
+  return acervoSelecionado.value?.historico ?? [];
+});
+
+/* placeholder para submit do form (não realiza buscas adicionais porque usamos busca reativa) */
+function buscarAcervo(e) {
+  e?.preventDefault();
+  // Intencionalmente vazio: a busca é responsiva via v-model
+}
+
 </script>
 
 <template>
   <div class="menu-museu-container">
-    <NavBar :userSrc="userStore.avatar" :userName="userStore.name || 'Visitante'" />
+    <NavBar  />
     <div class="main-content">
       <!-- Carrossel -->
       <div class="carousel" aria-roledescription="carousel">
@@ -243,8 +265,8 @@ function fecharModal() {
         </div>
       </div>
     </div>
+    <Footer />
   </div>
-  <Footer />
 </template>
 
 <style scoped>
