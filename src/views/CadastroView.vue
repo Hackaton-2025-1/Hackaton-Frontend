@@ -1,4 +1,3 @@
-
 <script setup>
 import { ref } from 'vue'
 import { createUsuario } from '../services/api.js'
@@ -7,27 +6,25 @@ const nome = ref('')
 const email = ref('')
 const senha = ref('')
 const mensagem = ref('')
-const { lerDoBanco, salvarNoBanco } = '@/services/localdb.js'
 
 const cadastrar = async () => {
   try {
     await createUsuario({ name: nome.value, email: email.value, password: senha.value })
-
-    // Busca usuários existentes
-    const usuarios = lerDoBanco('usuarios') || [];
-    // Adiciona novo usuário
-    usuarios.push({ nome: nome.value, email: email.value, senha: senha.value })
-    // Salva no banco local
-    salvarNoBanco('usuarios', usuarios)
+    alert('Cadastro realizado com sucesso! Você será redirecionado para o login.')
     mensagem.value = 'Cadastro realizado com sucesso!'
     nome.value = ''
     email.value = ''
     senha.value = ''
+    window.location.href = '/login'
   } catch (error) {
-    mensagem.value = 'Erro ao cadastrar: ' + error.message
+    if (error.message.includes('Email já cadastrado')) {
+      alert('Já existe um usuário com este email! Por favor, utilize outro email.')
+    } else {
+      mensagem.value = 'Erro ao cadastrar: ' + error.message
+    }
   }
 }
-  
+
 
 </script>
 
@@ -41,7 +38,7 @@ const cadastrar = async () => {
     <div class="campos">
       <div class="input-group">
         <i class="fas fa-user icon"></i>
-        <input class="input" type="email" placeholder="Nome" aria-label="Name" />
+        <input class="input" type="text" placeholder="Nome" aria-label="Name" v-model="nome" />
       </div>
       <div class="input-group">
         <i class="fas fa-envelope icon"></i>
@@ -50,11 +47,11 @@ const cadastrar = async () => {
 
       <div class="input-group">
         <i class="fas fa-lock icon"></i>
-        <input class="input" type="password" placeholder="Senha" aria-label="Senha" />
+        <input class="input" type="password" placeholder="Senha" aria-label="Senha" v-model="senha" />
       </div>
     </div>
 
-    <button class="btn-login">CADASTRAR</button>
+    <button class="btn-login" @click="cadastrar">CADASTRAR</button>
     <p class="footer-text">
       Ja possui cadastro?
       <router-link to="/login" class="link">Clique Aqui</router-link>
