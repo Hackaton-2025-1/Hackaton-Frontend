@@ -3,6 +3,7 @@
 import { ref } from 'vue'
 import { createUsuario } from '../services/api.js'
 
+
 const nome = ref('')
 const email = ref('')
 const senha = ref('')
@@ -33,6 +34,7 @@ const cadastrar = async () => {
 
 
 <template>
+
   <div class="container">
     <div class="textos">
       <h1 class="title">CADASTRO</h1>

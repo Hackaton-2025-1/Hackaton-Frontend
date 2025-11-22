@@ -1,5 +1,5 @@
 <template>
-  <NavBar />
+    <NavBar :userSrc="userStore.avatar" :userName="userStore.name || 'Visitante'" />
 
   <router-link to="gerenciamento" class="btn-voltar">
   <i class="fas fa-arrow-left"></i>
@@ -49,13 +49,18 @@
 </template>
 
 <script setup>
-import NavBar from '@/componente/NavBar.vue';
 import CadastroGeral from '../componente/CadastroGeral.vue';
 import CadastroDados from '../componente/CadastroDados.vue';
 import CadastroImagens from '../componente/CadastroImagens.vue';
 import Localizacao from '../componente/CadastroLocalizacao.vue';
 
 import { ref, computed } from 'vue';
+
+import { useUserStore } from '@/stores/user.js'
+const userStore = useUserStore()
+import NavBar from '@/componente/NavBar.vue';
+
+
 
 const activeTab = ref('Geral');
 

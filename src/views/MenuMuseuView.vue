@@ -4,6 +4,9 @@ import NavBar from '@/componente/NavBar.vue';
 import Footer from '@/componente/footer.vue';
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 
+import { useUserStore } from '@/stores/user.js'
+const userStore = useUserStore()
+
 import sambaqui1 from '@/assets/imagens/imagensSambaqui/sambaqui1.jpg';
 import sambaqui2 from '@/assets/imagens/imagensSambaqui/sambaqui2.jpg';
 import sambaqui3 from '@/assets/imagens/imagensSambaqui/sambaqui3.jpg';
@@ -160,7 +163,8 @@ function buscarAcervo(e) {
 
 <template>
   <div class="menu-museu-container">
-    <NavBar />
+      <NavBar :userSrc="userStore.avatar" :userName="userStore.name || 'Visitante'" />
+
     <div class="main-content">
       <!-- Carrossel -->
       <div class="carousel" aria-roledescription="carousel">

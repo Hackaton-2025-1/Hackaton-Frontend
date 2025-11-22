@@ -3,6 +3,8 @@ import { useCollectionsStore } from '../stores/collections'
 import { useRouter } from 'vue-router'
 import NavBar from '@/componente/NavBar.vue'
 import FooterVue from '@/componente/footer.vue'
+import { useUserStore } from '@/stores/user.js'
+const userStore = useUserStore()
 
 const store = useCollectionsStore()
 const router = useRouter()
@@ -14,7 +16,8 @@ const goToCollection = (id) => {
 
 <template>
   <div class="collections-page">
-    <NavBar />
+        <NavBar :userSrc="userStore.avatar" :userName="userStore.name || 'Visitante'" />
+
     <div class="collections-container">
       <header class="header">
         <h1>Coleções do Museu Sambaqui</h1>

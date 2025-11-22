@@ -1,5 +1,4 @@
 <script setup>
-import Header from '@/componente/header.vue'
 import NavBar from '@/componente/NavBar.vue'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user.js'
@@ -50,8 +49,8 @@ function signOut() {
 </script>
 
 <template>
-  <Header :userSrc="userStore.avatar" :userName="userStore.name || 'Visitante'" />
-  <NavBar />
+      <NavBar :userSrc="userStore.avatar" :userName="userStore.name || 'Visitante'" />
+
 	<div class="user-control container">
 		<div class="user-card">
 			<div class="user-top">

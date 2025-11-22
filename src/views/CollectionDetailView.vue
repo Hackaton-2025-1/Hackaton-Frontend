@@ -4,6 +4,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { useCollectionsStore } from '../stores/collections'
 import NavBar from '@/componente/NavBar.vue'
 import Footer from '@/componente/footer.vue'
+import { useUserStore } from '@/stores/user.js'
+const userStore = useUserStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -124,7 +126,8 @@ const historicoMovimentacoes = computed(() => {
 
 <template>
   <div v-if="collection" class="detail-page">
-    <NavBar />
+        <NavBar :userSrc="userStore.avatar" :userName="userStore.name || 'Visitante'" />
+
     
     <!-- Banner -->
     <div class="banner">

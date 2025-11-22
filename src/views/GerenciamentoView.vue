@@ -7,8 +7,8 @@ import { ref, onMounted } from 'vue';
 import { fetchArtefatos } from '../services/api.js';
 import { useUserStore } from '@/stores/user.js'
 
-const artefatos = ref([])
 const userStore = useUserStore()
+const artefatos = ref([])
 
 const loadArtefatos = async () => {
   artefatos.value = await fetchArtefatos()
