@@ -6,7 +6,7 @@ import SideBar from '@/componente/SideBar.vue'
 
 <script>
 export default {
-  name: 'TesteView'
+  name: 'TesteMainPage'
 }
 </script>
 

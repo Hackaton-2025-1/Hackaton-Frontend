@@ -4,17 +4,14 @@ import SideBar from '@/componente/SideBar.vue';
 import telaGerenciamento from '@/componente/telaGerenciamento.vue';
 import telaView from '@/componente/telaView.vue';
 import { ref, onMounted } from 'vue';
-import { fetchArtefatos, deleteArtefato as apiDeleteArtefato } from '../services/api.js';
+import { fetchArtefatos } from '../services/api.js';
+import { useUserStore } from '@/stores/user.js'
 
 const artefatos = ref([])
+const userStore = useUserStore()
 
 const loadArtefatos = async () => {
   artefatos.value = await fetchArtefatos()
-}
-
-const deleteArtefato = async (id) => {
-  await apiDeleteArtefato(id)
-  artefatos.value = artefatos.value.filter((artefato) => artefato.id !== id)
 }
 
 onMounted(loadArtefatos)
@@ -31,7 +28,7 @@ onMounted(loadArtefatos)
     </div>
 
 
-    <NavBar></NavBar>
+    <NavBar :userSrc="userStore.avatar" :userName="userStore.name || 'Visitante'" />
     <SideBar></SideBar>
 
     <telaGerenciamento></telaGerenciamento>

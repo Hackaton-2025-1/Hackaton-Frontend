@@ -35,6 +35,13 @@
       >
         Imagens
       </button>
+      <button
+        class="tab-button"
+        :class="{ active: activeTab === 'Localização' }"
+        @click="activeTab = 'Localização'"
+      >
+        Localização
+      </button>
     </div>
 
     <component :is="getActiveComponent" />
@@ -49,6 +56,7 @@ import CadastroImagens from '../componente/CadastroImagens.vue';
 
 
 import { ref, computed } from 'vue';
+import CadastroLocalizacao from '@/componente/CadastroLocalizacao.vue';
 
 const activeTab = ref('Geral');
 
@@ -60,6 +68,8 @@ const getActiveComponent = computed(() => {
       return CadastroDados;
     case 'Imagens':
       return CadastroImagens;
+    case 'Localização':
+      return CadastroLocalizacao
     default:
       return CadastroGeral;
   }
