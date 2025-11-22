@@ -164,12 +164,6 @@ const historicoExemplo = [
               :src="acervoSelecionado.imagem"
               alt="Imagem do acervo"
               class="modal-img"
-              @mousemove="mouseMoveZoom"
-              @mouseleave="mouseLeaveZoom"
-              :style="zoomAtivo ? {
-                transform: 'scale(2)',
-                transformOrigin: mousePos.x + '% ' + mousePos.y + '%'
-              } : {}"
             />
           </div>
           <h2 class="modal-title">{{ acervoSelecionado.nome }}</h2>
@@ -203,412 +197,239 @@ const historicoExemplo = [
 </template>
 
 <style scoped>
+/* ===========================
+   LAYOUT GERAL
+=========================== */
 .menu-museu-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: linear-gradient(120deg, #f8f6f1 0%, #e3e0d9 100%);
+  background: #f4f1ea;
+  font-family: "Cinzel", "Georgia", serif;
+  letter-spacing: 0.3px;
 }
+.modal-close{
+  border: none;
+  margin-bottom: 20px;
+  font-size: 30px;
+  cursor: pointer;
+  border-radius: 40px;
+  width: 40px;
+  transition: 0.3s;
+}
+
+.modal-close:hover{
+  cursor: pointer;
+  border-radius: 40px;
+  width: 40px;
+}
+
 .main-content {
   flex: 1;
+  padding: 2.5rem 3%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2vw 3vw 0 3vw;
 }
+
+/* ===========================
+   CARROSSEL – MUSEU
+=========================== */
 .carousel {
   width: 100%;
-  max-width: 900px;
-  height: 220px;
-  position: relative;
-  background: #e0e0e0;
-  border-radius: 18px;
+  max-width: 1100px;
+  height: 320px;
+  border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-  margin-bottom: 2vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.18);
 }
 .carousel-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.85);
+  filter: brightness(.75);
 }
 .carousel-title {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 18px;
+  bottom: 20px;
+  width: 100%;
   text-align: center;
-  font-size: 2.1rem;
+  font-size: 2.4rem;
+  font-weight: 600;
   color: #fff;
-  font-weight: 700;
-  text-shadow: 0 2px 8px #0007;
-  width: 100%;
+  text-shadow: 0 4px 8px #000a;
 }
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255,255,255,0.7);
-  border: none;
-  font-size: 2rem;
-  color: #ff6f3c;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  z-index: 2;
-  transition: background 0.2s;
-}
-.carousel-btn.left {
-  left: 16px;
-}
-.carousel-btn.right {
-  right: 16px;
-}
-.carousel-btn:hover {
-  background: #ffd166;
-}
+
+/* ===========================
+   LINHA DOURADA
+=========================== */
 .linha-decorativa {
-  width: 95%;
-  height: 3px;
-  background: linear-gradient(90deg, #ff6f3c 0%, #ffd166 100%);
-  margin: 0.5vw 0 2vw 0;
-  border-radius: 2px;
-}
-.search-bar {
   width: 100%;
+  max-width: 1300px;
+  height: 3px;
+  background: linear-gradient(90deg, #caa76c, #7b5e34);
+  margin: 2rem 0;
+}
+
+/* ===========================
+   BARRA DE BUSCA
+=========================== */
+.search-bar {
   max-width: 600px;
+  width: 100%;
+  background: #ffffff;
+  border: 1.5px solid #c6a574;
+  border-radius: 14px;
   display: flex;
+  padding: 0.9rem 1.1rem;
   align-items: center;
-  background: #f5f5f5;
-  border: 1.5px solid #8a4d4d;
-  border-radius: 16px;
-  margin-bottom: 2vw;
-  padding: 0.7vw 1vw;
-  box-shadow: 0 2px 12px rgba(255,111,60,0.10);
-  transition: box-shadow 0.2s, border 0.2s;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+  transition: 0.25s border, 0.25s box-shadow;
 }
 .search-bar:focus-within {
-  box-shadow: 0 4px 18px rgba(255,111,60,0.18);
-  border-color: #e85d2a;
+  border-color: #b28b52;
+  box-shadow: 0 7px 26px rgba(181, 147, 84, 0.2);
 }
 .search-bar input {
   flex: 1;
   border: none;
-  outline: none;
-  font-size: 1.15rem;
-  padding: 0.7vw 0.5vw;
   background: transparent;
-  color: #333;
-}
-.search-bar input::placeholder {
-  color: #888;
-  opacity: 0.7;
-  font-style: italic;
+  font-size: 1.15rem;
+  outline: none;
+  font-family: "Cinzel", serif;
+  color: #483d2e;
 }
 .search-bar button {
-  background: #444;
+  background: #4a3e2e;
   border: none;
-  color: #fff;
-  border-radius: 10px;
+  border-radius: 9px;
+  padding: 0.6rem 1rem;
   cursor: pointer;
-  font-size: 1.4rem;
-  padding: 0.5vw 1.2vw;
-  margin-left: 0.5vw;
-  box-shadow: 0 2px 8px rgba(255,111,60,0.10);
-  transition: background 0.2s;
-  display: flex;
-  align-items: center;
+  transition: 0.2s;
 }
 .search-bar button:hover {
-  background: #222;
+  background: #2c2419;
 }
-.search-icon {
-  display: inline-block;
-  font-size: 1.3rem;
-  vertical-align: middle;
-}
+
+/* ===========================
+   GRID DE CARDS – PREMIUM
+=========================== */
 .cards-grid {
   width: 100%;
   max-width: 1400px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 2.5vw;
-  margin: 2vw auto 2vw auto;
-  justify-items: center;
-
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  margin: 3rem 0;
 }
 
 .acervo-card {
-  background-color: white;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  background: #faf7f1;
+  border: 1px solid #e5dbc9;
+  overflow: hidden;
+  transition: 0.25s transform, 0.25s box-shadow;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
 }
+
 .acervo-img {
   width: 100%;
-  height: 180px;
+  height: 220px;
   object-fit: cover;
-  background: #eaeaea;
+  filter: brightness(.9);
 }
+
 .acervo-info {
-  flex: 1;
-  padding: 2vw 2vw;
-  display: flex;
-  flex-direction: column;
-  gap: 0.7vw;
-  width: 100%;
-  box-sizing: border-box;
+  padding: 1.3rem 1.6rem;
 }
+
 .acervo-info h2 {
-  font-size: 1.35rem;
-  color: #7c4a1e;
-  margin-bottom: 0.3vw;
   text-align: center;
+  font-size: 1.4rem;
+  color: #5b422b;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
 }
+
 .acervo-descricao {
-  font-size: 1.05rem;
-  color: #444;
-  margin-bottom: 0.5vw;
+  color: #3d372f;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  font-family: "Georgia";
 }
+
 .acervo-detalhes {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3vw;
-  font-size: 0.98rem;
-  color: #555;
+  border-top: 1px solid #d7ccb7;
+  padding-top: 0.8rem;
+  font-size: 0.94rem;
+  line-height: 1.35rem;
+  color: #6b6355;
 }
-@media (max-width: 900px) {
-  .cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 4vw;
-  }
-  .acervo-card {
-    max-width: 95vw;
-    min-height: 260px;
-  }
-  .acervo-img {
-    height: 120px;
-  }
-}
-@media (max-width: 700px) {
-  .carousel {
-    height: 120px;
-    font-size: 1.2rem;
-  }
-  .acervo-card {
-    flex-direction: column;
-    align-items: center;
-    max-width: 95vw;
-  }
-  .acervo-img {
-    width: 100%;
-    height: 120px;
-    border-radius: 16px 16px 0 0;
-  }
-  .acervo-info {
-    padding: 2vw 2vw;
-  }
-  .search-bar {
-    max-width: 95vw;
-    padding: 2vw 2vw;
-  }
-}
+
+/* ===========================
+   MODAL – EXPOSIÇÃO
+=========================== */
 .modal-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.45);
+  inset: 0;
+  backdrop-filter: blur(4px);
+  background: rgba(0,0,0,.45);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
 }
 .modal-content {
-  background: #fffbe6;
-  border-radius: 18px;
-  max-width: 600px;
-  width: 98vw;
-  padding: 3vw 3vw 2vw 3vw;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-  position: relative;
-  text-align: center;
+  background: #fffdf6;
+  max-width: 680px;
+  width: 95%;
+  padding: 2.4rem;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.22);
+  animation: modalEnter .3s ease;
 }
-.modal-close {
-  position: absolute;
-  top: 12px;
-  right: 18px;
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: #ff6f3c;
-  cursor: pointer;
+@keyframes modalEnter {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 .modal-img-wrap {
   width: 100%;
-  max-width: 480px;
-  height: 260px;
-  margin: 0 auto 1vw auto;
+  height: 300px;
   overflow: hidden;
-  border-radius: 12px;
-  position: relative;
-  background: #eaeaea;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-bottom: 1.4rem;
 }
 .modal-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 12px;
-  transition: transform 0.3s cubic-bezier(.25,.8,.25,1), box-shadow 0.2s, transform-origin 0.2s;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.10);
-  cursor: zoom-in;
-}
-.modal-img-wrap:hover .modal-img {
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
 }
 .modal-title {
-  font-size: 1.5rem;
-  color: #7c4a1e;
-  margin-bottom: 0.7vw;
   text-align: center;
-}
-.modal-descricao {
-  font-size: 1.08rem;
-  color: #444;
-  margin-bottom: 1vw;
+  font-size: 1.7rem;
+  color: #644828;
+  margin-bottom: 1rem;
 }
 .modal-detalhes {
-  font-size: 1rem;
-  color: #555;
-  text-align: left;
-  margin: 0 auto;
-  max-width: 320px;
-  background: #fff8d6;
-  border-radius: 8px;
-  padding: 0.7vw 1vw;
-}
-.historico-timeline {
-  margin-top: 2vw;
-  padding: 1vw 0;
-  background: #fff8d6;
+  background: #f7f2e8;
+  padding: 1.1rem;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(255,209,102,0.10);
-  overflow-x: auto;
+  font-size: 1rem;
+  margin-top: 1rem;
+  color: #42392b;
 }
-.timeline-title {
-  font-size: 1.15rem;
-  color: #7c4a1e;
-  text-align: center;
-  margin-bottom: 1vw;
-  font-weight: 700;
-}
-.timeline-list {
-  list-style: none;
-  padding: 0 1vw;
-  margin: 0;
-  display: flex;
-  flex-direction: row;
-  gap: 2vw;
-  justify-content: center;
-  align-items: flex-start;
-}
-.timeline-list li {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.7vw;
-  position: relative;
-  min-width: 180px;
-}
-.timeline-dot {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #ffd166;
-  border: 2px solid #ff6f3c;
-  margin-bottom: 0.5vw;
-}
-.timeline-list li.atual .timeline-dot {
-  background: #ff6f3c;
-  border-color: #ffd166;
-}
-.timeline-info {
-  background: #fffbe6;
-  border-radius: 8px;
-  padding: 0.7vw 1vw;
-  box-shadow: 0 1px 4px rgba(255,209,102,0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 0.2vw;
-  align-items: center;
-}
-.timeline-local {
-  font-weight: 600;
-  color: #444;
-}
-.timeline-evento {
-  font-size: 0.98rem;
-  color: #888;
-}
-.timeline-data {
-  font-size: 0.95rem;
-  color: #b0b0b0;
-}
-.timeline-list li:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  top: 27px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(90deg, #ffd166 0%, #ff6f3c 100%);
-  z-index: 0;
-}
-@media (max-width: 700px) {
-  .timeline-list {
-    gap: 4vw;
+
+/* ===========================
+   RESPONSIVO
+=========================== */
+@media (max-width: 750px) {
+  .carousel {
+    height: 170px;
   }
-  .timeline-list li {
-    min-width: 120px;
+  .acervo-img {
+    height: 150px;
   }
-  .timeline-info {
-    padding: 1vw 2vw;
-  }
-  .timeline-list li:not(:last-child)::after {
-    width: 40px;
-    height: 3px;
-  }
-}
-@media (max-width: 600px) {
   .modal-content {
-    max-width: 98vw;
-    padding: 4vw 2vw 2vw 2vw;
-  }
-  .modal-img {
-    height: 110px;
-  }
-}
-@media (max-width: 700px) {
-  .modal-content {
-    max-width: 99vw;
-    padding: 5vw 2vw 3vw 2vw;
-  }
-  .modal-img {
-    max-width: 98vw;
-    height: 140px;
-  }
-  .historico-timeline {
-    margin-top: 4vw;
-    padding: 2vw 0;
-  }
-  .timeline-info {
-    min-width: 120px;
-    padding: 1vw 2vw;
+    padding: 1.5rem;
   }
 }
 </style>
