@@ -2,12 +2,28 @@
   <form class="cadastro-form">
     <div class="form-group">
       <label for="dimensions" class="form-label"> Dimensões (C x L) - mm </label>
-      <input class="form-input" type="text" id="dimensions" placeholder="Dimensões" required />
+      <input
+        class="form-input"
+        type="text"
+        id="dimensions"
+        placeholder="Dimensões"
+        required
+        :value="localDados.dimensoes"
+        @input="update('dimensoes', $event.target.value)"
+      />
     </div>
 
     <div class="form-group">
       <label for="weight" class="form-label"> <span class="required">*</span> Peso - gramas </label>
-      <input class="form-input" type="text" id="weight" placeholder="Peso" required />
+      <input
+        class="form-input"
+        type="text"
+        id="weight"
+        placeholder="Peso"
+        required
+        :value="localDados.peso"
+        @input="update('peso', $event.target.value)"
+      />
     </div>
 
     <div class="form-group">
@@ -19,12 +35,22 @@
         class="form-input"
         placeholder="Descrição Formal do Item"
         required
+        :value="localDados.descricao"
+        @input="update('descricao', $event.target.value)"
       ></textarea>
     </div>
 
     <div class="form-group">
       <label for="material" class="form-label"> <span class="required">*</span> Material </label>
-      <input class="form-input" type="text" id="material" placeholder="Matéria-prima" required />
+      <input
+        class="form-input"
+        type="text"
+        id="material"
+        placeholder="Matéria-prima"
+        required
+        :value="localDados.material"
+        @input="update('material', $event.target.value)"
+      />
     </div>
 
     <div class="form-group">
@@ -37,19 +63,37 @@
         id="site"
         placeholder="Sítio (nº do sítio ou sigla)"
         required
+        :value="localDados.sitio"
+        @input="update('sitio', $event.target.value)"
       />
     </div>
 
     <div class="form-group">
       <label for="state" class="form-label"> <span class="required">*</span> Estado </label>
-      <select class="form-input" id="state" required>
+      <select
+        class="form-input"
+        id="state"
+        required
+        :value="localDados.estado"
+        @change="update('estado', $event.target.value)"
+      >
         <option value="">Estado do Item</option>
+        <option value="SP">SP</option>
+        <option value="RJ">RJ</option>
       </select>
     </div>
 
     <div class="form-group">
       <label for="city" class="form-label"> <span class="required">*</span> Cidade </label>
-      <input class="form-input" type="text" id="city" placeholder="Cidade do Item" required />
+      <input
+        class="form-input"
+        type="text"
+        id="city"
+        placeholder="Cidade do Item"
+        required
+        :value="localDados.cidade"
+        @input="update('cidade', $event.target.value)"
+      />
     </div>
 
     <div class="form-group">
@@ -62,22 +106,45 @@
         id="ethnic-group"
         placeholder="ex.:sambaquiano"
         required
+        :value="localDados.grupo"
+        @input="update('grupo', $event.target.value)"
       />
     </div>
 
     <div class="form-group">
       <label for="room" class="form-label">Sala</label>
-      <input class="form-input" type="text" id="room" placeholder="Sala do Item" />
+      <input
+        class="form-input"
+        type="text"
+        id="room"
+        placeholder="Sala do Item"
+        v-model="localDados.room"
+        @input="update('room', localDados.room)"
+      />
     </div>
 
     <div class="form-group">
       <label for="shelf" class="form-label">Estante</label>
-      <input class="form-input" type="text" id="shelf" placeholder="Estante do Item" />
+      <input
+        class="form-input"
+        type="text"
+        id="shelf"
+        placeholder="Estante do Item"
+        v-model="localDados.shelf"
+        @input="update('shelf', localDados.shelf)"
+      />
     </div>
 
     <div class="form-group">
       <label for="rack" class="form-label">Prateleira</label>
-      <input class="form-input" type="text" id="rack" placeholder="Prateleira do Item" />
+      <input
+        class="form-input"
+        type="text"
+        id="rack"
+        placeholder="Prateleira do Item"
+        v-model="localDados.rack"
+        @input="update('rack', localDados.rack)"
+      />
     </div>
 
     <div class="form-group">
@@ -88,6 +155,8 @@
         id="general-observations"
         class="form-input"
         placeholder="Descrição Formal do Item"
+        v-model="localDados.generalObservations"
+        @input="update('generalObservations', localDados.generalObservations)"
         required
       ></textarea>
     </div>
@@ -100,14 +169,31 @@
         id="responsible"
         class="form-input"
         placeholder="Descrição Formal do Item"
+        v-model="localDados.responsible"
+        @input="update('responsible', localDados.responsible)"
         required
       ></textarea>
     </div>
   </form>
 </template>
 
-<script setup></script>
-
+<script setup>
+import { defineProps, defineEmits, reactive, watch } from 'vue'
+const props = defineProps({ dados: Object })
+const emit = defineEmits(['update-dados'])
+const localDados = reactive({ ...props.dados })
+watch(
+  () => props.dados,
+  (novo) => {
+    Object.assign(localDados, novo)
+  },
+  { deep: true },
+)
+const update = (field, value) => {
+  localDados[field] = value
+  emit('update-dados', { ...localDados })
+}
+</script>
 
 <style scoped>
 .required {

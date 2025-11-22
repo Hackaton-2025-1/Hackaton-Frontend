@@ -1,29 +1,37 @@
-<script setup></script>
+<script setup>
+defineProps({ artefato: Object })
+</script>
 
 <template>
-
-<div class="container">
-
-  <!-- Container de imagem -->
-  <div class="image-box"></div>
-
-  <p>Matricula</p>
-  <p>Acervo</p>
-  <p>Categoria</p>
-  <p>Materia-prima</p>
-  <p>Subtipo</p>
-  <p>Localização</p>
-  <p>Conservação</p>
-
-  <!-- Botão Editar -->
-  <button class="edit-btn">Editar</button>
-
-</div>
-
+  <div class="container">
+    <!-- Imagem -->
+    <div class="image-box" v-if="artefato.imagem">
+      <img
+        :src="artefato.imagem"
+        alt="Imagem cadastrada"
+        style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px"
+      />
+    </div>
+    <!-- Matricula (ID) -->
+    <p>{{ artefato.id }}</p>
+    <!-- Acervo (Nome) -->
+    <p>{{ artefato.nome }}</p>
+    <!-- Categoria -->
+    <p>{{ artefato.categoria_nome }}</p>
+    <!-- Matéria-prima -->
+    <p>{{ artefato.materiaPrima }}</p>
+    <!-- Subtipo -->
+    <p>{{ artefato.subtipo }}</p>
+    <!-- Localização (Cidade) -->
+    <p>{{ artefato.cidade }}</p>
+    <!-- Conservação (Nível) -->
+    <p>{{ artefato.nivel_conservacao }}</p>
+    <!-- Botão Editar -->
+    <button class="edit-btn">Editar</button>
+  </div>
 </template>
 
 <style scoped>
-
 .container {
   margin-left: 270px;
   display: flex;
@@ -33,7 +41,7 @@
   margin-top: 4px;
   width: 1550px;
   height: 62px;
-  color: #C45D4C;
+  color: #c45d4c;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -51,16 +59,15 @@
 /* Botão Editar */
 .edit-btn {
   padding: 6px 16px;
-  background-color: #C45D4C;
+  background-color: #c45d4c;
   border: none;
   border-radius: 6px;
   color: #ffffff;
   cursor: pointer;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .edit-btn:hover {
   background-color: #a44336;
 }
-
 </style>
