@@ -2,20 +2,23 @@
 import { ref } from 'vue'
 import { login as loginApi } from '../services/api.js'
 import { useRouter } from 'vue-router'
-import { lerDoBanco } from '@/services/localdb.js'
+import { useUserStore } from '@/stores/user.js'
 
 const email = ref('')
 const senha = ref('')
 const mensagem = ref('')
 const router = useRouter()
+const userStore = useUserStore()
 
 const login = async () => {
   try {
     const response = await loginApi(email.value, senha.value)
-    localStorage.setItem('token', response.access)
+    // Atualiza o store com todos os dados do usuário logado
+    userStore.setUser(response)
     mensagem.value = 'Login realizado com sucesso!'
-    setTimeout(() => router.push('/'), 1000)
+    setTimeout(() => router.push('/controle'), 1000)
   } catch (error) {
+    console.error(error)
     mensagem.value = 'Email ou senha inválidos.'
   }
 }
@@ -38,45 +41,30 @@ try {
 </script>
 
 <template>
-  <div class="background-wrapper">
-    <div class="container">
-      <div class="textos">
-        <h1 class="title">LOGIN</h1>
+  <div class="container">
+    <div class="textos">
+      <h1 class="title">LOGIN</h1>
+    </div>
+
+    <div class="campos">
+      <div class="input-group">
+        <i class="fas fa-envelope icon"></i>
+        <input class="input" type="email" placeholder="Email" aria-label="Email" v-model="email" />
       </div>
 
-      <div class="campos">
-        <div class="input-group">
-          <i class="fas fa-envelope icon"></i>
-          <input
-            class="input"
-            v-model="email"
-            type="email"
-            placeholder="Email"
-            aria-label="Email"
-          />
-        </div>
-
-        <div class="input-group">
-          <i class="fas fa-lock icon"></i>
-          <input
-            class="input"
-            v-model="senha"
-            type="password"
-            placeholder="Senha"
-            aria-label="Senha"
-          />
-        </div>
-      </div>  
-      <router-link to="/">
-        <button class="btn-login" @click="login">ENTRAR</button>
-      </router-link>
-      <p class="footer-text">
-        Ainda não possui cadastro?
-        <router-link to="/cadastro" class="link">Clique Aqui</router-link>
-      </p>
-
-      <p v-if="mensagem" style="color: white; margin-top: 10px">{{ mensagem }}</p>
+      <div class="input-group">
+        <i class="fas fa-lock icon"></i>
+        <input class="input" type="password" placeholder="Senha" aria-label="Senha" v-model="senha" />
+      </div>
     </div>
+<button class="btn-login" @click="login">ENTRAR</button>
+    <p class="footer-text">
+      Ainda não possui cadastro?
+      <router-link to="/cadastro" class="link">Clique Aqui</router-link>
+    </p>
+    <p v-if="mensagem" style="color: white; margin-top: 10px">{{ mensagem }}</p>
+
+
   </div>
 </template>
 

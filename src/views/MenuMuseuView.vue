@@ -4,6 +4,7 @@ import NavBar from '@/componente/NavBar.vue';
 import Footer from '@/componente/footer.vue';
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 
+
 /* SEARCH */
 const busca = ref('');
 
@@ -151,11 +152,12 @@ function buscarAcervo(e) {
   e?.preventDefault();
   // Intencionalmente vazio: a busca é responsiva via v-model
 }
+
 </script>
 
 <template>
   <div class="menu-museu-container">
-    <NavBar />
+    <NavBar :userSrc="userStore.avatar" :userName="userStore.name" />
     <div class="main-content">
       <!-- Carrossel -->
       <div class="carousel" aria-roledescription="carousel">
