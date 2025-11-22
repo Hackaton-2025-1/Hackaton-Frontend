@@ -10,12 +10,24 @@ const mensagem = ref('')
 const cadastrar = async () => {
   try {
     await createUsuario({ name: nome.value, email: email.value, password: senha.value })
+
+    // Busca usuários existentes
+    const usuarios = lerDoBanco('usuarios') || [];
+    // Adiciona novo usuário
+    usuarios.push({ nome: nome.value, email: email.value, senha: senha.value })
+    // Salva no banco local
+    salvarNoBanco('usuarios', usuarios)
     mensagem.value = 'Cadastro realizado com sucesso!'
     nome.value = ''
     email.value = ''
     senha.value = ''
   } catch (error) {
     mensagem.value = 'Erro ao cadastrar: ' + error.message
+  }
+}
+{
+    console.log('Erro detalhado:', error)
+    mensagem.value = 'Erro ao cadastrar.'
   }
 }
 </script>
