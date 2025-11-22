@@ -1,4 +1,34 @@
+<<<<<<< HEAD
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { lerDoBanco } from '@/services/localdb.js'
+
+const email = ref('')
+const senha = ref('')
+const mensagem = ref('')
+const router = useRouter()
+
+const login = async () => {
+  try {
+    const usuarios = lerDoBanco('usuarios') || [];
+    const usuario = usuarios.find(u => u.email === email.value && u.senha === senha.value);
+    if (usuario) {
+      localStorage.setItem('token', usuario.email);
+      mensagem.value = 'Login realizado com sucesso!';
+      setTimeout(() => router.push('/'), 1000);
+    } else {
+      mensagem.value = 'Email ou senha inválidos.';
+    }
+  } catch (error) {
+    console.error(error);
+    mensagem.value = 'Erro ao realizar login.';
+  }
+}
+</script>
+=======
 <script setup></script>
+>>>>>>> dev
 
 <template>
   <div class="container">
