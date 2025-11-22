@@ -54,11 +54,8 @@ const initials = computed(() => {
       <div class="museum-right">
         <div class="museum-user">
           <div class="museum-user-info">
-           <router-link to="/login"> 
-              <div class="museum-user-name">{{ userName || 'Visitante' }}</div>
-          </router-link>
-            <router-link to="/gerenciamento"> <div class="museum-user-role small-muted">visualizar ou so editor</div>
-              </router-link>
+            <div class="museum-user-name">{{ userName || 'Visitante' }}</div>
+            <div class="museum-user-role small-muted">visualizar ou so editor</div>
           </div>
 
           <img
@@ -117,7 +114,10 @@ const initials = computed(() => {
   cursor: pointer;
 }
 .museum-logo-wrap {
+  background: white;
   padding: 6px;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
 }
 .museum-logo {
   height: 56px;
