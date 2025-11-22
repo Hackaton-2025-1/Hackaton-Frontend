@@ -2,6 +2,8 @@
 import NavBar from '@/componente/NavBar.vue';
 import Footer from '@/componente/footer.vue';
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
+import { useUserStore } from '@/stores/user.js'
+
 
 
 
@@ -13,6 +15,7 @@ import sambaqui4 from '@/assets/imagens/imagensSambaqui/sambaqui4.jpg';
 import sambaqui5 from '@/assets/imagens/imagensSambaqui/sambaqui5.jpg';
 import sambaqui6 from '@/assets/imagens/imagensSambaqui/sambaqui6.jpg';
 
+const userStore = useUserStore()
 const busca = ref('');
 
 /* CARROSSEL */
@@ -155,6 +158,7 @@ function fecharModal() {
   modalAberto.value = false;
   acervoSelecionado.value = null;
 }
+
 
 /* histórico atual mostrado no modal (retorna array vazio se não houver) */
 const historicoAtual = computed(() => {
