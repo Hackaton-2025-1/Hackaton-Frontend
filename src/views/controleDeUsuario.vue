@@ -9,19 +9,26 @@ const { name, email, avatar } = storeToRefs(userStore)
 
 const isEditing = ref(false)
 const originalAvatar = ref(null)
+const tempName = ref(name.value)
+const tempEmail = ref(email.value)
 
 function startEdit() {
+  tempName.value = name.value
+  tempEmail.value = email.value
   originalAvatar.value = avatar.value
   isEditing.value = true
 }
 
 function cancelEdit() {
+  name.value = tempName.value
+  email.value = tempEmail.value
   userStore.updateAvatar(originalAvatar.value || avatar.value)
   isEditing.value = false
 }
 
 function saveEdit() {
-  // Aqui você pode salvar no localdb se quiser persistência
+  userStore.name = name.value
+  userStore.email = email.value
   isEditing.value = false
 }
 
@@ -45,7 +52,6 @@ function signOut() {
 	<Header :userSrc="avatar" :userName="name" />
 	<div class="user-control container">
 		<div class="user-card">
-			<div class="user-banner">Controle de Usuario</div>
 			<div class="user-top">
 				<div class="user-meta-row">
 					<div class="avatar-wrapper">
@@ -130,7 +136,7 @@ function signOut() {
     box-shadow: 0 10px 30px rgba(27,20,20,0.04) }
 
 .user-banner{
-    background:linear-gradient(90deg,#af873d,#efe6e4);
+    background:linear-gradient(90deg,#db9c25,#efe6e4);
     text-align:center;
     padding:22px;
     font-size:20px;
@@ -174,6 +180,9 @@ function signOut() {
   display: block;
   fill: #fff;
 }
+.user-control container{
+  margin-top: 50px;
+}
 
 .meta-name{ font-weight:700; color:#362f2f; font-size:16px }
 .meta-email{ color:var(--muted); font-size:13px }
@@ -190,11 +199,6 @@ function signOut() {
     box-shadow: 0 4px 16px rgba(255,127,89,0.08);
     transition: transform .14s ease }
 
-.btn-edit:hover{
-    background: #ffd9d2;
-    color: #b93c2c;
-    transform: translateY(-2px);
-}
 
 .btn-save {
     background: #4bb36a;
@@ -207,11 +211,6 @@ function signOut() {
     font-size: 16px;
     box-shadow: 0 4px 16px rgba(75,179,106,0.08);
     transition: transform .14s ease;
-}
-.btn-save:hover {
-    background: #399a56;
-    color: #fff;
-    transform: translateY(-2px);
 }
 
 .btn-cancel {
@@ -226,11 +225,6 @@ function signOut() {
     box-shadow: 0 4px 16px rgba(255,127,89,0.08);
     transition: transform .14s ease;
     margin-left: 10px;
-}
-.btn-cancel:hover {
-    background: #ffd9d2;
-    color: #b93c2c;
-    transform: translateY(-2px);
 }
 
 .edit-actions {
@@ -321,13 +315,6 @@ input:focus, select:focus, textarea:focus{
     font-weight: 600;
 }
 
-
-.btn-logout:hover{
-    background: #b93c2c;
-    color: #fff;
-    box-shadow: 0 8px 20px rgba(200,75,58,0.12);
-    transform: translateY(-2px);
-}
 
 /* Small screens: stack and adjust spacing */
 @media (max-width:900px){
