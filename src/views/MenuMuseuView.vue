@@ -2,6 +2,9 @@
 import NavBar from '@/componente/NavBar.vue';
 import Footer from '@/componente/footer.vue';
 import { computed, ref } from 'vue';
+import { useUserStore } from '@/stores/user.js';
+
+const userStore = useUserStore();
 
 const busca = ref('');
 function buscarAcervo() {
@@ -94,20 +97,6 @@ function fecharModal() {
   acervoSelecionado.value = null;
 }
 
-const mousePos = ref({ x: 0, y: 0 });
-const zoomAtivo = ref(false);
-function mouseMoveZoom(e) {
-  const rect = e.target.getBoundingClientRect();
-  mousePos.value = {
-    x: ((e.clientX - rect.left) / rect.width) * 100,
-    y: ((e.clientY - rect.top) / rect.height) * 100,
-  };
-  zoomAtivo.value = true;
-}
-function mouseLeaveZoom() {
-  zoomAtivo.value = false;
-}
-
 const historicoExemplo = [
   { local: 'Museu Nacional', dataEntrada: '10/01/2023', dataSaida: '12/03/2024', evento: 'Aquisição' },
   { local: 'Museu de Arte Antiga', dataEntrada: '15/03/2024', dataSaida: '20/10/2025', evento: 'Exposição Temporária' },
@@ -117,7 +106,7 @@ const historicoExemplo = [
 
 <template>
   <div class="menu-museu-container">
-    <NavBar />
+    <NavBar :userSrc="userStore.avatar" :userName="userStore.name" />
     <div class="main-content">
       <!-- Carrossel/Imagem principal -->
       <div class="carousel">

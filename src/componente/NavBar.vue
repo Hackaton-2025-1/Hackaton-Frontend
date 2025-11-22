@@ -25,7 +25,7 @@ const initials = computed(() => {
 <template>
   <header class="museum-header">
     <div class="museum-inner">
-      <router-link to="/" class="link">      
+      <router-link to="/" class="link">
         <div class="museum-left" @click="emit('logo-click')">
         <slot name="logo">
           <div class="museum-logo-wrap">
@@ -70,6 +70,8 @@ const initials = computed(() => {
             :alt="userName || 'User avatar'"
             class="museum-avatar"
             :style="{ width: avatarSize + 'px', height: avatarSize + 'px' }"
+            @click="$router.push('/controle')"
+            style="cursor:pointer"
           />
 
           <div
@@ -79,7 +81,9 @@ const initials = computed(() => {
               width: avatarSize + 'px',
               height: avatarSize + 'px',
               lineHeight: avatarSize + 'px',
+              cursor: 'pointer'
             }"
+            @click="$router.push('/controle')"
           >
             {{ initials || '?' }}
           </div>

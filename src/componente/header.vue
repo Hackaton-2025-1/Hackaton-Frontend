@@ -25,7 +25,7 @@ const initials = computed(() => {
 <template>
 	<header class="museum-header">
 		<div class="museum-inner">
-			<div class="museum-left" @click="emit('logo-click')">
+			<div class="museum-left" @click="$router.push('/')">
 				<slot name="logo">
 					<div class="museum-logo-wrap">
 						<img v-if="logoSrc" :src="logoSrc" alt="Logo" class="museum-logo" />
