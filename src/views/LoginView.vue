@@ -10,8 +10,8 @@ const router = useRouter()
 
 const login = async () => {
   try {
-    const usuario = await loginApi(email.value, senha.value)
-    localStorage.setItem('usuarioLogado', JSON.stringify(usuario))
+    const response = await loginApi(email.value, senha.value)
+    localStorage.setItem('token', response.access)
     mensagem.value = 'Login realizado com sucesso!'
     setTimeout(() => router.push('/'), 1000)
   } catch (error) {
@@ -29,28 +29,22 @@ const login = async () => {
     <div class="campos">
       <div class="input-group">
         <i class="fas fa-envelope icon"></i>
-        <input class="input" type="email" placeholder="Email" v-model="email" aria-label="Email" />
+        <input class="input" type="email" placeholder="Email" aria-label="Email" />
       </div>
 
       <div class="input-group">
         <i class="fas fa-lock icon"></i>
-        <input
-          class="input"
-          type="password"
-          placeholder="Senha"
-          v-model="senha"
-          aria-label="Senha"
-        />
+        <input class="input" type="password" placeholder="Senha" aria-label="Senha" />
       </div>
     </div>
 
-    <button class="btn-login" @click="login">ENTRAR</button>
-
+    <button class="btn-login">ENTRAR</button>
     <p class="footer-text">
       Ainda não possui cadastro?
       <router-link to="/cadastro" class="link">Clique Aqui</router-link>
     </p>
     <p v-if="mensagem" style="color: white; margin-top: 10px">{{ mensagem }}</p>
+
   </div>
 </template>
 
@@ -196,6 +190,7 @@ const login = async () => {
     width: 90%;
     padding: 25px;
   }
+
 }
 
 @media (max-width: 500px) {

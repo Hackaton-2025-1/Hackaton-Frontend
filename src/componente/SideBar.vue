@@ -1,29 +1,19 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue'
-const props = defineProps({
-  colecaoSelecionada: String
-})
-const emit = defineEmits(['selecionarColecao'])
-
-const colecoes = [
-  { value: 'vegetal', label: 'Vegetal', icon: 'fas fa-leaf' },
-  { value: 'mineral', label: 'Mineral', icon: 'fas fa-gem' },
-  { value: 'animal', label: 'Animal', icon: 'fas fa-paw' },
-  { value: 'sintetico', label: 'Sintéticos', icon: 'fas fa-ellipsis-h' }
-]
 </script>
 
 <template>
   <div class="sidebar">
     <h2 class="title">Menu</h2>
+
     <ul class="menu">
-      <li v-for="c in colecoes" :key="c.value"
-          :class="{ active: c.value === props.colecaoSelecionada }"
-          @click="emit('selecionarColecao', c.value)">
-        <i :class="c.icon"></i> {{ c.label }}
-      </li>
+      <li><i class="fas fa-leaf"></i> Vegetal</li>
+      <li><i class="fas fa-gem"></i> Mineral</li>
+      <li><i class="fas fa-paw"></i> Animal</li>
+      <li><i class="fas fa-ellipsis-h"></i> Outros</li>
     </ul>
+
     <hr class="divider" />
+
     <ul class="menu">
       <li><i class="fas fa-archive"></i> Cadastrar Acervo</li>
       <li><i class="fas fa-folder-plus"></i> Cadastrar Categoria</li>
@@ -34,21 +24,23 @@ const colecoes = [
 <style scoped>
 
 .sidebar {
-  position: static;
-  width: 270px;
-  min-width: 270px;
-  height: auto;
-  min-height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 240px;
+  height: 100vh;
   background: linear-gradient(180deg, #695431, #4e3d22);
   color: #fff;
-  padding: 20px 0 20px 0;
+  padding: 20px;
   box-sizing: border-box;
+  margin-top: 80px;
+
   border-right: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 4px 0 18px rgba(0, 0, 0, 0.12);
+  box-shadow: 4px 0 18px rgba(0, 0, 0, 0.25);
+
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 0;
 }
 
 
@@ -100,22 +92,16 @@ const colecoes = [
 }
 
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .sidebar {
-    width: 100vw;
-    min-height: auto;
-    border-radius: 0;
-    flex-direction: row;
-    justify-content: center;
+    width: 200px;
+    left: -200px;
+    transition: 0.3s;
     box-shadow: none;
-    border-right: none;
-    padding: 10px 0;
   }
-  .menu {
-    flex-direction: row;
-    gap: 8px;
-    width: 100%;
-    justify-content: center;
+
+  .sidebar.open {
+    left: 0;
   }
 }
 
