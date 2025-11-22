@@ -1,7 +1,8 @@
 <script setup>
 import NavBar from '@/componente/NavBar.vue';
- import Footer from '@/componente/footer.vue';
-import { computed, ref } from 'vue';
+import Footer from '@/componente/footer.vue';
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
+import { useUserStore } from '@/stores/user.js'
 
 import sambaqui1 from '@/assets/imagens/imagensSambaqui/sambaqui1.jpg';
 import sambaqui2 from '@/assets/imagens/imagensSambaqui/sambaqui2.jpg';
@@ -10,6 +11,7 @@ import sambaqui4 from '@/assets/imagens/imagensSambaqui/sambaqui4.jpg';
 import sambaqui5 from '@/assets/imagens/imagensSambaqui/sambaqui5.jpg';
 import sambaqui6 from '@/assets/imagens/imagensSambaqui/sambaqui6.jpg';
 
+const userStore = useUserStore()
 const busca = ref('');
 
 /* CARROSSEL */
@@ -146,21 +148,6 @@ function fecharModal() {
   acervoSelecionado.value = null;
 }
 
-const mousePos = ref({ x: 0, y: 0 });
-const zoomAtivo = ref(false);
-
-function mouseMoveZoom(e) {
-  const rect = e.target.getBoundingClientRect();
-  mousePos.value = {
-    x: ((e.clientX - rect.left) / rect.width) * 100,
-    y: ((e.clientY - rect.top) / rect.height) * 100,
-  };
-  zoomAtivo.value = true;
-}
-function mouseLeaveZoom() {
-  zoomAtivo.value = false;
-
-}
 
 </script>
 
