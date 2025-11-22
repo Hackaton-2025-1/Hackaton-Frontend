@@ -54,8 +54,11 @@ const initials = computed(() => {
       <div class="museum-right">
         <div class="museum-user">
           <div class="museum-user-info">
-            <div class="museum-user-name">{{ userName || 'Visitante' }}</div>
-            <div class="museum-user-role small-muted">visualizar ou so editor</div>
+           <router-link to="/login"> 
+              <div class="museum-user-name">{{ userName || 'Visitante' }}</div>
+          </router-link>
+            <router-link to="/gerenciamento"> <div class="museum-user-role small-muted">visualizar ou so editor</div>
+              </router-link>
           </div>
 
           <img
@@ -94,6 +97,7 @@ const initials = computed(() => {
   background: linear-gradient(180deg, #f7f3ec 0%, #fbfaf8 100%);
   border-bottom: 1px solid rgba(31, 41, 55, 0.06);
   z-index: 999;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .museum-inner {
