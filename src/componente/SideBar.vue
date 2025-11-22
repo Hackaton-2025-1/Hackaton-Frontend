@@ -15,7 +15,7 @@
     <hr class="divider" />
 
     <ul class="menu">
-      <li><i class="fas fa-archive"></i> Cadastrar Acervo</li>
+      <li><i class="fas fa-archive"></i><router-link to="/cadastroAcervo" class="link">Cadastro Acervo</router-link></li>
       <li><i class="fas fa-folder-plus"></i> Cadastrar Categoria</li>
     </ul>
   </div>
@@ -34,6 +34,7 @@
   padding: 20px;
   box-sizing: border-box;
   margin-top: 80px;
+  margin-top: 100px;
 
   border-right: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 4px 0 18px rgba(0, 0, 0, 0.25);
@@ -52,6 +53,7 @@
   letter-spacing: 0.5px;
   border-left: 3px solid #f1e1b6;
   padding-left: 8px;
+  margin-top: 40px;
 }
 
 .divider {
@@ -109,5 +111,11 @@
   body {
     margin-left: 240px;
   }
+}
+
+.link {
+  list-style: none;
+  text-decoration: none;
+  color: white;
 }
 </style>
