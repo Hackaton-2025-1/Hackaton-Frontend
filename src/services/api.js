@@ -71,7 +71,14 @@ export const createArtefato = async (artefato) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(artefato),
   })
-  if (!res.ok) throw new Error('Erro ao criar artefato')
+  if (!res.ok) {
+    let detail = 'Erro ao criar artefato'
+    try {
+      const data = await res.json()
+      detail = data?.detail || JSON.stringify(data)
+    } catch {}
+    throw new Error(detail)
+  }
   return await res.json()
 }
 

@@ -1,5 +1,12 @@
 <script setup>
 defineProps({ artefato: Object })
+
+const API_BASE = 'http://127.0.0.1:19003' // ajuste para seu IP se necessário
+function getImagemUrl(imagem) {
+  if (!imagem) return ''
+  if (imagem.startsWith('http')) return imagem
+  return `${API_BASE}/media/${imagem}`
+}
 </script>
 
 <template>
@@ -7,7 +14,7 @@ defineProps({ artefato: Object })
     <!-- Imagem -->
     <div class="image-box" v-if="artefato.imagem">
       <img
-        :src="artefato.imagem"
+        :src="getImagemUrl(artefato.imagem)"
         alt="Imagem cadastrada"
         style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px"
       />
