@@ -15,11 +15,6 @@ const router = createRouter({
       component: () => import('../views/MenuMuseuView.vue'),
      },
      {
-      path: '/teste',
-      name: 'teste',
-      component: () => import('../views/teste.vue'),
-     }
-
       path: '/controle',
       name: 'control',
       component: () => import('../views/controleDeUsuario.vue'),
@@ -43,7 +38,7 @@ const router = createRouter({
       path: '/cadastro',
       name: 'cadastro',
       component: () => import('../views/CadastroView.vue'),
-     },
+     }
 
   ],
 })
