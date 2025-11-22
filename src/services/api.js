@@ -1,60 +1,62 @@
-import axios from 'axios'
+// Serviço localStorage para usuários e artefatos
 
-const api = axios.create({
-  baseURL: 'http://0.0.0.0:19003/api/',
-})
-
-// Adiciona o token JWT em todas as requisições autenticadaass
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token')
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-})
-
-// Autenticação (login)
-export const login = async (email, password) => {
-  const response = await api.post('token/', { email, password })
-  return response.data // { access, refresh }
-}
-
-// CRUD Usuários
+// Usuários
 export const fetchUsuarios = async () => {
-  const response = await api.get('usuarios/')
-  return response.data
+  return JSON.parse(localStorage.getItem('usuarios') || '[]')
 }
 
 export const createUsuario = async (usuario) => {
-  const response = await api.post('usuarios/', usuario)
-  return response.data
+  const usuarios = await fetchUsuarios()
+  // Verifica se já existe email
+  if (usuarios.some((u) => u.email === usuario.email)) {
+    throw new Error('Email já cadastrado')
+  }
+  usuarios.push(usuario)
+  localStorage.setItem('usuarios', JSON.stringify(usuarios))
+  return usuario
 }
 
-export const updateUsuario = async (id, usuario) => {
-  const response = await api.put(`usuarios/${id}/`, usuario)
-  return response.data
+export const updateUsuario = async (email, usuario) => {
+  let usuarios = await fetchUsuarios()
+  usuarios = usuarios.map((u) => (u.email === email ? usuario : u))
+  localStorage.setItem('usuarios', JSON.stringify(usuarios))
+  return usuario
 }
 
-export const deleteUsuario = async (id) => {
-  await api.delete(`usuarios/${id}/`)
+export const deleteUsuario = async (email) => {
+  let usuarios = await fetchUsuarios()
+  usuarios = usuarios.filter((u) => u.email !== email)
+  localStorage.setItem('usuarios', JSON.stringify(usuarios))
 }
 
-// CRUD Artefatos
+export const login = async (email, password) => {
+  const usuarios = await fetchUsuarios()
+  const user = usuarios.find((u) => u.email === email && u.password === password)
+  if (!user) throw new Error('Email ou senha inválidos')
+  return user
+}
+
+// Artefatos
 export const fetchArtefatos = async () => {
-  const response = await api.get('artefatos/')
-  return response.data
+  return JSON.parse(localStorage.getItem('artefatos') || '[]')
 }
 
 export const createArtefato = async (artefato) => {
-  const response = await api.post('artefatos/', artefato)
-  return response.data
+  const artefatos = await fetchArtefatos()
+  artefatos.push(artefato)
+  localStorage.setItem('artefatos', JSON.stringify(artefatos))
+  return artefato
 }
 
 export const updateArtefato = async (id, artefato) => {
-  const response = await api.put(`artefatos/${id}/`, artefato)
-  return response.data
+  let artefatos = await fetchArtefatos()
+  artefatos = artefatos.map((a) => (a.id === id ? artefato : a))
+  localStorage.setItem('artefatos', JSON.stringify(artefatos))
+  return artefato
 }
 
 export const deleteArtefato = async (id) => {
-  await api.delete(`artefatos/${id}/`)
+  let artefatos = await fetchArtefatos()
+  artefatos = artefatos.filter((a) => a.id !== id)
+  localStorage.setItem('artefatos', JSON.stringify(artefatos))
 }

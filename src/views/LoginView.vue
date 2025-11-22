@@ -10,8 +10,8 @@ const router = useRouter()
 
 const login = async () => {
   try {
-    const response = await loginApi(email.value, senha.value)
-    localStorage.setItem('token', response.access)
+    const usuario = await loginApi(email.value, senha.value)
+    localStorage.setItem('usuarioLogado', JSON.stringify(usuario))
     mensagem.value = 'Login realizado com sucesso!'
     setTimeout(() => router.push('/'), 1000)
   } catch (error) {
@@ -51,7 +51,6 @@ const login = async () => {
       <router-link to="/cadastro" class="link">Clique Aqui</router-link>
     </p>
     <p v-if="mensagem" style="color: white; margin-top: 10px">{{ mensagem }}</p>
-
   </div>
 </template>
 
@@ -197,7 +196,6 @@ const login = async () => {
     width: 90%;
     padding: 25px;
   }
-
 }
 
 @media (max-width: 500px) {
@@ -206,5 +204,4 @@ const login = async () => {
     padding: 25px;
   }
 }
-
 </style>

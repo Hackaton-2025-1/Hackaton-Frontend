@@ -9,20 +9,12 @@ import { fetchArtefatos, deleteArtefato as apiDeleteArtefato } from '../services
 const artefatos = ref([])
 
 const loadArtefatos = async () => {
-  try {
-    artefatos.value = await fetchArtefatos()
-  } catch (error) {
-    console.error('Erro ao carregar artefatos:', error)
-  }
+  artefatos.value = await fetchArtefatos()
 }
 
 const deleteArtefato = async (id) => {
-  try {
-    await apiDeleteArtefato(id)
-    artefatos.value = artefatos.value.filter((artefato) => artefato.id !== id)
-  } catch (error) {
-    console.error('Erro ao excluir artefato:', error)
-  }
+  await apiDeleteArtefato(id)
+  artefatos.value = artefatos.value.filter((artefato) => artefato.id !== id)
 }
 
 onMounted(loadArtefatos)

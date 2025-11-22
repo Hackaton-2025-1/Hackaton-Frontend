@@ -15,8 +15,7 @@ const cadastrar = async () => {
     email.value = ''
     senha.value = ''
   } catch (error) {
-    console.log('Erro detalhado:', error?.response?.data)
-    mensagem.value = 'Erro ao cadastrar: ' + JSON.stringify(error?.response?.data)
+    mensagem.value = 'Erro ao cadastrar: ' + error.message
   }
 }
 </script>
@@ -28,14 +27,13 @@ const cadastrar = async () => {
     </div>
 
     <div class="campos">
-            <div class="input-group">
+      <div class="input-group">
         <i class="fas fa-user icon"></i>
         <input class="input" type="text" placeholder="Nome" v-model="nome" aria-label="Name" />
       </div>
       <div class="input-group">
         <i class="fas fa-envelope icon"></i>
         <input class="input" type="email" placeholder="Email" v-model="email" aria-label="Email" />
-
       </div>
       <div class="input-group">
         <i class="fas fa-lock icon"></i>
@@ -202,5 +200,4 @@ const cadastrar = async () => {
     padding: 25px;
   }
 }
-
 </style>
