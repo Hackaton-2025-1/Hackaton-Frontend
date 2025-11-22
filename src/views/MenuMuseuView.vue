@@ -1,15 +1,14 @@
+// ...existing code...
 <script setup>
 import NavBar from '@/componente/NavBar.vue';
 import Footer from '@/componente/footer.vue';
-import { computed, ref } from 'vue';
-import { useUserStore } from '@/stores/user.js';
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 
-const userStore = useUserStore();
 
+/* SEARCH */
 const busca = ref('');
-function buscarAcervo() {
-}
 
+/* CARROSSEL */
 const imagensCarrosel = [
   'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=900&q=80',
   'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80',
@@ -17,7 +16,26 @@ const imagensCarrosel = [
   'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=900&q=80',
 ];
 const imagemAtual = ref(0);
+let carouselInterval = null;
+const tempoTroca = 4000;
 
+function proximaImagem() {
+  imagemAtual.value = (imagemAtual.value + 1) % imagensCarrosel.length;
+}
+function anteriorImagem() {
+  imagemAtual.value = (imagemAtual.value - 1 + imagensCarrosel.length) % imagensCarrosel.length;
+}
+function irParaImagem(i) {
+  imagemAtual.value = i;
+}
+onMounted(() => {
+  carouselInterval = setInterval(proximaImagem, tempoTroca);
+});
+onBeforeUnmount(() => {
+  clearInterval(carouselInterval);
+});
+
+/* ACERVOS (cada item pode ter histórico) */
 const acervos = [
   {
     nome: 'Vaso Grego Antigo',
@@ -27,6 +45,10 @@ const acervos = [
     dataEntrada: '15/09/2025',
     localizacao: 'Sala 2 - Ala de Arte Antiga',
     conservacao: 'Excelente',
+    historico: [
+      { periodo: '2019 - 2020', local: 'Coleção Particular Silva', evento: 'Doação' },
+      { periodo: '2020 - Atual', local: 'Museu Sambaqui', evento: 'Acervo Permanente' },
+    ],
   },
   {
     nome: 'Máscara Africana',
@@ -36,6 +58,10 @@ const acervos = [
     dataEntrada: '10/08/2025',
     localizacao: 'Sala 1 - Culturas do Mundo',
     conservacao: 'Boa',
+    historico: [
+      { periodo: '2018 - 2024', local: 'Museu de Arte Antiga', evento: 'Empréstimo' },
+      { periodo: '10/08/2025 - Atual', local: 'Museu Sambaqui', evento: 'Registro' },
+    ],
   },
   {
     nome: 'Fóssil de Peixe',
@@ -45,6 +71,10 @@ const acervos = [
     dataEntrada: '21/11/2025',
     localizacao: 'Sala 3 - Paleontologia',
     conservacao: 'Excelente',
+    historico: [
+      { periodo: 'Descoberta 2024', local: 'Sambaqui do litoral', evento: 'Escavação' },
+      { periodo: '21/11/2025 - Atual', local: 'Museu Sambaqui', evento: 'Catalogado' },
+    ],
   },
   {
     nome: 'Moeda Romana',
@@ -54,6 +84,10 @@ const acervos = [
     dataEntrada: '05/07/2025',
     localizacao: 'Sala 4 - História Antiga',
     conservacao: 'Regular',
+    historico: [
+      { periodo: 'Século II', local: 'Império Romano', evento: 'Produção' },
+      { periodo: '05/07/2025 - Atual', local: 'Museu Sambaqui', evento: 'Aquisição' },
+    ],
   },
   {
     nome: 'Arte Rupestre',
@@ -63,6 +97,10 @@ const acervos = [
     dataEntrada: '12/10/2025',
     localizacao: 'Sala 5 - Pré-História',
     conservacao: 'Boa',
+    historico: [
+      { periodo: 'Descoberta 2010', local: 'Caverna X', evento: 'Registro' },
+      { periodo: '12/10/2025 - Atual', local: 'Museu Sambaqui', evento: 'Conservação' },
+    ],
   },
   {
     nome: 'Livro Medieval',
@@ -72,12 +110,17 @@ const acervos = [
     dataEntrada: '30/09/2025',
     localizacao: 'Sala 6 - Biblioteca Histórica',
     conservacao: 'Excelente',
+    historico: [
+      { periodo: 'Século XIII', local: 'Mosteiro Y', evento: 'Produção' },
+      { periodo: '30/09/2025 - Atual', local: 'Museu Sambaqui', evento: 'Catalogado' },
+    ],
   },
 ];
 
+/* FILTRO (busca em tempo real) */
 const acervosFiltrados = computed(() => {
-  if (!busca.value.trim()) return acervos;
   const termo = busca.value.trim().toLowerCase();
+  if (!termo) return acervos;
   return acervos.filter(item =>
     item.nome.toLowerCase().includes(termo) ||
     item.descricao.toLowerCase().includes(termo) ||
@@ -86,8 +129,10 @@ const acervosFiltrados = computed(() => {
   );
 });
 
+/* MODAL */
 const modalAberto = ref(false);
 const acervoSelecionado = ref(null);
+
 function abrirModal(item) {
   acervoSelecionado.value = item;
   modalAberto.value = true;
@@ -97,41 +142,57 @@ function fecharModal() {
   acervoSelecionado.value = null;
 }
 
-const historicoExemplo = [
-  { local: 'Museu Nacional', dataEntrada: '10/01/2023', dataSaida: '12/03/2024', evento: 'Aquisição' },
-  { local: 'Museu de Arte Antiga', dataEntrada: '15/03/2024', dataSaida: '20/10/2025', evento: 'Exposição Temporária' },
-  { local: 'Museu Sambaqui', dataEntrada: '21/11/2025', dataSaida: '', evento: 'Acervo Atual' },
-];
+/* histórico atual mostrado no modal (retorna array vazio se não houver) */
+const historicoAtual = computed(() => {
+  return acervoSelecionado.value?.historico ?? [];
+});
+
+/* placeholder para submit do form (não realiza buscas adicionais porque usamos busca reativa) */
+function buscarAcervo(e) {
+  e?.preventDefault();
+  // Intencionalmente vazio: a busca é responsiva via v-model
+}
+
 </script>
 
 <template>
   <div class="menu-museu-container">
     <NavBar :userSrc="userStore.avatar" :userName="userStore.name" />
     <div class="main-content">
-      <!-- Carrossel/Imagem principal -->
-      <div class="carousel">
-        <img :src="imagensCarrosel[imagemAtual]" alt="Museu" class="carousel-img" />
+      <!-- Carrossel -->
+      <div class="carousel" aria-roledescription="carousel">
+        <img :src="imagensCarrosel[imagemAtual]" alt="Panorama do Museu" class="carousel-img" />
         <div class="carousel-title">Bem-vindo ao Museu Sambaqui</div>
+
+        <!-- controles -->
+        <button class="carousel-prev" @click="anteriorImagem" aria-label="Imagem anterior">‹</button>
+        <button class="carousel-next" @click="proximaImagem" aria-label="Próxima imagem">›</button>
+
+        <!-- indicadores -->
+        <div class="carousel-indicators">
+          <button v-for="(img, i) in imagensCarrosel" :key="i" :class="{ active: i === imagemAtual }" @click="irParaImagem(i)" :aria-label="`Ir para imagem ${i+1}`"></button>
+        </div>
       </div>
-      <!-- Linha decorativa -->
+
       <div class="linha-decorativa"></div>
-      <!-- Barra de busca -->
-      <form class="search-bar" @submit.prevent="buscarAcervo">
-        <input v-model="busca" type="text" placeholder="Buscar acervo, Sala" />
+
+      <!-- Barra de busca (submit só previne reload) -->
+      <form class="search-bar" @submit="buscarAcervo">
+        <input v-model="busca" type="text" placeholder="Buscar acervo, sala, categoria..." aria-label="Buscar acervo" />
         <button type="submit" aria-label="Buscar">
-          <span class="search-icon">
-            <!-- Novo ícone SVG -->
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="10" cy="10" r="7" stroke="#fff" stroke-width="2" />
-              <line x1="16" y1="16" x2="21" y2="21" stroke="#fff" stroke-width="2" stroke-linecap="round" />
-            </svg>
-          </span>
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="10" r="7" stroke="#fff" stroke-width="2" />
+            <line x1="16" y1="16" x2="21" y2="21" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+          </svg>
         </button>
       </form>
-      <!-- Grid de cards de acervo -->
+
+      <!-- Grid de cards -->
       <div class="cards-grid">
-        <div v-for="(item, idx) in acervosFiltrados" :key="idx" class="acervo-card" :class="{selected: modalAberto && acervoSelecionado && acervoSelecionado.nome === item.nome}" @click="abrirModal(item)" style="cursor:pointer">
-          <img :src="item.imagem" alt="Imagem do acervo" class="acervo-img" />
+        <div v-for="(item) in acervosFiltrados" :key="item.nome" class="acervo-card"
+          :class="{ selected: modalAberto && acervoSelecionado && acervoSelecionado.nome === item.nome }"
+          @click="abrirModal(item)" role="button" tabindex="0" @keyup.enter="abrirModal(item)">
+          <img :src="item.imagem" :alt="`Imagem de ${item.nome}`" class="acervo-img" />
           <div class="acervo-info">
             <h2>{{ item.nome }}</h2>
             <p class="acervo-descricao">{{ item.descricao }}</p>
@@ -144,39 +205,44 @@ const historicoExemplo = [
           </div>
         </div>
       </div>
-      <!-- Modal de detalhes do acervo -->
-      <div v-if="modalAberto" class="modal-overlay" @click.self="fecharModal">
+
+      <!-- Modal -->
+      <div v-if="modalAberto" class="modal-overlay" @click.self="fecharModal" role="dialog" aria-modal="true">
         <div class="modal-content">
-          <button class="modal-close" @click="fecharModal">&times;</button>
+          <button class="modal-close" @click="fecharModal" aria-label="Fechar">&times;</button>
           <div class="modal-img-wrap">
-            <img
-              :src="acervoSelecionado.imagem"
-              alt="Imagem do acervo"
-              class="modal-img"
-            />
+            <img :src="acervoSelecionado.imagem" :alt="`Imagem de ${acervoSelecionado.nome}`" class="modal-img" />
           </div>
           <h2 class="modal-title">{{ acervoSelecionado.nome }}</h2>
           <p class="modal-descricao">{{ acervoSelecionado.descricao }}</p>
           <div class="modal-detalhes">
-            <span><strong>Categoria:</strong> {{ acervoSelecionado.categoria }}</span><br>
-            <span><strong>Data de Entrada:</strong> {{ acervoSelecionado.dataEntrada }}</span><br>
-            <span><strong>Localização:</strong> {{ acervoSelecionado.localizacao }}</span><br>
+            <span><strong>Categoria:</strong> {{ acervoSelecionado.categoria }}</span><br/>
+            <span><strong>Data de Entrada:</strong> {{ acervoSelecionado.dataEntrada }}</span><br/>
+            <span><strong>Localização:</strong> {{ acervoSelecionado.localizacao }}</span><br/>
             <span><strong>Conservação:</strong> {{ acervoSelecionado.conservacao }}</span>
           </div>
-          <!-- Linha do tempo/histórico -->
-          <div class="historico-timeline">
-            <h3 class="timeline-title">Linha do Tempo do Acervo</h3>
-            <ul class="timeline-list">
-              <li v-for="(h, i) in historicoExemplo" :key="i" :class="{'atual': i === historicoExemplo.length-1}">
-                <div class="timeline-dot"></div>
-                <div class="timeline-info">
-                  <span class="timeline-local">{{ h.local }}</span>
-                  <span class="timeline-evento">{{ h.evento }}</span>
-                  <span class="timeline-data">Entrada: {{ h.dataEntrada }}</span>
-                  <span class="timeline-data" v-if="h.dataSaida">Saída: {{ h.dataSaida }}</span>
-                </div>
-              </li>
-            </ul>
+
+          <!-- Linha do tempo / histórico do acervo -->
+          <div class="historico-timeline" v-if="historicoAtual.length">
+            <h3 class="timeline-title">Linha do Tempo</h3>
+<ul class="timeline-list">
+  <li
+    v-for="(h, index) in historicoAtual"
+    :key="index"
+    :class="{ atual: index === historicoAtual.length - 1 }"
+  >
+    <div class="timeline-point"></div>
+    <div class="timeline-box">
+      <h4>{{ h.periodo }}</h4>
+      <p><strong>{{ h.local }}</strong> — {{ h.evento }}</p>
+    </div>
+  </li>
+</ul>
+
+          </div>
+          <div v-else class="historico-timeline">
+            <h3 class="timeline-title">Linha do Tempo</h3>
+            <p class="timeline-empty">Nenhum histórico disponível para este item.</p>
           </div>
         </div>
       </div>
@@ -197,21 +263,6 @@ const historicoExemplo = [
   font-family: "Cinzel", "Georgia", serif;
   letter-spacing: 0.3px;
 }
-.modal-close{
-  border: none;
-  margin-bottom: 20px;
-  font-size: 30px;
-  cursor: pointer;
-  border-radius: 40px;
-  width: 40px;
-  transition: 0.3s;
-}
-
-.modal-close:hover{
-  cursor: pointer;
-  border-radius: 40px;
-  width: 40px;
-}
 
 .main-content {
   flex: 1;
@@ -221,9 +272,7 @@ const historicoExemplo = [
   align-items: center;
 }
 
-/* ===========================
-   CARROSSEL – MUSEU
-=========================== */
+/* CARROSSEL */
 .carousel {
   width: 100%;
   max-width: 1100px;
@@ -233,26 +282,43 @@ const historicoExemplo = [
   position: relative;
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.18);
 }
-.carousel-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(.75);
-}
+.carousel-img { width:100%; height:100%; object-fit:cover; filter:brightness(.75); }
 .carousel-title {
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
-  text-align: center;
-  font-size: 2.4rem;
-  font-weight: 600;
-  color: #fff;
-  text-shadow: 0 4px 8px #000a;
+  position: absolute; bottom:20px; width:100%; text-align:center;
+  font-size:2.4rem; font-weight:600; color:#fff; text-shadow:0 4px 8px #000a;
 }
 
-/* ===========================
-   LINHA DOURADA
-=========================== */
+/* controles */
+.carousel-prev, .carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.45);
+  border: none;
+  color: #fff;
+  font-size: 2.2rem;
+  width: 40px; height: 48px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.carousel-prev { left: 14px; }
+.carousel-next { right: 14px; }
+
+/* indicadores */
+.carousel-indicators {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display:flex;
+  gap:8px;
+}
+.carousel-indicators button {
+  width:10px; height:10px; border-radius:50%; border:none; background:rgba(255,255,255,0.45); cursor:pointer;
+}
+.carousel-indicators button.active { background:#fff; }
+
+/* LINHA */
 .linha-decorativa {
   width: 100%;
   max-width: 1300px;
@@ -261,9 +327,7 @@ const historicoExemplo = [
   margin: 2rem 0;
 }
 
-/* ===========================
-   BARRA DE BUSCA
-=========================== */
+/* BUSCA */
 .search-bar {
   max-width: 600px;
   width: 100%;
@@ -273,37 +337,14 @@ const historicoExemplo = [
   display: flex;
   padding: 0.9rem 1.1rem;
   align-items: center;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-  transition: 0.25s border, 0.25s box-shadow;
-}
-.search-bar:focus-within {
-  border-color: #b28b52;
-  box-shadow: 0 7px 26px rgba(181, 147, 84, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
 }
 .search-bar input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  font-size: 1.15rem;
-  outline: none;
-  font-family: "Cinzel", serif;
-  color: #483d2e;
+  flex: 1; border: none; background: transparent; font-size:1.15rem; outline:none; font-family:"Cinzel",serif; color:#483d2e;
 }
-.search-bar button {
-  background: #4a3e2e;
-  border: none;
-  border-radius: 9px;
-  padding: 0.6rem 1rem;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.search-bar button:hover {
-  background: #2c2419;
-}
+.search-bar button { background:#4a3e2e; border:none; border-radius:9px; padding:0.6rem 1rem; cursor:pointer; }
 
-/* ===========================
-   GRID DE CARDS – PREMIUM
-=========================== */
+/* GRID */
 .cards-grid {
   width: 100%;
   max-width: 1400px;
@@ -312,113 +353,188 @@ const historicoExemplo = [
   grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
   margin: 3rem 0;
 }
+.acervo-card { background:#faf7f1; border:1px solid #e5dbc9; overflow:hidden; transition:0.25s; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,0.08); }
+.acervo-card.selected { transform: scale(1.01); box-shadow:0 8px 26px rgba(0,0,0,0.12); }
+.acervo-img { width:100%; height:220px; object-fit:cover; filter:brightness(.9); }
+.acervo-info { padding: 1.3rem 1.6rem; }
+.acervo-info h2 { text-align:center; font-size:1.4rem; color:#5b422b; font-weight:600; margin-bottom:0.5rem; }
+.acervo-descricao { color:#3d372f; font-size:1rem; margin-bottom:1rem; font-family:"Georgia"; }
+.acervo-detalhes { border-top:1px solid #d7ccb7; padding-top:0.8rem; font-size:0.94rem; color:#6b6355; display:flex; flex-direction:column; gap:6px; }
 
-.acervo-card {
-  background: #faf7f1;
-  border: 1px solid #e5dbc9;
-  overflow: hidden;
-  transition: 0.25s transform, 0.25s box-shadow;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-}
-
-.acervo-img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  filter: brightness(.9);
-}
-
-.acervo-info {
-  padding: 1.3rem 1.6rem;
-}
-
-.acervo-info h2 {
-  text-align: center;
-  font-size: 1.4rem;
-  color: #5b422b;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.acervo-descricao {
-  color: #3d372f;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  font-family: "Georgia";
-}
-
-.acervo-detalhes {
-  border-top: 1px solid #d7ccb7;
-  padding-top: 0.8rem;
-  font-size: 0.94rem;
-  line-height: 1.35rem;
-  color: #6b6355;
-}
-
-/* ===========================
-   MODAL – EXPOSIÇÃO
-=========================== */
+/* MODAL */
 .modal-overlay {
-  position: fixed;
-  inset: 0;
-  backdrop-filter: blur(4px);
-  background: rgba(0,0,0,.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
+  position: fixed; inset:0; backdrop-filter: blur(4px); background: rgba(0,0,0,.45);
+  display:flex; align-items:center; justify-content:center; z-index:9999;
 }
 .modal-content {
-  background: #fffdf6;
-  max-width: 680px;
-  width: 95%;
-  padding: 2.4rem;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.22);
-  animation: modalEnter .3s ease;
+  background:#fffdf6; max-width:680px; width:95%; padding:2.4rem; box-shadow:0 15px 40px rgba(0,0,0,0.22);
 }
-@keyframes modalEnter {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.modal-img-wrap {
+.modal-close { border:none; margin-bottom:20px; font-size:30px; cursor:pointer; border-radius:40px; width:40px; }
+.modal-img-wrap { width:100%; height:300px; overflow:hidden; margin-bottom:1.4rem; }
+.modal-img { width:100%; height:100%; object-fit:cover; }
+.modal-title { text-align:center; font-size:1.7rem; color:#644828; margin-bottom:1rem; }
+.modal-detalhes { background:#f7f2e8; padding:1.1rem; border-radius:10px; font-size:1rem; margin-top:1rem; color:#42392b; }
+
+/* ===========================
+   TIMELINE COM 4 TIPOS DE TEMPO
+=========================== */
+.historico-timeline {
+  margin-top: 2.5rem;
   width: 100%;
-  height: 300px;
-  overflow: hidden;
-  margin-bottom: 1.4rem;
 }
-.modal-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.modal-title {
-  text-align: center;
+
+.timeline-title {
+  margin-bottom: 2rem;
   font-size: 1.7rem;
-  color: #644828;
-  margin-bottom: 1rem;
+  color: #5a442e;
+  font-weight: 700;
+  text-align: center;
 }
-.modal-detalhes {
-  background: #f7f2e8;
-  padding: 1.1rem;
-  border-radius: 10px;
+
+/* Layout principal */
+.timeline-list {
+  display: flex;
+  gap: 3rem;
+  padding: 1rem 0;
+  position: relative;
+  list-style: none;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+/* Linha horizontal contínua */
+.timeline-list::before {
+  content: "";
+  position: absolute;
+  top: 32px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #e6d2a9, #b79050);
+  z-index: 1;
+}
+
+/* Cada item */
+.timeline-list li {
+  position: relative;
+  flex: 1;
+  text-align: center;
+  padding-top: 2rem;
+  z-index: 2;
+}
+
+/* Bolinhas de cada marco */
+.timeline-point {
+  width: 22px;
+  height: 22px;
+  background: #9c7a42;
+  border-radius: 50%;
+  border: 3px solid #fffaf0;
+  margin: 0 auto;
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 0 10px rgba(80, 60, 30, 0.3);
+}
+
+/* Cartão */
+.timeline-box {
+  margin-top: 1.3rem;
+  background: #fffaf0;
+  border: 1px solid #e2d5b7;
+  padding: 1rem 1rem;
+  border-radius: 12px;
   font-size: 1rem;
-  margin-top: 1rem;
-  color: #42392b;
+  color: #4b4030;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.08);
+  transition: 0.25s;
+}
+
+/* Título de cada etapa */
+.timeline-box h4 {
+  margin-bottom: 0.4rem;
+  font-size: 1.05rem;
+  color: #6b4e32;
+  font-weight: 600;
+}
+
+/* Diferencia os tipos de tempo */
+.timeline-box .tipo-tempo {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #8e6f2f;
+  margin-bottom: 0.8rem;
+}
+
+/* Tipos de tempo */
+.timeline-box .tipo-tempo.Ano {
+  color: #ba8e4a;
+}
+
+.timeline-box .tipo-tempo.Mês {
+  color: #768e3f;
+}
+
+.timeline-box .tipo-tempo.Dia {
+  color: #3e5773;
+}
+
+.timeline-box .tipo-tempo.Evento {
+  color: #5e3a3e;
+}
+
+/* Último item (mais recente) */
+.timeline-list li.atual .timeline-point {
+  background: #60451e;
+  box-shadow: 0 0 12px #60451e;
+  border-color: #fff7e2;
+}
+
+.timeline-list li.atual .timeline-box {
+  border-color: #b58b50;
+  box-shadow: 0 5px 16px rgba(96, 69, 30, 0.22);
 }
 
 /* ===========================
    RESPONSIVO
 =========================== */
+@media (max-width: 780px) {
+  .timeline-list {
+    flex-direction: column;
+    gap: 2rem;
+    padding-left: 1.5rem;
+  }
+
+  .timeline-list::before {
+    width: 4px;
+    height: 100%;
+    left: 14px;
+    top: 0;
+  }
+
+  .timeline-list li {
+    text-align: left;
+  }
+
+  .timeline-point {
+    margin-left: -2px;
+  }
+
+  .timeline-box {
+    margin-left: 2.1rem;
+  }
+}
+
+
+/* RESPONSIVO */
 @media (max-width: 750px) {
-  .carousel {
-    height: 170px;
-  }
-  .acervo-img {
-    height: 150px;
-  }
-  .modal-content {
-    padding: 1.5rem;
-  }
+  .carousel { height:170px; }
+  .acervo-img { height:150px; }
+  .modal-content { padding:1.5rem; }
+}
+@media (max-width:700px) {
+  .timeline-list { flex-direction:column; gap:2.5rem; }
+  .timeline-list li { width:100%; }
+  .timeline-list li::after { width:0; }
 }
 </style>
