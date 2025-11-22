@@ -61,6 +61,11 @@
         }
       "
     />
+    <CadastroLocalizacao
+      v-if="activeTab === 'Localização'"
+      :localizacao="localizacao.value"
+      @update-localizacao="(val) => (localizacao.value = val)"
+    />
 
     <button
       class="btn-adicionar"
@@ -78,7 +83,96 @@
 </template>
 
 <script setup>
-
+async function adicionarNovoItem() {
+  carregando.value = true
+  mensagem.value = ''
+  try {
+    // Monta o objeto do artefato
+    const artefato = {
+      nome: geral.value.nome,
+      descricao: dados.value.descricao,
+      datado: dados.value.datado,
+      materiaPrima: dados.value.materiaPrima,
+      SubMatPrima: dados.value.SubMatPrima,
+      imagem: imagens.value.imagens?.[0] || null,
+      categoria: geral.value.categoria,
+      peso: dados.value.peso,
+      dimensoes: dados.value.dimensoes,
+      sitio: localizacao.value.sitio,
+      estado: localizacao.value.estado,
+      cidade: localizacao.value.cidade,
+      grupo_etnico: dados.value.grupo_etnico,
+      sala: localizacao.value.sala,
+      estante: localizacao.value.estante,
+      prateleira: localizacao.value.prateleira,
+      observacoes_gerais: dados.value.generalObservations,
+      responsavel: dados.value.responsavel,
+      colecao: geral.value.colecao,
+      categoria_nome: geral.value.categoria,
+      subtipo: geral.value.subtipo,
+      nivel_conservacao: geral.value.nivelConservacao,
+      integridade: geral.value.integridade,
+      detalhe_conservacao: geral.value.detalheConservacao,
+      bloco: localizacao.value.bloco,
+      predio: localizacao.value.predio,
+      dataEntrada: localizacao.value.dataEntrada,
+      data_saida: localizacao.value.dataSaida,
+    }
+    await createArtefato(artefato)
+    mensagem.value = 'Item cadastrado com sucesso!'
+    geral.value = {
+      nome: '',
+      categoria: '',
+      colecao: '',
+      subtipo: '',
+      nivelConservacao: '',
+      integridade: '',
+      detalheConservacao: '',
+    }
+    dados.value = {
+      dimensoes: '',
+      peso: '',
+      descricao: '',
+      material: '',
+      sitio: '',
+      estado: '',
+      cidade: '',
+      grupo: '',
+      room: '',
+      shelf: '',
+      rack: '',
+      generalObservations: '',
+      responsible: '',
+    }
+    localizacao.value = {
+      sitio: '',
+      cidade: '',
+      estado: '',
+      bloco: '',
+      predio: '',
+      sala: '',
+      prateleira: '',
+      dataEntrada: '',
+      dataSaida: '',
+    }
+    imagens.value = { imagens: [] }
+  } catch (err) {
+    // Tenta extrair mensagem detalhada do backend
+    if (err instanceof Response) {
+      try {
+        const data = await err.json()
+        mensagem.value =
+          'Erro ao cadastrar: ' + (data?.detail || JSON.stringify(data) || err.statusText)
+      } catch (e) {
+        mensagem.value = 'Erro ao cadastrar: ' + err.statusText
+      }
+    } else {
+      mensagem.value = 'Erro ao cadastrar: ' + (err?.message || err)
+    }
+  } finally {
+    carregando.value = false
+  }
+}
 const imagens = ref({ imagens: [] })
 const dados = ref({
   dimensoes: '',
@@ -99,6 +193,7 @@ import NavBar from '@/componente/NavBar.vue'
 import CadastroGeral from '../componente/CadastroGeral.vue'
 import CadastroDados from '../componente/CadastroDados.vue'
 import CadastroImagens from '../componente/CadastroImagens.vue'
+import CadastroLocalizacao from '../componente/CadastroLocalizacao.vue'
 import { ref } from 'vue'
 import { createArtefato } from '@/services/api.js'
 
@@ -117,6 +212,17 @@ const geral = ref({
   detalheConservacao: '',
 })
 
+const localizacao = ref({
+  sitio: '',
+  cidade: '',
+  estado: '',
+  bloco: '',
+  predio: '',
+  sala: '',
+  prateleira: '',
+  dataEntrada: '',
+  dataSaida: '',
+})
 </script>
 
 <style scoped>
