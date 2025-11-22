@@ -1,62 +1,93 @@
-// Serviço localStorage para usuários e artefatos
+// Configuração da URL base da API Django
+const API_BASE = 'http://127.0.0.1:19003/api'
 
 // Usuários
 export const fetchUsuarios = async () => {
-  return JSON.parse(localStorage.getItem('usuarios') || '[]')
+  const res = await fetch(`${API_BASE}/usuarios/`)
+  if (!res.ok) throw new Error('Erro ao buscar usuários')
+  return await res.json()
 }
 
 export const createUsuario = async (usuario) => {
-  const usuarios = await fetchUsuarios()
-  // Verifica se já existe email
-  if (usuarios.some((u) => u.email === usuario.email)) {
-    throw new Error('Email já cadastrado')
-  }
-  usuarios.push(usuario)
-  localStorage.setItem('usuarios', JSON.stringify(usuarios))
-  return usuario
+  const res = await fetch(`${API_BASE}/usuarios/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(usuario),
+  })
+  if (!res.ok) throw new Error('Erro ao criar usuário')
+  return await res.json()
 }
 
-export const updateUsuario = async (email, usuario) => {
-  let usuarios = await fetchUsuarios()
-  usuarios = usuarios.map((u) => (u.email === email ? usuario : u))
-  localStorage.setItem('usuarios', JSON.stringify(usuarios))
-  return usuario
+export const updateUsuario = async (id, usuario) => {
+  const res = await fetch(`${API_BASE}/usuarios/${id}/`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(usuario),
+  })
+  if (!res.ok) throw new Error('Erro ao atualizar usuário')
+  return await res.json()
 }
 
-export const deleteUsuario = async (email) => {
-  let usuarios = await fetchUsuarios()
-  usuarios = usuarios.filter((u) => u.email !== email)
-  localStorage.setItem('usuarios', JSON.stringify(usuarios))
+export const deleteUsuario = async (id) => {
+  const res = await fetch(`${API_BASE}/usuarios/${id}/`, {
+    method: 'DELETE',
+  })
+  if (!res.ok) throw new Error('Erro ao deletar usuário')
 }
 
 export const login = async (email, password) => {
-  const usuarios = await fetchUsuarios()
-  const user = usuarios.find((u) => u.email === email && u.password === password)
-  if (!user) throw new Error('Email ou senha inválidos')
-  return user
+  const res = await fetch(`${API_BASE}/login/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  })
+  if (!res.ok) throw new Error('Email ou senha inválidos')
+  return await res.json()
 }
 
 // Artefatos
 export const fetchArtefatos = async () => {
-  return JSON.parse(localStorage.getItem('artefatos') || '[]')
+  const res = await fetch(`${API_BASE}/artefatos/`)
+  if (!res.ok) throw new Error('Erro ao buscar artefatos')
+  const data = await res.json()
+  // Se vier paginado, retorna apenas o array de resultados
+  if (Array.isArray(data.results)) {
+    return data.results
+  }
+  // Se vier array direto, retorna como está
+  if (Array.isArray(data)) {
+    return data
+  }
+  // Se vier objeto único, retorna em array
+  if (typeof data === 'object') {
+    return [data]
+  }
+  return []
 }
 
 export const createArtefato = async (artefato) => {
-  const artefatos = await fetchArtefatos()
-  artefatos.push(artefato)
-  localStorage.setItem('artefatos', JSON.stringify(artefatos))
-  return artefato
+  const res = await fetch(`${API_BASE}/artefatos/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(artefato),
+  })
+  if (!res.ok) throw new Error('Erro ao criar artefato')
+  return await res.json()
 }
 
 export const updateArtefato = async (id, artefato) => {
-  let artefatos = await fetchArtefatos()
-  artefatos = artefatos.map((a) => (a.id === id ? artefato : a))
-  localStorage.setItem('artefatos', JSON.stringify(artefatos))
-  return artefato
+  const res = await fetch(`${API_BASE}/artefatos/${id}/`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(artefato),
+  })
+  if (!res.ok) throw new Error('Erro ao atualizar artefato')
+  return await res.json()
 }
 
 export const deleteArtefato = async (id) => {
-  let artefatos = await fetchArtefatos()
-  artefatos = artefatos.filter((a) => a.id !== id)
-  localStorage.setItem('artefatos', JSON.stringify(artefatos))
+  const res = await fetch(`${API_BASE}/artefatos/${id}/`, {
+    method: 'DELETE',
+  })
+  if (!res.ok) throw new Error('Erro ao deletar artefato')
 }

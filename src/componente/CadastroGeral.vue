@@ -4,27 +4,59 @@
       <label for="item-name" class="form-label">
         <span class="required">*</span> Nome do Item
       </label>
-      <input class="form-input" type="text" id="item-name" placeholder="Nome do Acervo" required />
+      <input
+        class="form-input"
+        type="text"
+        id="item-name"
+        placeholder="Nome do Acervo"
+        required
+        :value="localGeral.nome"
+        @input="update('nome', $event.target.value)"
+      />
     </div>
 
     <div class="form-group">
       <label for="category" class="form-label"> <span class="required">*</span> Categoria </label>
-      <select class="form-input" id="category" required>
+      <select
+        class="form-input"
+        id="category"
+        required
+        :value="localGeral.categoria"
+        @change="update('categoria', $event.target.value)"
+      >
         <option value="">Categoria</option>
+        <option value="Arqueologia">Arqueologia</option>
+        <option value="História">História</option>
       </select>
     </div>
 
     <div class="form-group">
       <label for="collection" class="form-label"> <span class="required">*</span> Coleção </label>
-      <select class="form-input" id="collection" required>
+      <select
+        class="form-input"
+        id="collection"
+        required
+        :value="localGeral.colecao"
+        @change="update('colecao', $event.target.value)"
+      >
         <option value="">Coleção</option>
+        <option value="Principal">Principal</option>
+        <option value="Secundária">Secundária</option>
       </select>
     </div>
 
     <div class="form-group">
       <label for="subtype" class="form-label"> <span class="required">*</span> Subtipo </label>
-      <select class="form-input" id="subtype" required>
+      <select
+        class="form-input"
+        id="subtype"
+        required
+        :value="localGeral.subtipo"
+        @change="update('subtipo', $event.target.value)"
+      >
         <option value="">Tipo</option>
+        <option value="Cerâmica">Cerâmica</option>
+        <option value="Fóssil">Fóssil</option>
       </select>
     </div>
 
@@ -32,8 +64,17 @@
       <label for="conservation-level" class="form-label">
         <span class="required">*</span> Nível de conservação
       </label>
-      <select class="form-input" id="conservation-level" required>
+      <select
+        class="form-input"
+        id="conservation-level"
+        required
+        :value="localGeral.nivelConservacao"
+        @change="update('nivelConservacao', $event.target.value)"
+      >
         <option value="">Nível</option>
+        <option value="Excelente">Excelente</option>
+        <option value="Boa">Boa</option>
+        <option value="Regular">Regular</option>
       </select>
     </div>
 
@@ -41,8 +82,16 @@
       <label for="integrity" class="form-label">
         <span class="required">*</span> Integridade
       </label>
-      <select class="form-input" id="integrity" required>
+      <select
+        class="form-input"
+        id="integrity"
+        required
+        :value="localGeral.integridade"
+        @change="update('integridade', $event.target.value)"
+      >
         <option value="">Inteireza</option>
+        <option value="Completo">Completo</option>
+        <option value="Fragmentado">Fragmentado</option>
       </select>
     </div>
 
@@ -52,16 +101,33 @@
         id="conservation-detail"
         class="form-input"
         placeholder="Detalhe do estado de conservação"
+        :value="localGeral.detalheConservacao"
+        @input="update('detalheConservacao', $event.target.value)"
         required
       ></textarea>
     </div>
   </form>
 </template>
 
-<script setup></script>
+<script setup>
+import { defineProps, defineEmits, reactive, watch } from 'vue'
+const props = defineProps({ geral: Object })
+const emit = defineEmits(['update-geral'])
+const localGeral = reactive({ ...props.geral })
+watch(
+  () => props.geral,
+  (novo) => {
+    Object.assign(localGeral, novo)
+  },
+  { deep: true },
+)
+const update = (field, value) => {
+  localGeral[field] = value
+  emit('update-geral', { ...localGeral })
+}
+</script>
 
 <style scoped>
-
 .required {
   color: red;
   margin-right: 5px;
@@ -133,4 +199,3 @@ textarea:focus {
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
 }
 </style>
-

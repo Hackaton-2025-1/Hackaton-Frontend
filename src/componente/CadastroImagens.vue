@@ -39,9 +39,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { defineProps, defineEmits, ref, watch } from 'vue'
 
-const images = ref([])
+const props = defineProps({ imagens: Object })
+const emit = defineEmits(['updateImagens'])
+
+const images = ref(props.imagens?.imagens || [])
+
+watch(
+  () => props.imagens,
+  (novo) => {
+    images.value = novo?.imagens || []
+  },
+  { deep: true },
+)
 
 const handleImageUpload = (event) => {
   const file = event.target.files[0]
@@ -49,6 +60,7 @@ const handleImageUpload = (event) => {
     const reader = new FileReader()
     reader.onload = (e) => {
       images.value.push({ id: Date.now(), src: e.target.result })
+      emit('updateImagens', { imagens: [...images.value] })
     }
     reader.readAsDataURL(file)
   }
