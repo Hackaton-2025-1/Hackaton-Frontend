@@ -1,6 +1,6 @@
 <script setup>
 import NavBar from '@/componente/NavBar.vue';
-// import Footer from '@/componente/footer.vue';
+ import Footer from '@/componente/footer.vue';
 import { computed, ref } from 'vue';
 
 import sambaqui1 from '@/assets/imagens/imagensSambaqui/sambaqui1.jpg';
@@ -200,8 +200,8 @@ const historicoExemplo = [
         </div>
       </div>
     </div>
-    <Footer />
   </div>
+  <Footer />
 </template>
 
 <style scoped>
