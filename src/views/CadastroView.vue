@@ -3,6 +3,10 @@
 import { ref } from 'vue'
 import { createUsuario } from '../services/api.js'
 
+function gerarPassageId() {
+  // Gera um passage_id aleatório (ex: UUID simples)
+  return 'passage_' + Math.random().toString(36).substring(2, 12) + Date.now().toString().slice(-4)
+}
 
 const nome = ref('')
 const email = ref('')
@@ -12,7 +16,13 @@ const { lerDoBanco, salvarNoBanco } = '@/services/localdb.js'
 
 const cadastrar = async () => {
   try {
-    await createUsuario({ name: nome.value, email: email.value, password: senha.value })
+    const res = await createUsuario({
+      name: nome.value,
+      email: email.value,
+      password: senha.value,
+      passage_id: gerarPassageId(),
+    })
+    alert('Cadastro realizado com sucesso! Você será redirecionado para o login.')
 
     // Busca usuários existentes
     const usuarios = lerDoBanco('usuarios') || [];
@@ -25,11 +35,20 @@ const cadastrar = async () => {
     email.value = ''
     senha.value = ''
   } catch (error) {
-    mensagem.value = 'Erro ao cadastrar: ' + error.message
+    // Tenta extrair mensagem detalhada do backend
+    if (error instanceof Response) {
+      try {
+        const data = await error.json()
+        mensagem.value =
+          'Erro ao cadastrar: ' + (data?.detail || JSON.stringify(data) || error.statusText)
+      } catch (e) {
+        mensagem.value = 'Erro ao cadastrar: ' + error.statusText
+      }
+    } else {
+      mensagem.value = 'Erro ao cadastrar: ' + error.message
+    }
   }
 }
-  
-
 </script>
 
 
@@ -40,32 +59,45 @@ const cadastrar = async () => {
       <h1 class="title">CADASTRO</h1>
     </div>
 
-    <div class="campos">
-      <div class="input-group">
-        <i class="fas fa-user icon"></i>
-        <input class="input" type="email" placeholder="Nome" aria-label="Name" />
-      </div>
-      <div class="input-group">
-        <i class="fas fa-envelope icon"></i>
-        <input class="input" type="email" placeholder="Email" v-model="email" aria-label="Email" />
-      </div>
+      <div class="campos">
+        <div class="input-group">
+          <i class="fas fa-user icon"></i>
+          <input class="input" type="text" placeholder="Nome" aria-label="Name" v-model="nome" />
+        </div>
+        <div class="input-group">
+          <i class="fas fa-envelope icon"></i>
+          <input
+            class="input"
+            type="email"
+            placeholder="Email"
+            v-model="email"
+            aria-label="Email"
+          />
+        </div>
 
-      <div class="input-group">
-        <i class="fas fa-lock icon"></i>
-        <input class="input" type="password" placeholder="Senha" aria-label="Senha" />
+        <div class="input-group">
+          <i class="fas fa-lock icon"></i>
+          <input
+            class="input"
+            type="password"
+            placeholder="Senha"
+            aria-label="Senha"
+            v-model="senha"
+          />
+        </div>
+
+        <button class="btn-login" @click="cadastrar">CADASTRAR</button>
+        <p class="footer-text">
+          Ja possui cadastro?
+          <router-link to="/login" class="link">Clique Aqui</router-link>
+        </p>
       </div>
     </div>
-
-    <button class="btn-login">CADASTRAR</button>
-    <p class="footer-text">
-      Ja possui cadastro?
-      <router-link to="/login" class="link">Clique Aqui</router-link>
-    </p>
   </div>
 </template>
 
 <style scoped>
-:global(body) {
+.background-wrapper {
   background-image: url('../assets/imagens/fabrizio-conti-jq4uwBTvBv4-unsplash.jpg');
   background-size: cover;
   background-position: center;

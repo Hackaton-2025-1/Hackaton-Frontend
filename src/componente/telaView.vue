@@ -1,26 +1,42 @@
 // ...existing code...
 <script setup>
-import { ref } from 'vue'
 
-const showEdit = ref(false)
+defineProps({ artefato: Object })
 
-function toggleEdit() {
-  showEdit.value = !showEdit.value
+const API_BASE = 'http://127.0.0.1:19003' // ajuste para seu IP se necessário
+function getImagemUrl(imagem) {
+  if (!imagem) return ''
+  if (imagem.startsWith('http')) return imagem
+  return `${API_BASE}/media/${imagem}`
+
 }
 </script>
 
 <template>
 
   <div class="container">
-
-
-    <p>26739</p>
-    <p>Maria Barbosa</p>
-    <p>Osseo humano</p>
-    <p>Animal</p>
-    <p>mamifero</p>
-    <p>88390-000</p>
-    <p>Bom Estado</p>
+    <!-- Imagem -->
+    <div class="image-box" v-if="artefato.imagem">
+      <img
+        :src="getImagemUrl(artefato.imagem)"
+        alt="Imagem cadastrada"
+        style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px"
+      />
+    </div>
+    <!-- Matricula (ID) -->
+    <p>{{ artefato.id }}</p>
+    <!-- Acervo (Nome) -->
+    <p>{{ artefato.nome }}</p>
+    <!-- Categoria -->
+    <p>{{ artefato.categoria_nome }}</p>
+    <!-- Matéria-prima -->
+    <p>{{ artefato.materiaPrima }}</p>
+    <!-- Subtipo -->
+    <p>{{ artefato.subtipo }}</p>
+    <!-- Localização (Cidade) -->
+    <p>{{ artefato.cidade }}</p>
+    <!-- Conservação (Nível) -->
+    <p>{{ artefato.nivel_conservacao }}</p>
 
     <!-- Botão Editar -->
     <button class="edit-btn" @click="toggleEdit">Editar</button>

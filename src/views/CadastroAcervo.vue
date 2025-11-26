@@ -44,40 +44,188 @@
       </button>
     </div>
 
-    <component :is="getActiveComponent" />
-  </main>
+    <CadastroGeral
+      v-if="activeTab === 'Geral'"
+      :geral="geral.value"
+      @update-geral="(val) => (geral.value = val)"
+    />
+    <CadastroDados
+      v-if="activeTab === 'Dados'"
+      :dados="dados.value"
+      @update-dados="(val) => (dados.value = val)"
+    />
+    <CadastroImagens
+      v-if="activeTab === 'Imagens'"
+      :imagens="imagens"
+      @update-imagens="
+        (val) => {
+          console.log('Atualizando imagens:', val)
+          imagens.value = { imagens: Array.isArray(val.imagens) ? [...val.imagens] : [] }
+        }
+      "
+    />
+    <CadastroLocalizacao
+      v-if="activeTab === 'Localização'"
+      :localizacao="localizacao.value"
+      @update-localizacao="(val) => (localizacao.value = val)"
+    />
+
+    <button
+      class="btn-adicionar"
+      :disabled="carregando"
+      @click="adicionarNovoItem"
+      style="margin-top: 32px"
+    >
+      <span v-if="carregando">Salvando...</span>
+      <span v-else>Adicionar ao Acervo</span>
+    </button>
+    <div v-if="mensagem" style="margin: 16px 0; color: #c45d4c; font-weight: bold">
+      {{ mensagem }}
+    </div>
+  </div>
 </template>
 
 <script setup>
-import CadastroGeral from '../componente/CadastroGeral.vue';
-import CadastroDados from '../componente/CadastroDados.vue';
-import CadastroImagens from '../componente/CadastroImagens.vue';
-import Localizacao from '../componente/CadastroLocalizacao.vue';
-
-import { ref, computed } from 'vue';
-
-import { useUserStore } from '@/stores/user.js'
-const userStore = useUserStore()
-import NavBar from '@/componente/NavBar.vue';
-
-
-
-const activeTab = ref('Geral');
-
-const getActiveComponent = computed(() => {
-  switch (activeTab.value) {
-    case 'Geral':
-      return CadastroGeral;
-    case 'Dados':
-      return CadastroDados;
-    case 'Imagens':
-      return CadastroImagens;
-    case 'Localização':
-      return Localizacao;
-    default:
-      return CadastroGeral;
+async function adicionarNovoItem() {
+  carregando.value = true
+  mensagem.value = ''
+  try {
+    // Monta o objeto do artefato
+    const artefato = {
+      nome: geral.value.nome,
+      descricao: dados.value.descricao,
+      datado: dados.value.datado,
+      materiaPrima: dados.value.materiaPrima,
+      SubMatPrima: dados.value.SubMatPrima,
+      imagem: imagens.value.imagens?.[0] || null,
+      categoria: geral.value.categoria,
+      peso: dados.value.peso,
+      dimensoes: dados.value.dimensoes,
+      sitio: localizacao.value.sitio,
+      estado: localizacao.value.estado,
+      cidade: localizacao.value.cidade,
+      grupo_etnico: dados.value.grupo_etnico,
+      sala: localizacao.value.sala,
+      estante: localizacao.value.estante,
+      prateleira: localizacao.value.prateleira,
+      observacoes_gerais: dados.value.generalObservations,
+      responsavel: dados.value.responsavel,
+      colecao: geral.value.colecao,
+      categoria_nome: geral.value.categoria,
+      subtipo: geral.value.subtipo,
+      nivel_conservacao: geral.value.nivelConservacao,
+      integridade: geral.value.integridade,
+      detalhe_conservacao: geral.value.detalheConservacao,
+      bloco: localizacao.value.bloco,
+      predio: localizacao.value.predio,
+      dataEntrada: localizacao.value.dataEntrada,
+      data_saida: localizacao.value.dataSaida,
+    }
+    await createArtefato(artefato)
+    mensagem.value = 'Item cadastrado com sucesso!'
+    geral.value = {
+      nome: '',
+      categoria: '',
+      colecao: '',
+      subtipo: '',
+      nivelConservacao: '',
+      integridade: '',
+      detalheConservacao: '',
+    }
+    dados.value = {
+      dimensoes: '',
+      peso: '',
+      descricao: '',
+      material: '',
+      sitio: '',
+      estado: '',
+      cidade: '',
+      grupo: '',
+      room: '',
+      shelf: '',
+      rack: '',
+      generalObservations: '',
+      responsible: '',
+    }
+    localizacao.value = {
+      sitio: '',
+      cidade: '',
+      estado: '',
+      bloco: '',
+      predio: '',
+      sala: '',
+      prateleira: '',
+      dataEntrada: '',
+      dataSaida: '',
+    }
+    imagens.value = { imagens: [] }
+  } catch (err) {
+    // Tenta extrair mensagem detalhada do backend
+    if (err instanceof Response) {
+      try {
+        const data = await err.json()
+        mensagem.value =
+          'Erro ao cadastrar: ' + (data?.detail || JSON.stringify(data) || err.statusText)
+      } catch (e) {
+        mensagem.value = 'Erro ao cadastrar: ' + err.statusText
+      }
+    } else {
+      mensagem.value = 'Erro ao cadastrar: ' + (err?.message || err)
+    }
+  } finally {
+    carregando.value = false
   }
-});
+}
+const imagens = ref({ imagens: [] })
+const dados = ref({
+  dimensoes: '',
+  peso: '',
+  descricao: '',
+  material: '',
+  sitio: '',
+  estado: '',
+  cidade: '',
+  grupo: '',
+  room: '',
+  shelf: '',
+  rack: '',
+  generalObservations: '',
+  responsible: '',
+})
+import NavBar from '@/componente/NavBar.vue'
+import CadastroGeral from '../componente/CadastroGeral.vue'
+import CadastroDados from '../componente/CadastroDados.vue'
+import CadastroImagens from '../componente/CadastroImagens.vue'
+import CadastroLocalizacao from '../componente/CadastroLocalizacao.vue'
+import { ref } from 'vue'
+import { createArtefato } from '@/services/api.js'
+
+const carregando = ref(false)
+const mensagem = ref('')
+const activeTab = ref('Geral')
+
+// Estado centralizado dos formulários
+const geral = ref({
+  nome: '',
+  categoria: '',
+  colecao: '',
+  subtipo: '',
+  nivelConservacao: '',
+  integridade: '',
+  detalheConservacao: '',
+})
+
+const localizacao = ref({
+  sitio: '',
+  cidade: '',
+  estado: '',
+  bloco: '',
+  predio: '',
+  sala: '',
+  prateleira: '',
+  dataEntrada: '',
+  dataSaida: '',
+})
 </script>
 
 <style scoped>
