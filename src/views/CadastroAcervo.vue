@@ -1,13 +1,16 @@
 <template>
-  <NavBar />
+    <NavBar :userSrc="userStore.avatar" :userName="userStore.name || 'Visitante'" />
 
   <router-link to="gerenciamento" class="btn-voltar">
-    <i class="fas fa-arrow-left"></i>
-  </router-link>
+  <i class="fas fa-arrow-left"></i>
+</router-link>
+
+
+
 
   <h1 class="cadastro-title">CADASTRO DE ITENS DO ACERVO</h1>
 
-  <div class="cadastro-container">
+  <main class="cadastro-container">
     <div class="cadastro-tabs">
       <button
         class="tab-button"
@@ -34,8 +37,8 @@
       </button>
       <button
         class="tab-button"
-        :class="{ active: activeTab === 'Localização' }"
-        @click="activeTab = 'Localização'"
+        :class="{ active: activeTab === 'Localizacao' }"
+        @click="activeTab = 'Localizacao'"
       >
         Localização
       </button>
@@ -266,9 +269,7 @@ const localizacao = ref({
   color: rgba(0, 0, 0, 0.5);
   font-weight: bold;
   cursor: pointer;
-  transition:
-    color 0.3s,
-    border-color 0.3s;
+  transition: color 0.3s, border-color 0.3s;
 }
 
 .tab-button.active {
@@ -284,6 +285,7 @@ const localizacao = ref({
   color: rgba(0, 0, 0, 0.7);
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
+
 
 .btn-voltar {
   position: absolute;
@@ -301,8 +303,9 @@ const localizacao = ref({
   gap: 8px;
   text-decoration: none;
   transition: 0.3s;
-  width: 17px;
+  width: 35px;
 }
+
 
 .btn-voltar i {
   font-size: 16px;
@@ -311,4 +314,5 @@ const localizacao = ref({
 .btn-voltar:hover {
   background-color: #a94b3c;
 }
+
 </style>

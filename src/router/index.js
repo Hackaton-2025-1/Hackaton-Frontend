@@ -39,11 +39,22 @@ const router = createRouter({
       name: 'cadastro',
       component: () => import('../views/CadastroView.vue'),
      },
+      
       {
-        path: '/cadastroCategoria',
-        name: 'cadastroCategoria',
-        component: () => import('../componente/CadastroCategoria.vue'),
-      },
+      path: '/collection',
+      name: 'collections',
+      component: () => import('../views/CollectionsView.vue')
+     },
+    {
+      path: '/collection/:id',
+      name: 'collection-detail',
+      component: () => import('../views/CollectionDetailView.vue')
+    },
+    {
+      path: '/reserva',
+      name: 'reserva',
+      component: () => import('../componente/ReservaItem.vue')
+    }
 
   ],
 })

@@ -1,5 +1,4 @@
 <script setup>
-import Header from '@/componente/header.vue'
 import NavBar from '@/componente/NavBar.vue'
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/user.js'
